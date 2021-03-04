@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 function router(app) {
 
@@ -7,8 +7,13 @@ function router(app) {
     res.sendFile(path.join(__dirname, "/views/index.html"));
   });
 
-  //other routes..
+  
+  //other routes here..
+  app.get("/login", (req, res) => {
+    res.sendFile(path.join(__dirname, "/views/login.html"));
+  });
+
+
 }
 
 module.exports = router;
-
