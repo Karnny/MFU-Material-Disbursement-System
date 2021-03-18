@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- Custom styles -->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+    <!-- Custom styles for this template-->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+    <link href="../css/profile.css" rel="stylesheet">
+
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            //function set array of table
+            let Setdatatable = [
+                { id: "1", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "2", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "3", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "4", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "5", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "6", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "7", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "8", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "9", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "10", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
+                { id: "11", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" }
+            ]
+
+            //function Create Table
+            var table = $("#data_table").DataTable({
+                data: Setdatatable,
+                columns: [
+                    { data: "id", title: "ลำดับ" },
+                    { data: "email", title: "อีเมลผู้ใช้งาน" },
+                    { data: "name", title: "ชื่อวัสดุ" },
+                    { data: "role", title: "ตำเหน่ง" },
+                    { data: "phone_num", title: "เบอร์โทรติดต่อ" },
+                    { data: "date", title: "วันที่เพิ่ม" }
+                ]
+            });
+
+            //function selectStatus
+            function selectCategory(selectArray, tb) {
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].Status}</option>`;
+                }
+                tb.html(tb.html() + option);
+            }
+
+            //function Create SelectStatus
+            let select_products = $("#SelectStatus");
+            select_products.html(select_products);
+            selectCategory(selectArray, select_products);
+        });
+
+
+    </script>
+</head>
+
+<body id="page-top">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/views/index.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+    </div>
+    <!-- End of Topbar -->
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+
+            <!-- Overview -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview" aria-expanded="true"
+                    aria-controls="collapseOverview">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ระบบวัสดุ</span>
+                </a>
+                <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item"
+                            href="/views/super admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
+                        <a class="collapse-item"
+                            href="/views/super admin/admin_request_history.html">ประวัติการอนุมัติคำขอ</a>
+                        <a class="collapse-item" href="/views/super admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
+                        <a class="collapse-item"
+                            href="/views/super admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Report -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true"
+                    aria-controls="collapseReport">
+                    <i class="fas fa-file-alt"></i>
+                    <span>รายการวัสดุ</span>
+                </a>
+                <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- ManageUser -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageUser"
+                    aria-expanded="true" aria-controls="collapseManageUser">
+                    <i class="fas fa-user"></i>
+                    <span>จัดการผู้ใช้งาน</span>
+                </a>
+                <div id="collapseManageUser" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/views/super admin/manage_user.html">เพิ่มสมาชิกผู้ใช้งาน</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- ManageAdmin -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageAdmin"
+                    aria-expanded="true" aria-controls="collapseManageAdmin">
+                    <i class="fas fa-user"></i>
+                    <span>จัดการผู้ดูแลระบบ</span>
+                </a>
+                <div id="collapseManageAdmin" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/views/super admin/mange_admin.html">เพิ่มผู้ดูแลระบบ</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Topic -->
+        <div class="container-fluid">
+            <h2 class="mt-3">สมาชิกผู้ใช้งานระบบ</h2>
+
+            <!-- ปุ่มเพิ่มผู้ใช้งาน -->
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modelId">
+                เพิ่มผู้ใช้งาน
+            </button>
+
+            <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">เพิ่มผู้ใช้งาน</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">อีเมล:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="email">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">ชื่อ-สกุล:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">ตำเเหน่ง:</label>
+                                <div class="col-sm-5">
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle btn-outline-dark" type="button"
+                                            id="dropdown_selectTypes" data-toggle="dropdown">
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-light"
+                                            aria-labelledby="dropdown_selectTypes">
+                                            <a class="dropdown-item" href="#">คณาจารย์</a>
+                                            <a class="dropdown-item" href="#">เจ้าหน้าวิชาการ</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">เบอร์โทรติดต่อ:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="phone_num">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1></h1>
+            <!-- End Topic -->
+
+            <!-- table -->
+            <div class="card">
+                <div class="card-body" style="background-color:#ffffff;   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                    <table class="table table-bordered" id="data_table" width="100%" cellspacing="0"
+                        style="text-align: center;">
+                    </table>
+                </div>
+            </div>
+            <!-- end table -->
+        </div>
+    </div>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+</body>
+
+</html>

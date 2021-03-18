@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- Custom styles -->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            var dataSet = [
+                { no: "1", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "2", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "3", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "4", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "5", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "6", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "7", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "8", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "9", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+                { no: "10", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+            ];
+
+
+
+            //Create
+            var table = $("#historyRequestTable").DataTable({
+                data: dataSet,
+                columns: [
+                    { data: "no", title: "ลำดับ" },
+                    { data: "dateTimeApproved", title: "วันเวลาที่อนุมัติคำขอ" },
+                    { data: "assetNo", title: "เลขที่รายการขอเบิก" },
+                    { data: "reqName", title: "ผู้ขอเบิก" },
+                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline';>ดูเพิ่มเติม</a>" },
+                    { title: "สถานะ", defaultContent: "<span class='badge badge-pill badge-warning'>กำลังดำเนินการ</span>" },
+                    { title: "เปลี่ยนแปลง", defaultContent: "<i class='fa fa-plus' aria-hidden='true'></i>" },
+                ]
+            });
+        });
+
+        // function randomStatus(){
+        //     <span class='badge badge-pill badge-warning'>กำลังดำเนินการ</span>
+        // }
+
+    </script>
+
+</head>
+
+<body id="page-top">
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/views/index.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                style="background-color: #064767;">
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+
+                <!-- Overview -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
+                        aria-expanded="true" aria-controls="collapseOverview">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>ระบบวัสดุ</span>
+                    </a>
+                    <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item"
+                                href="/views/super admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item"
+                                href="/views/super admin/admin_request_history.html">ประวัติการอนุมัติคำขอ</a>
+                            <a class="collapse-item" href="/views/super admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
+                            <a class="collapse-item"
+                                href="/views/super admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Report -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
+                        aria-expanded="true" aria-controls="collapseReport">
+                        <i class="fas fa-file-alt"></i>
+                        <span>รายการวัสดุ</span>
+                    </a>
+                    <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- ManageUser -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageUser"
+                        aria-expanded="true" aria-controls="collapseManageUser">
+                        <i class="fas fa-user"></i>
+                        <span>จัดการผู้ใช้งาน</span>
+                    </a>
+                    <div id="collapseManageUser" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/views/super admin/manage_user.html">เพิ่มสมาชิกผู้ใช้งาน</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- ManageAdmin -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageAdmin"
+                        aria-expanded="true" aria-controls="collapseManageAdmin">
+                        <i class="fas fa-user"></i>
+                        <span>จัดการผู้ดูแลระบบ</span>
+                    </a>
+                    <div id="collapseManageAdmin" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/views/super admin/mange_admin.html">เพิ่มผู้ดูแลระบบ</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
+                    <h1 class="h3 mb-0 text-gray-800"><b>ประวัติรายการคำขอเบิกวัสดุ</b> </h1>
+                </div>
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h5 class="h5 mb-0 text-gray-800" id="totalAsset">จำนวน xxxx รายการ</h5>
+                </div>
+
+                <!-- Promotion DataTales -->
+                <div class="card shadow mb-4 mt-4">
+                    <!-- <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">รายการคำขอเบิกวัสดุ</h6>
+                    </div> -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center" id="historyRequestTable" width="100%"
+                                cellspacing="0">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+
+    </div>
+</body>
+
+</html>
