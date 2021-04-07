@@ -7,10 +7,10 @@ function router(app) {
     res.sendFile(path.join(__dirname, "/views/index.html"));
   });
 
-
+  
   //other routes here..
   app.get("/login", (req, res) => {
-    res.render("login");
+    res.sendFile(path.join(__dirname, "/views/login.html"));
   });
 
 
