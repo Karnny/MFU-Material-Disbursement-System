@@ -190,93 +190,60 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+        style="background-color: #064767;">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+        <!-- Nav Item - Dashboard -->
 
-            <!-- Overview -->
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview" aria-expanded="true"
-                    aria-controls="collapseOverview">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>ระบบวัสดุ</span>
-                </a>
-                <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item"
-                            href="/views/super admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
-                        <a class="collapse-item"
-                            href="/views/super admin/admin_request_history.html">ประวัติการอนุมัติคำขอ</a>
-                        <a class="collapse-item" href="/views/super admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
-                        <a class="collapse-item"
-                            href="/views/super admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
-                    </div>
+        <!-- Overview -->
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
+                aria-expanded="true" aria-controls="collapseOverview">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>ระบบวัสดุ</span>
+            </a>
+            <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item"
+                        href="/views/admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
+                    <a class="collapse-item"
+                        href="/views/admin/admin_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                    <a class="collapse-item"
+                        href="/views/admin/edit_info_history.html">ประวัติการอนุมัติคำขอ</a>
+                    <a class="collapse-item" href="/views/admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
+                    <a class="collapse-item"
+                        href="/views/admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Report -->
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true"
-                    aria-controls="collapseReport">
-                    <i class="fas fa-file-alt"></i>
-                    <span>รายการวัสดุ</span>
-                </a>
-                <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
-                    </div>
+        <!-- Report -->
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
+                aria-expanded="true" aria-controls="collapseReport">
+                <i class="fas fa-file-alt"></i>
+                <span>รายการวัสดุ</span>
+            </a>
+            <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="/views/admin/static.html">รายงานสถิติการเบิก</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- ManageUser -->
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageUser"
-                    aria-expanded="true" aria-controls="collapseManageUser">
-                    <i class="fas fa-user"></i>
-                    <span>จัดการผู้ใช้งาน</span>
-                </a>
-                <div id="collapseManageUser" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/views/super admin/manage_user.html">เพิ่มสมาชิกผู้ใช้งาน</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- ManageAdmin -->
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageAdmin"
-                    aria-expanded="true" aria-controls="collapseManageAdmin">
-                    <i class="fas fa-user"></i>
-                    <span>จัดการผู้ดูแลระบบ</span>
-                </a>
-                <div id="collapseManageAdmin" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/views/super admin/mange_admin.html">เพิ่มผู้ดูแลระบบ</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-        </ul>
-        <!-- End of Sidebar -->
+    </ul>
+    <!-- End of Sidebar -->
 
         <!-- Topic -->
         <div class="container-fluid">

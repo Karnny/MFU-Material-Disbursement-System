@@ -9,8 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
-    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+    <title>ตรวจสอบสถานะคำขอเบิก</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -28,8 +27,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-
-    <!--Chart CDN-->
+<!--Chart CDN-->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -42,8 +40,7 @@
 
     <!--Sweet alert CDN-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
-
-    <!--Pagination CDN-->
+<!--Pagination CDN-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
         integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
         crossorigin="anonymous" />
@@ -68,24 +65,23 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 
-
     <script>
 
         $(document).ready(function () {
 
             //function set array of table
             let Setdatatable = [
-                { id: "1", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "2", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "3", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "4", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "5", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "6", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "7", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "8", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "9", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "10", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
-                { id: "11", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" }
+                { id: "1", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>" },
+                { id: "2", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "3", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "4", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "5", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "6", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "7", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "8", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "9", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "10", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { id: "11", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  }
             ]
 
             //function Create Table
@@ -93,15 +89,10 @@
                 data: Setdatatable,
                 columns: [
                     { data: "id", title: "ลำดับ" },
-                    { data: "dates", title: "วันและเวลาที่ขอเบิก" },
+                    { data: "dates", title: "วันและเวลาที่ขอเบิก"},
                     { data: "name", title: "ผู้ขอเบิก" },
-                    {
-                        data: "list", title: "รายการขอเบิก", render: function (data, type, row) {
-                            return `<a  style='cursor: pointer;'>ดูเพิ่มเติม</a>`
-                        }
-                    },
-                    { defaultContent: `<button type="button" class="btn btn-success"  onclick="approve()">อนุมัติ</button> <button type="button" class="btn btn-danger" onclick="disapprove()">ไม่อนุมัติ</button>` },
-
+                    { data: "list", title: "รายการขอเบิก"},
+                    { defaultContent: `<div class="container-fluid"><button type="button" class="btn btn-warning"  onclick="approve()">กำลังดำเนินการ</button></div>` ,title:"สถานะ"}
                 ]
             });
 
@@ -119,15 +110,14 @@
             select_products.html(select_products);
             selectCategory(selectArray, select_products);
 
+
         });
 
         ///array of SelectStatus
         var selectArray = [
-            { Status: "อนุมัติ" },
-            { Status: "อนุมัติ" },
-            { Status: "ไม่อนุมัติ" },
-            { Status: "ไม่อนุมัติ" },
-            { Status: "ไม่อนุมัติ" },
+            { Status: "Select" },
+            { Status: "กำลังดำเนินการ" },
+            { Status: "รอรับวัสดุ" }
         ]
 
         function testClick(p) {
@@ -146,7 +136,6 @@
 
         //function Disapprove
         function disapprove() {
-
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary',
@@ -158,7 +147,7 @@
             swalWithBootstrapButtons.fire({
                 title: 'ท่านไม่ต้องการอนุมัติคำขอนี้',
                 text: "กรุณาระบุเหตุผลที่ไม่ต้องการอนุมัติ",
-                input: 'textarea',
+                input:'textarea',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'ยืนยัน',
@@ -172,7 +161,6 @@
                         'success'
                     )
                 } else if (
-
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
@@ -185,15 +173,14 @@
             })
         }
     </script>
+
 </head>
-
-
-<body id="page-top">
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
         <div id="content">
+
             <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
@@ -239,135 +226,80 @@
 
             </nav>
             <!-- End of Topbar -->
-        </div>
+            
+    <body id="page-top">
 
-        <!-- Page Wrapper -->
-        <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-            <!-- Sidebar -->
-            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
-                style="background-color: #064767;">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
 
-                <!-- Divider -->
-                <hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
-                <!-- Nav Item - Dashboard -->
-
-                <!-- Overview -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
-                        aria-expanded="true" aria-controls="collapseOverview">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>ระบบวัสดุ</span>
-                    </a>
-                    <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item"
-                                href="/views/super admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
-                            <a class="collapse-item"
-                                href="/views/super admin/admin_request_history.html">ประวัติการอนุมัติคำขอ</a>
-                            <a class="collapse-item" href="/views/super admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
-                            <a class="collapse-item"
-                                href="/views/super admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- Report -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
-                        aria-expanded="true" aria-controls="collapseReport">
-                        <i class="fas fa-file-alt"></i>
-                        <span>รายการวัสดุ</span>
-                    </a>
-                    <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- ManageUser -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageUser"
-                        aria-expanded="true" aria-controls="collapseManageUser">
-                        <i class="fas fa-user"></i>
-                        <span>จัดการผู้ใช้งาน</span>
-                    </a>
-                    <div id="collapseManageUser" class="collapse" aria-labelledby="headingPages"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/views/super admin/manage_user.html">เพิ่มสมาชิกผู้ใช้งาน</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- ManageAdmin -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageAdmin"
-                        aria-expanded="true" aria-controls="collapseManageAdmin">
-                        <i class="fas fa-user"></i>
-                        <span>จัดการผู้ดูแลระบบ</span>
-                    </a>
-                    <div id="collapseManageAdmin" class="collapse" aria-labelledby="headingPages"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/views/super admin/mange_admin.html">เพิ่มผู้ดูแลระบบ</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-            </ul>
-            <!-- End of Sidebar -->
-
-            <!-- Topic -->
-            <div class="container-fluid">
-                <h2 class="mt-3">รายการคำขอเบิกวัสดุ</h2>
-
-                <!-- dropdown (can't use)-->
-                <from>
-                    <label>สถานะวัสดุขอเบิก</label>
-                    <select id="SelectStatus" class="" style="border-radius: 10px 10px;"></select>
-                </from>
-
-                <h6 class="mb-3">จำนวน รายการ</h6>
-                <!-- End Topic -->
-
-                <!-- table -->
-                <div class="card">
-                    <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
-                        <table class="table text-center" id="data_table" width="100%" cellspacing="0">
-
-                        </table>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ระบบวัสดุ</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/views/user/รายการวัสดุทั้งหมด.html">รายการวัสดุทั้งหมด</a>
+                        <a class="collapse-item" href="/views/user/ตรวจสอบสถานะคำขอเบิก.html">ตรวจสถานะคำขอ</a>
+                        <a class="collapse-item" href="/views/user/ประวัติการเบิกพัสดุ.html">ประวัติการเบิกวัสดุ</a>
                     </div>
                 </div>
-                <!-- end table -->
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+           
+            
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Topic -->
+        <div class="container-fluid">
+            <h2 class="mt-3">ตรวจสอบสถานะคำขอเบิก</h2>
+
+            <!-- dropdown (can't use)-->
+            <from>
+                <label>สถานะ</label>
+                <select id="SelectStatus" class="mb-3 " style="border-radius: 10px 10px;"></select>
+            </from>
+
+            <!-- End Topic -->
+
+        <!--Card-->
+        <div class="card">
+            <div class="card-body"
+                style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                <table class="table table-bordered" id="data_table" width="100%" cellspacing="0" style="text-align: center; ">
+
+                </table>
             </div>
+
         </div>
+        <!--End Card-->
+        </div>
+        </div>
+        
 
-        <div id="GSCCModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true"></div>
+    <!-- เปลี่ยนรหัสผ่าน modal -->
+        <!-- Button trigger modal -->
 
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
-    </div>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ประวัติการเบิกพัสดุ</title>
+
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+
+
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <link href="../css/profile.css" rel="stylesheet">
+
+
+    <script>
+
+        //array of selectCategory
+        var selectArray = [
+        { category: "ของสิ้นเปลือง" },
+        { category: "ของสิ้นเปลือง" },
+        { category: "ของสิ้นเปลือง" },
+        { category: "ของสิ้นเปลือง" },
+        { category: "ของสิ้นเปลือง" },
+       ]
+
+
+      //function selectStatus
+      function selectCategory(selectArray, tb) {
+        let option = ``;
+        for (i in selectArray) {
+            option += `<option>${selectArray[i].category}</option>`;
+        }
+        tb.html(tb.html() + option);
+    } 
+
+        $(document).ready(function () {
+            //function set array of table
+            let Setdatatable = [
+                { id: "1", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "2", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "3", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "4", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "5", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "6", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "7", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "8", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "9", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "10", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status },
+                { id: "11", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>", status }
+            ]
+
+            //function Create Table
+            var table = $("#data_table").DataTable({
+                data: Setdatatable,
+                columns: [
+                    { data: "id", title: "ลำดับ" },
+                    { data: "dates", title: "วันและเวลาที่ขอเบิก" },
+                    { data: "name", title: "ผู้ขอเบิก" },
+                    { data: "list", title: "รายการขอเบิก" },
+                    { defaultContent: `<span class='badge badge-pill badge-success'>สำเร็จ</span>`, title: "สถานะ" }
+                ]
+            });
+
+            //function Create SelectStatus
+            let select_products = $("#select");
+            select_products.html(select_products);
+            selectCategory(selectArray, select_products);
+
+        });
+    </script>
+
+</head>
+
+<body id="page-top">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/views/index.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+    </div>
+
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+       <!-- Sidebar -->
+       <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>ระบบวัสดุ</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="/views/user/รายการวัสดุทั้งหมด.html">รายการวัสดุทั้งหมด</a>
+                    <a class="collapse-item" href="/views/user/ตรวจสอบสถานะคำขอเบิก.html">ตรวจสถานะคำขอ</a>
+                    <a class="collapse-item" href="/views/user/ประวัติการเบิกพัสดุ.html">ประวัติการเบิกวัสดุ</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+       
+        
+
+    </ul>
+    <!-- End of Sidebar -->
+
+        
+        <div class="container-fluid">
+            <h2 class="mt-3">ประวัติการเบิกพัสดุ</h2>
+            <!-- Select -->
+            <from>
+                <label>หมวดหมู่วัสดุ</label>
+                <select id="select" class="" style="border-radius: 10px 10px;"></select>
+            </from>
+
+            <div class="row">
+                <div class="col-sm-1">
+                    <h6>จำนวน 0</h6>
+                </div>
+                <div class="col-sm-0">
+                    <h6>รายการ</h6>
+                </div>
+            </div>
+
+            <!-- table -->
+            <div class="card">
+                <div class="card-body" style="background-color:#ffffff;   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                    <table class="table table-bordered" id="data_table" width="100%" cellspacing="0"
+                        style="text-align: center;">
+
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- เปลี่ยนรหัสผ่าน modal -->
+            <!-- Button trigger modal -->
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">เปลี่ยนรหัสผ่าน</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-form-label">รหัสผ่านเดิม:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">รหัสผ่านใหม่:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">ยืนยันรหัสผ่านใหม่:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-primary" id="btnsaveinfor">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select Logout below if you are ready to end your current
+                            session.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="login.html">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+
+</html>

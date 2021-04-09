@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- Custom styles -->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            //function set array of table
+            let Setdatatable = [
+                { id: "1", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "สำนักงาน", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "2", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "คอมพิวเตอร์", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "3", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "ไฟฟ้าและวิทยุ", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "4", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "สำนักงาน", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "5", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "สำนักงาน", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "6", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "ไฟฟ้าและวิทยุ", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "7", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "สำนักงาน", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "8", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "คอมพิวเตอร์", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "9", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "สำนักงาน", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "10", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "คอมพิวเตอร์", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" },
+                { id: "11", idmaterial: "xxxxxxxxxxx", list: "ที่ติดมุมภาพแบบพลาสติก", type: "สำนักงาน", amount: "x", unit: "ถุง", dates: "xx/xx/xxxx", add: "<button class='btn' data-toggle='modal' data-target='#modalAdd'><i class='fas fa-plus-square'></i></button>", edit: "<button class='btn' data-toggle='modal' data-target='#modalEdit'><i class='fas fa-edit'></button></i>" }
+            ]
+
+            //function Create Table
+            var table = $("#data_table").DataTable({
+                data: Setdatatable,
+                columns: [
+                    { data: "id", title: "ลำดับ" },
+                    { data: "idmaterial", title: "รหัสวัสดุ" },
+                    { data: "list", title: "รหัสวัสดุ" },
+                    { data: "type", title: "หมวดหมู่" },
+                    { data: "amount", title: "จำนวน" },
+                    { data: "unit", title: "หน่วยนับ" },
+                    { data: "dates", title: "วันที่เพิ่มลงคลังล่าสุด" },
+                    { data: "add", title: "เพิ่มจำนวน" },
+                    { data: "edit", title: "แก้ไข" }
+                ]
+            });
+
+            //function selectStatus
+            function selectCategory(selectArray, tb) {
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].Status}</option>`;
+                }
+                tb.html(tb.html() + option);
+            }
+
+            //function Create SelectStatus
+            let select_status = $("#SelectStatus");
+            select_status.html(select_status);
+            selectCategory(selectStatus, select_status);
+
+
+            //function Create SelectType
+            let select_type = $("#SelectType");
+            select_type.html(select_type);
+            selectCategory(selectType, select_type);
+
+
+            //function Create SelectUnit
+            let select_unit = $("#SelectUnit");
+            select_unit.html(select_unit);
+            selectCategory(selectUnit, select_unit);
+
+            //function Create SelectTypeEdit
+            let select_typeedit = $("#SelectTypeEdit");
+            select_typeedit.html(select_typeedit);
+            selectCategory(selectTypeEdit, select_typeedit);
+
+
+            //function Create SelectUnitEdit
+            let select_unitedit = $("#SelectUnitEdit");
+            select_unitedit.html(select_unitedit);
+            selectCategory(selectUnitEdit, select_unitedit);
+
+            //btn Swal
+            $("#btn_upload").click(function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'อัปโหลดรายการวัสดุสำเร็จ',
+                    html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                })
+
+            })
+            $("#btn_addnew").click(function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'เพิ่มรายการวัสดุใหม่สำเร็จ',
+                    html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                })
+
+            })
+            $("#btn_add").click(function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'เพิ่มจำนวนรายการวัสดุสำเร็จ',
+                    html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                })
+
+            })
+            $("#btn_edit").click(function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'แก้ไขรายการวัสดุสำเร็จ',
+                    html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                })
+
+            })
+
+            $("#btn_delete").click(function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ลบรายการวัสดุสำเร็จ',
+                    html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                })
+
+            })
+        });
+
+        ///array of SelectStatus
+        var selectStatus = [
+            { Status: "Select" },
+            { Status: "สำนักงาน" },
+            { Status: "ไฟฟ้า" },
+            { Status: "คอมพิวเตอร์" },
+            { Status: "โฆษณา" },
+            { Status: "งานบ้าน" },
+            { Status: "เครื่องแต่งกาย" },
+            { Status: "ของที่ระลึก" }
+        ]
+
+        var selectType = [
+            { Status: "Select" },
+            { Status: "สำนักงาน" },
+            { Status: "ไฟฟ้า" },
+            { Status: "คอมพิวเตอร์" },
+            { Status: "โฆษณา" },
+            { Status: "งานบ้าน" },
+            { Status: "เครื่องแต่งกาย" },
+            { Status: "ของที่ระลึก" }
+        ]
+
+        var selectUnit = [
+            { Status: "Select" },
+            { Status: "ม้วน" },
+            { Status: "เครื่อง" },
+            { Status: "แฟ้ม" },
+            { Status: "ด้าม" },
+            { Status: "ชุด" },
+            { Status: "อัน" },
+            { Status: "ก้อน" },
+            { Status: "ขวด" },
+            { Status: "หลอด" },
+            { Status: "กล่อง" },
+            { Status: "แผง" },
+            { Status: "ซอง" },
+            { Status: "ห่อ" },
+            { Status: "เล่ม" },
+            { Status: "แพ็ค" },
+            { Status: "แผ่น" },
+            { Status: "ใบ" },
+            { Status: "ดวง" },
+            { Status: "รีม" },
+            { Status: "ถุง" },
+            { Status: "เม็ด" },
+            { Status: "ตัว" },
+            { Status: "เส้น" },
+            { Status: "ผืน" }
+        ]
+
+        var selectTypeEdit = [
+            { Status: "Select" },
+            { Status: "สำนักงาน" },
+            { Status: "ไฟฟ้า" },
+            { Status: "คอมพิวเตอร์" },
+            { Status: "โฆษณา" },
+            { Status: "งานบ้าน" },
+            { Status: "เครื่องแต่งกาย" },
+            { Status: "ของที่ระลึก" }
+        ]
+
+        var selectUnitEdit = [
+            { Status: "Select" },
+            { Status: "ม้วน" },
+            { Status: "เครื่อง" },
+            { Status: "แฟ้ม" },
+            { Status: "ด้าม" },
+            { Status: "ชุด" },
+            { Status: "อัน" },
+            { Status: "ก้อน" },
+            { Status: "ขวด" },
+            { Status: "หลอด" },
+            { Status: "กล่อง" },
+            { Status: "แผง" },
+            { Status: "ซอง" },
+            { Status: "ห่อ" },
+            { Status: "เล่ม" },
+            { Status: "แพ็ค" },
+            { Status: "แผ่น" },
+            { Status: "ใบ" },
+            { Status: "ดวง" },
+            { Status: "รีม" },
+            { Status: "ถุง" },
+            { Status: "เม็ด" },
+            { Status: "ตัว" },
+            { Status: "เส้น" },
+            { Status: "ผืน" }
+        ]
+        //function Disapprove
+        function disapprove() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'ท่านไม่ต้องการอนุมัติคำขอนี้',
+                text: "กรุณาระบุเหตุผลที่ไม่ต้องการอนุมัติ",
+                input: 'textarea',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'ดำเนินการไม่อนุมัติเสร็จสิ้น',
+                        'คุณได้ทำการไม่อนุมัติ',
+                        'success'
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'ยกเลิกการไม่อนุมัติ',
+                        'error'
+                    )
+                }
+            })
+
+
+        }
+    </script>
+
+</head>
+
+
+<body id="page-top">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/views/index.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+
+
+            <!-- Page Wrapper -->
+            <div id="wrapper">
+
+                <!-- Sidebar -->
+                <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                    style="background-color: #064767;">
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Nav Item - Dashboard -->
+
+                    <!-- Overview -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
+                            aria-expanded="true" aria-controls="collapseOverview">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>ระบบวัสดุ</span>
+                        </a>
+                        <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item"
+                                    href="/views/admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
+                                <a class="collapse-item"
+                                    href="/views/admin/admin_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                                <a class="collapse-item"
+                                    href="/views/admin/edit_info_history.html">ประวัติการอนุมัติคำขอ</a>
+                                <a class="collapse-item" href="/views/admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
+                                <a class="collapse-item"
+                                    href="/views/admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                    <!-- Report -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
+                            aria-expanded="true" aria-controls="collapseReport">
+                            <i class="fas fa-file-alt"></i>
+                            <span>รายการวัสดุ</span>
+                        </a>
+                        <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="/views/admin/static.html">รายงานสถิติการเบิก</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                </ul>
+                <!-- End of Sidebar -->
+
+                <!-- Topic -->
+                <div class="container-fluid">
+                    <h2 class="mt-3">ข้อมูลวัสดุทั้งหมด</h2>
+
+                    <!-- dropdown (can't use)-->
+                    <from>
+                        <label>หมวดหมู่วัสดุ</label>
+                        <select id="SelectStatus" class="mb-3 " style="border-radius: 10px 10px;"></select>
+                    </from>
+
+                    <form>
+                        <label>จำนวน XXX รายการ</label>
+                    </form>
+
+                    <!-- btn modal -->
+                    <div class="mb-3" style="text-align: right;">
+                        <button type="button" class="btn btn-default border border-dark mr-3" data-toggle="modal"
+                            data-target="#modalExcel">
+                            นำเข้าข้อมูลวัสดุ
+                        </button>
+                        <button type="button" class="btn btn-default border border-dark mr-3" data-toggle="modal"
+                            data-target="#modalAddNew">
+                            เพิ่มข้อมูลวัสดุใหม่
+                        </button>
+                    </div>
+
+                    <!-- End Topic -->
+
+                    <div class="card">
+                        <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                            <table class="table" id="data_table" width="100%" cellspacing="0"
+                                style="text-align: center; ">
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal นำเข้าข้อมูลวัสดุ-->
+            <div class="modal fade" id="modalExcel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">นำเข้าข้อมูลวัสดุ</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="mr-3">
+                                    <form method="post" action="" enctype="multipart/form-data"> ชื่อไฟล์ :
+                                </div>
+
+                                <div>
+                                    <input type="file" name="file" id="file" class="form-control">
+                                </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn_upload"
+                                data-dismiss="modal">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal เพิ่มจำนวนวัสดุลงคลัง-->
+            <div class="modal fade " id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h5 class="modal-title">เพิ่มจำนวนวัสดุลงคลัง</h5>
+                                <h6 class="modal-title">กรอกจำนวนที่ต้องการเพิ่มข้อมูล</h6>
+                            </div>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="">
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label"> รหัสวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label"> ชื่อรายการวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label"> หมวดหมู่:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label"> หน่วยวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">จำนวนคงเหลือ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">จำนวนที่ต้องเพิ่ม:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">จำนวนหลังเพิ่ม:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                id="btn_add">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal เพิ่มข้อมูลวัสดุใหม่-->
+            <div class="modal fade" id="modalAddNew" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h5 class="modal-title">เพิ่มรายการวัสดุใหม่</h5>
+                            </div>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="">
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">รหัสวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">ชื่อรายการวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">จำนวน:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">หมวดหมู่:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select name="type" id="SelectType"
+                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">หน่วยวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select name="type" id="SelectUnit"
+                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                id="btn_addnew">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal แก้ไขข้อมูลวัสดุ-->
+            <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">แก้ไขข้อมูลวัสดุ</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="">
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">รหัสวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">รหัสวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">ชื่อรายการวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">จำนวน:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">หมวดหมู่:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select name="type" id="SelectTypeEdit"
+                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">หน่วยวัสดุ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select name="type" id="SelectUnitEdit"
+                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- icon ถังขยะเบี้ยว -->
+                                <div class="form-group">
+                                    <div class="row mx-auto justify-content-center">
+                                        <div class="col-md-4 d-flex justify-content-end">
+                                            <label class="col-form-label">ลบรายการ:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="button" class="btn" id="btn_delete"><i
+                                                class="fas fa-trash-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                id="btn_edit">แก้ไขข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -10,8 +10,8 @@
     <link rel="icon" href="/img/Logo IT.png" type="image/x-icon">
     <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-     <!--Sweet alert-->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -28,27 +28,48 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
         crossorigin="anonymous"></script>
-    
 
-   
+
+
 
 
     <script>
         $(document).ready(function () {
 
             $("#btnLogin").click(function () {
-                const email = $("#txtEmail").val();
-                const password = $("#txtPassword").val();
-
-                if (email == 'admin@gmail.com' && password == '1234') {
-                    
-                    window.location.replace('/views/super admin/material_requests.html');
-                } else {
-                   alert("Try again")
-                }
+            //    signIn();
+            //    console.log("Already Sign In");
+            window.location.replace("/views/admin/material_requests.html");
             });
 
         });
+
+        function init() {
+            gapi.load('auth2', function () {
+                gapi.auth2.init({
+                    client_id: '706089107094-luu1vtk8ivlcrbbc3816ds368j2c77sg.apps.googleusercontent.com'
+                });
+            });
+        }
+
+        function signIn() {
+            //alert("test");
+            let auth2 = gapi.auth2.getAuthInstance();
+            auth2.signIn({ scope: 'profile email', prompt: 'select_account' }).then(function (googleUser) {
+                // Useful data for your client-side scripts:
+                var profile = googleUser.getBasicProfile();
+                console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log("Image URL: " + profile.getImageUrl());
+                console.log("Email: " + profile.getEmail());
+
+                // The ID token you need to pass to your backend:
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log("ID Token: " + id_token);
+            });
+        }
     </script>
 
 </head>
@@ -67,11 +88,13 @@
                 <ul class="navbar-nav text-uppercase ml-auto">
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="">หน้าแรก</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">ติดต่อเรา</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#login">เข้าสู่ระบบ</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger"
+                            href="/views/login_page.html">เข้าสู่ระบบ</a></li> -->
                 </ul>
             </div>
         </div>
     </nav>
+
     <!-- Masthead-->
     <header class="masthead" id="homepage">
         <div class="container">
@@ -80,6 +103,9 @@
                 มหาวิทยาลัยแม่ฟ้าหลวง</h2>
             <p class="mb-3" style="font-size: 20px;">เว็ปไซต์สำหรับตรวจสอบรายการวัสดุ เบิกวัสดุ และติดตามสถานะวัสดุ <br>
                 สำหรับบุคลากรภายในสำนักวิชาเทคโนโลยีสารสนเทศ</p>
+            <button class="btn btn-light" style="width: 30%; font-size: medium; border-radius: 50px;" type="button"
+                id="btnLogin"><img src="/img/gg logo.png" style="width: 10%; margin-right: 10px;" alt=""> Sign In with
+                Google</button>
             <!-- <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a> -->
         </div>
     </header>
@@ -157,8 +183,8 @@
         </div>
     </section>
 
-    <!-- Contact-->
-    <section class="page-section" id="login" style="background-color: #1e2020;">
+    <!-- Login Section-->
+    <!-- <section class="page-section" id="login" style="background-color: #1e2020;">
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase text-light">กรุณาเข้าสู่ระบบ</h2>
@@ -188,7 +214,8 @@
                 </div>
             </form>
         </div>
-    </section>
+    </section> -->
+
     <!-- Footer-->
     <footer class="footer py-4">
         <div class="container">
