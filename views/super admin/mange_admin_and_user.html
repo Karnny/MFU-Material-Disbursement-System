@@ -87,17 +87,17 @@
         $(document).ready(function () {
             //function set array of table
             let Setdatatable = [
-                { id: "1", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "2", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "3", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "4", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "5", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "6", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "7", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "8", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "9", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "10", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" },
-                { id: "11", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx" }
+                { id: "1", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "2", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "3", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "4", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "5", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "6", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "7", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "8", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "9", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "เพิ่มจำนวนวัสดุ", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "10", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' },
+                { id: "11", email: "manila@mfu.ac.th", name: "มะลิวัลย์   พรมทา", role: "คณาจารย์", type: "แก้ไขข้อมูล", phone_num: "xxx xxxxxx", date: "xx/xx/xxxx", status: 'xxx <i class="fas fa-edit" onclick="fix()"></i>' }
             ]
 
             //function Create Table
@@ -109,7 +109,8 @@
                     { data: "name", title: "ชื่อวัสดุ" },
                     { data: "role", title: "ตำเหน่ง" },
                     { data: "phone_num", title: "เบอร์โทรติดต่อ" },
-                    { data: "date", title: "วันที่เพิ่ม" }
+                    { data: "date", title: "วันที่เพิ่ม" },
+                    { data: "status", title: "สถานะ" }
                 ]
             });
 
@@ -129,22 +130,17 @@
         });
 
         //sweet alert ของปุ่ม"บันทึกข้อมูล"(เพิ่มผู้ใช้งาน)
-        function submit_1() {
+        function submit() {
             Swal.fire({
                 icon: 'success',
                 title: 'ดำเนินการเพิ่มข้อมูลเสร็จสิ้น'
             });
 
         }
-        //sweet alert ของปุ่ม"บันทึกข้อมูล"(เพิ่มผู้ดูแลระบบ)
-        function submit_2() {
-            Swal.fire({
-                icon: 'success',
-                title: 'ดำเนินการเพิ่มข้อมูลเสร็จสิ้น'
-            });
+        function fix() {
+            alert("test");
         }
     </script>
-
     <style>
         .modal-content {
             background-color: #ffffff;
@@ -153,7 +149,7 @@
             border: 1px solid #888;
         }
     </style>
-    
+
 </head>
 
 <body id="page-top">
@@ -228,7 +224,7 @@
                 <div id="collapseManageUser" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/views/super admin/manage_user.html">เพิ่มสมาชิกผู้ใช้งาน</a>
+                        <a class="collapse-item" href="/views/super admin/mange_admin_and_user.html">เพิ่มสมาชิกผู้ใช้งาน</a>
                     </div>
                 </div>
             </li>
@@ -241,10 +237,10 @@
 
         <!-- Topic -->
         <div class="container-fluid">
-            <h2 class="mt-5">สมาชิกผู้ใช้งานระบบ</h2>
+            <h2 class="mt-3">สมาชิกผู้ใช้งานระบบ</h2>
 
             <!-- ปุ่มเพิ่มผู้ใช้งาน -->
-            <button type="button" class="btn btn-outline-dark mb-3 mt-3" data-toggle="modal" data-target="#modelId_1">
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modelId_1">
                 เพิ่มผู้ใช้งาน
             </button>
 
@@ -287,57 +283,16 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">เบอร์โทรติดต่อ:</label>
-                                <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="phone_num">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="submit_1()">บันทึกข้อมูล</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ปุ่มเพิ่มผู้ดูเเลระบบ -->
-            <button type="button" class="btn btn-outline-dark mb-3 mt-3 ml-2" data-toggle="modal" data-target="#modelId_2">
-                เพิ่มผู้ดูแลระบบ
-            </button>
-
-            <div class="modal fade" id="modelId_2" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">เพิ่มผู้ดูแลระบบ</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">อีเมล:</label>
-                                <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">ชื่อ-สกุล:</label>
-                                <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="name">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">ตำเเหน่ง:</label>
+                                <label class="col-sm-4 col-form-label">Role:</label>
                                 <div class="col-sm-5">
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle btn-outline-dark" type="button"
                                             id="dropdown_selectTypes" data-toggle="dropdown">
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdown_selectTypes">
-                                            <a class="dropdown-item" href="#">คณาจารย์</a>
-                                            <a class="dropdown-item" href="#">เจ้าหน้าวิชาการ</a>
+                                        <div class="dropdown-menu dropdown-menu-light"
+                                            aria-labelledby="dropdown_selectTypes">
+                                            <a class="dropdown-item" href="#">ผู้ใช้งาน</a>
+                                            <a class="dropdown-item" href="#">ผู้ดูเเลระบบ</a>
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +305,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="submit_2()">บันทึกข้อมูล</button>
+                            <button type="button" class="btn btn-primary" onclick="submit()">บันทึกข้อมูล</button>
                         </div>
                     </div>
                 </div>
