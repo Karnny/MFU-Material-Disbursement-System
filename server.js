@@ -33,7 +33,6 @@ require("./routes.js")(app);
 // APIs
 require("./api.js")(app);
 
-const PORT = 4777;
 app.listen(PORT, (req, res) => {
   console.log("Server is running on port " + PORT);
 });
