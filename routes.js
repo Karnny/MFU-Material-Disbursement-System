@@ -4,7 +4,12 @@ function router(app) {
 
   // Page route root
   app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/index.html"));
+    if (req.session.user) {
+      res.redirect(req.session.user.main_url);
+    } else {
+      res.render('login');
+    }
+    
   });
 
 
