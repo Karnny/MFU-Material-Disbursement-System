@@ -1,8 +1,13 @@
+const mysql = require('mysql');
+
 const config = {
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "mfu_it_mds_db"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    dateString: true
 };
 
-module.exports = config;
+const database = mysql.createConnection(config);
+
+module.exports = database;
