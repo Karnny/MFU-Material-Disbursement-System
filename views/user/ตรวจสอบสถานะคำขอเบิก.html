@@ -9,8 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
-    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+    <title>ตรวจสอบสถานะคำขอเบิก</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -72,28 +71,33 @@
 
             //function set array of table
             let Setdatatable = [
-                { id: "1", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>" },
-                { id: "2", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "3", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "4", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "5", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "6", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "7", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "8", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "9", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "10", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "11", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  }
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>" },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
+                { dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  }
             ]
 
             //function Create Table
             var table = $("#data_table").DataTable({
                 data: Setdatatable,
                 columns: [
-                    { data: "id", title: "ลำดับ" },
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        },
+                        title: "ลำดับ"
+                    },
                     { data: "dates", title: "วันและเวลาที่ขอเบิก"},
                     { data: "name", title: "ผู้ขอเบิก" },
                     { data: "list", title: "รายการขอเบิก"},
-                    { defaultContent: `<div class="container-fluid"><button type="button" class="btn btn-warning"  onclick="approve()">กำลังดำเนินการ</button></div>` ,title:"สถานะ"}
+                    { defaultContent: `<span class='badge badge-pill badge-warning'>กำลังดำเนินการ</span>`, title: "สถานะ" }
                 ]
             });
 
@@ -117,8 +121,13 @@
         ///array of SelectStatus
         var selectArray = [
             { Status: "Select" },
-            { Status: "กำลังดำเนินการ" },
-            { Status: "รอรับวัสดุ" }
+            { Status: "สำนักงาน" },
+            { Status: "ไฟฟ้า" },
+            { Status: "คอมพิวเตอร์" },
+            { Status: "โฆษณา" },
+            { Status: "งานบ้าน" },
+            { Status: "เครื่องแต่งกาย" },
+            { Status: "ของที่ระลึก" }
         ]
 
         function testClick(p) {
