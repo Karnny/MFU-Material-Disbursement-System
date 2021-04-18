@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign 2 Week7</title>
+
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- Custom styles -->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        var rowID;
+        var deleteRowID;
+        $(document).ready(function () {
+            let dataSet = [
+                {
+                    "id": "6231302001",
+                    "name": "Ethan Hunt",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302002",
+                    "name": "Lara Croft",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302003",
+                    "name": "Tom Hank",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302004",
+                    "name": "Michael Jackson",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302005",
+                    "name": "Peter Parker",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302006",
+                    "name": "Nathan Drag",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302007",
+                    "name": "John Snow",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302008",
+                    "name": "John Smith",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302009",
+                    "name": "Jane Doe",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302010",
+                    "name": "Will Smith",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302011",
+                    "name": "Sam Bowl",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302012",
+                    "name": "Jane Lord",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302013",
+                    "name": "Sara Conner",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302014",
+                    "name": "Lady Gaga",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302015",
+                    "name": "Lionel Messi",
+                    "gender": "Male",
+                    "major": "CS",
+                    "school": "IT",
+                },
+                {
+                    "id": "6231302016",
+                    "name": "Christiano Ronaldo",
+                    "gender": "Female",
+                    "major": "ICE",
+                    "school": "IT",
+                }
+            ];
+
+            //create data table
+            var table = $("#myTable").DataTable({
+                data: dataSet,
+                columns: [
+                    { data: "id", title: "Student ID" },
+                    { data: "name", title: "Name" },
+                    { data: "gender", title: "Gender" },
+                    { data: "major", title: "Major" },
+                    { data: "school", title: "School" },
+                    { title: "Action", defaultContent: "<button class='btn btn-danger'>Delete</button><button class='btn btn-warning ml-2'>Edit</button>" }
+                ]
+            });
+
+            //edit button
+            $("#myTable tbody").on("click", ".btn-warning", function () {
+
+                // alert("edit");
+                //get selected data
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+
+                rowID = table.row(currentRow).index();
+                //alert(data.id);
+                $("#txtID").val(data.id);
+                $("#txtName").val(data.name);
+                if (data.gender == "Male") {
+                    $("#radioMale").prop("checked", true);
+                } else {
+                    $("#radioFemale").prop("checked", true);
+                }
+                $("#txtMajor").val(data.major);
+                $("#txtSchool").val(data.school);
+
+                //show edit modal
+                $("#modalEdit").modal("show");
+
+                //save (from edit) button ka
+                $("#btnSave").click(function () {
+
+                    //close modal
+                    $("#modalEdit").modal("hide");
+
+                    const name = $("#txtName").val();
+                    let gender = "Female"
+                    if ($("#radioMale").is(":checked")) {
+                        gender = "Male";
+                    }
+                    const major = $("#txtMajor").val();
+                    const school = $("#txtSchool").val();
+
+                    //update data
+                    //1. update to dataSet
+                    //alert(rowID);
+                    dataSet[rowID].name = name;
+                    dataSet[rowID].gender = gender;
+                    dataSet[rowID].major = major;
+                    dataSet[rowID].school = school;
+
+                    //2. update data table
+                    let temp = table.row(rowID).data();
+                    temp.name = name;
+                    temp.gender = gender;
+                    temp.major = major;
+                    temp.school = school;
+                    table.row(rowID).data(temp).invalidate();
+                });
+            });
+
+            //Delete button
+            $("#myTable tbody").on("click", ".btn-danger", function () {
+
+                //get a selected data
+                let data = table.row($(this).parents('tr')).data();
+                //console.log(data.name);
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning",
+                    text: "Are you sure to delete " + data.id,
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButton: "Cancel",
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        table.row(data).remove().draw(false);
+                        Swal.fire(
+                            'Deleted!',
+                            'The record has been deleted.',
+                            'success'
+                        )
+                    }
+                });
+
+
+            });
+
+            //add data
+            $("#btnAdd").click(function () {
+
+                //call modal
+                $("#modalEdit").modal("show");
+                $("#txtID").removeAttr('disabled');
+                $("#txtID").val("");
+                $("#txtName").val("");
+                $("input[name='gender']").prop("checked", false);
+                $("#txtMajor").val("");
+                $("#txtSchool").val("");
+
+                //add more info
+                $("#btnSave").click(function () {
+
+                    const id = $("#txtID").val();
+                    const name = $("#txtName").val();
+                    let gender = "Female"
+                    if ($("#radioMale").is(":checked")) {
+                        gender = "Male";
+                    }
+                    const major = $("#txtMajor").val();
+                    const school = $("#txtSchool").val();
+
+                    //check if the input already have
+                    let check;
+                    for (let i = 0; i < dataSet.length; i++) {
+                        if (dataSet[i].id == id) {
+                            check = false;
+                            break;
+                        }
+                    }
+
+                    if (check == false) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sorry',
+                            text: 'This person already have info.',
+                        });
+                    } else {
+                        dataSet.push({
+                            "id": id,
+                            "name": name,
+                            "gender": gender,
+                            "major": major,
+                            "school": school,
+                        });
+                        table.clear();
+                        table.rows.add(dataSet).draw();
+                    }
+                    $("#modalEdit").modal('hide');
+
+                });
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <div class="container pt-3">
+        <div class="text-right">
+            <button class="btn btn-success mb-3" id="btnAdd">Add</button>
+        </div>
+        <table id="myTable" class="table table-striped table-bordered" style="width: 100%;"></table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="text" id="txtID" class="form-control mb-2" disabled="true" placeholder="ID">
+                    <input type="text" id="txtName" class="form-control mb-2" placeholder="Name">
+                    <input type="radio" name="gender" id="radioMale"> Male
+                    <input type="radio" name="gender" id="radioFemale"> Female
+                    <input type="text" id="txtMajor" class="form-control mb-2 mt-2" placeholder="Major">
+                    <input type="text" id="txtSchool" class="form-control mb-2 mt-2" placeholder="School">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSave">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
