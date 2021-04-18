@@ -92,8 +92,20 @@
                 { dateApproved: "16/05/2020", timeApproved: "11:48:25", reqNo: "6300100009", userName: "ศิริกานต์ ชูเชิด", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
             ];
 
-            var suppliesData = [
-                {}
+            var supData = [
+                { supID: "101000001", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "101000002", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "101000003", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "102000054", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "102000055", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "102000056", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "112000078", supName: "ผ้าหมึก Epson LQ 2070/2180i", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "112000085", supName: "หมึก HP laserjet P2015 (Q7553A)", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "112000455", supName: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "103000456", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", supCate: "วัสดุงานบ้านงานครัว", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "110000001", supName: "กระดุมแขนเสื้อสูท (สีทอง)", supUnit: "เม็ด", supCate: "วัสดุเครื่องแต่งกาย", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "103000456", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", supCate: "วัสดุของที่ระลึก", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+
             ];
 
 
@@ -111,7 +123,7 @@
                     { data: "timeApproved", title: "เวลาที่อนุมัติคำขอ" },
                     { data: "reqNo", title: "เลขที่รายการขอเบิก" },
                     { data: "userName", title: "ผู้ขอเบิก" },
-                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline'; id = 'moreInfo'>ดูเพิ่มเติม</a>" },
+                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline; cursor: pointer;' id = 'moreInfo'>ดูเพิ่มเติม</a>" },
                     { title: "สถานะ", defaultContent: "<span class='badge badge-pill badge-warning'>กำลังดำเนินการ</span>" },
                     { title: "เปลี่ยนแปลง", defaultContent: "<i class='fa fa-plus' aria-hidden='true'></i>" },
                 ]
@@ -130,6 +142,30 @@
                 rowID = table.row(currentRow).index();
 
             });
+
+            //Table in More Info Modal
+            $("#supListTable").DataTable({
+                data: supData,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "supID", title: "รหัสวัสดุ" },
+                    { data: "supName", title: "รายการ" },
+                    { data: "supCate", title: "หมวดหมู่" },
+                    { data: "supAmount", title: "จำนวน" },
+                    { data: "supUnit", title: "หน่วยนับ" },
+                    { data: "supLeft", title: "ยอดคงเหลือในคลัง" },
+
+                ],
+                lengthMenu: [
+                    [5, 10, 15, -1],
+                    ['5', '10', '15', 'Show all']
+                ],
+            });
+
         });
 
         // function randomStatus(){
@@ -333,8 +369,11 @@
                         </div>
                     </div>
                     <!-- End of Request Detail -->
-                    
-                    <hr class="sidebar-divider my-0">
+
+                    <hr class="sidebar-divider my-0 mb-4 mt-4">
+
+                    <table class="table table-bordered text-center" id="supListTable" width="100%" cellspacing="0">
+                    </table>
 
                 </div>
 
