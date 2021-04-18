@@ -7,6 +7,7 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "img")));
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "css")));
+app.use(express.static(path.join(__dirname, "js")));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
@@ -15,6 +16,10 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){
     res.render('index');
+});
+
+app.get("/adminSupReq", function (req, res) {
+  res.sendFile(path.join(__dirname, "/views/admin/material_requests.html"))
 });
 
 

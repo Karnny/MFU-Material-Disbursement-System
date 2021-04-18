@@ -67,34 +67,68 @@
 
 
     <script>
+
+        var rowID;
+
+        //Note1
+        // Success Status = 1 Reject Status = 2 In progress Status = 3 End Status = 4
+
+        function checkStatus(val) {
+            if (val == "3") {
+
+            }
+        }
+
         $(document).ready(function () {
-            var dataSet = [
-                { no: "1", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "2", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "3", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "4", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "5", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "6", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "7", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "8", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "9", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
-                { no: "10", dateTimeApproved: "xx/xx/xxxx  xx:xx:xx", assetNo: "xxxxxxxxxxx", reqName: "ดร.คิมดามี จันทร์ตา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqUpdate: "เปลี่ยนแปลง" },
+            var reqData = [
+                { dateApproved: "12/05/2020", timeApproved: "15:48:25", reqNo: "6300100001", userName: "สุรพงษ์ อุตมา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "12/05/2020", timeApproved: "15:50:02", reqNo: "6300100002", userName: "เตือนจิต สุทธหลวง", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "13/05/2020", timeApproved: "08:55:18", reqNo: "6300100003", userName: "ศุภกานต์ จันทร์เสรีวิทยา", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "13/05/2020", timeApproved: "09:10:01", reqNo: "6300100004", userName: "วรศักดิ์ เรืองศิรรักษ์", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "14/05/2020", timeApproved: "08:35:20", reqNo: "6300100005", userName: "มาหะมะ เซะบากอ", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "14/05/2020", timeApproved: "08:39:25", reqNo: "6300100006", userName: "ธงชัย อยู่ญาติวงศ์", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "14/05/2020", timeApproved: "08:41:05", reqNo: "6300100007", userName: "ขวัญตา คีรีมาศทอง", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "15/05/2020", timeApproved: "11:01:59", reqNo: "6300100008", userName: "พฤทธิ์ พุฒจร", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+                { dateApproved: "16/05/2020", timeApproved: "11:48:25", reqNo: "6300100009", userName: "ศิริกานต์ ชูเชิด", reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ" },
+            ];
+
+            var suppliesData = [
+                {}
             ];
 
 
 
             //Create
-            var table = $("#historyRequestTable").DataTable({
-                data: dataSet,
+            var table = $("#updateReqTable").DataTable({
+                data: reqData,
                 columns: [
-                    { data: "no", title: "ลำดับ" },
-                    { data: "dateTimeApproved", title: "วันเวลาที่อนุมัติคำขอ" },
-                    { data: "assetNo", title: "เลขที่รายการขอเบิก" },
-                    { data: "reqName", title: "ผู้ขอเบิก" },
-                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline';>ดูเพิ่มเติม</a>" },
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "dateApproved", title: "วันที่อนุมัติคำขอ" },
+                    { data: "timeApproved", title: "เวลาที่อนุมัติคำขอ" },
+                    { data: "reqNo", title: "เลขที่รายการขอเบิก" },
+                    { data: "userName", title: "ผู้ขอเบิก" },
+                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline'; id = 'moreInfo'>ดูเพิ่มเติม</a>" },
                     { title: "สถานะ", defaultContent: "<span class='badge badge-pill badge-warning'>กำลังดำเนินการ</span>" },
                     { title: "เปลี่ยนแปลง", defaultContent: "<i class='fa fa-plus' aria-hidden='true'></i>" },
                 ]
+            });
+
+
+            //more info button
+            $("#updateReqTable tbody").on("click", "#moreInfo", function () {
+
+                //show modal
+                $("#moreInfoModal").modal("show");
+
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+
+                rowID = table.row(currentRow).index();
+
             });
         });
 
@@ -139,7 +173,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
-                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                            <img class="img-profile rounded-circle" src="/img/manIcon.png">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -177,8 +211,7 @@
                     <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item"
-                                href="/views/admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/views/admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item"
                                 href="/views/admin/admin_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item"
@@ -218,7 +251,7 @@
             <div class="container-fluid">
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
-                    <h1 class="h3 mb-0 text-gray-800"><b>ดำเนินรายการคำขอเบิกวัสดุ</b> </h1>
+                    <h2 class="mb-0">ดำเนินรายการคำขอเบิกวัสดุ</h2>
                 </div>
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -232,7 +265,7 @@
                     </div> -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered text-center" id="historyRequestTable" width="100%"
+                            <table class="table table-bordered text-center" id="updateReqTable" width="100%"
                                 cellspacing="0">
                             </table>
                         </div>
@@ -248,6 +281,69 @@
         </div>
 
 
+    </div>
+
+    <!-- More Info Modal -->
+    <div class="modal fade" style="width: 100%;" id="moreInfoModal" tabindex="-1" role="dialog"
+        aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">รายการคำขอเบิกวัสดุ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Request Detail Begin-->
+                    <div class="row">
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">
+                                <p class="ml-5"><b>วันที่ขอเบิก</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="reqDate">xx/xx/xxxx</p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>ผู้ขอเบิก</b></p>
+                                <p class="ml-3" id="requesterName">อาจารย์ ดร. สุรพงษ์ อุตมา</p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>เลขที่รายการขอเบิก</b></p>
+                                <p class="ml-3" id="reqNumber">6300100001</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <p class="ml-5"><b>อนุมัติเมื่อ</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="appDate">xx/xx/xxxx</p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>อีเมล</b></p>
+                                <p class="ml-3" id="requesterEmail">surapong@mfu.ac.th</p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วัตถุประสงค์</b></p>
+                                <p class="ml-3" id="reqNumber">ต้องการนำไปใช้เตรียมเอกสารงานวิจัย</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End of Request Detail -->
+                    
+                    <hr class="sidebar-divider my-0">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 </body>
 

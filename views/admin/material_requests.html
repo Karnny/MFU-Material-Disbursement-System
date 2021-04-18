@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
-    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+    <link rel="icon" type="image/x-icon" href="/Logo_IT.png" />
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -76,18 +76,10 @@
 
         }
 
-        ///array of table in modal
-        var tabelinmodal = [
-            { id: "1", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
-            { id: "2", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
-            { id: "3", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
-            { id: "4", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
-
-        ]
         $(document).ready(function () {
 
             //function set array of table
-            let Setdatatable = [
+            let DataSet = [
                 { id: "1", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
                 { id: "2", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
                 { id: "3", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "" },
@@ -103,7 +95,7 @@
 
             //function Create Table
             var table = $("#data_table").DataTable({
-                data: Setdatatable,
+                data: DataSet,
                 columns: [
                     { data: "id", title: "ลำดับ" },
                     { data: "dates", title: "วันและเวลาที่ขอเบิก" },
@@ -233,7 +225,7 @@
 
                 <!-- Topbar Logo -->
                 <div>
-                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                    <img class="" src="/Logo_IT.png" width="60" height="50" alt="">
                 </div>
                 <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
                     <!-- //ใส่โลโก่ -->
@@ -252,7 +244,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
-                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                            <img class="img-profile rounded-circle" src="/manIcon.png">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -409,13 +401,9 @@
         </div>
 
         <div id="GSCCModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true"></div>
+            aria-hidden="true">
+        </div> 
 
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
     </div>
 </body>
 
