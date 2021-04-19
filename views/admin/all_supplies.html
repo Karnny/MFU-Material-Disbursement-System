@@ -76,10 +76,10 @@
             let Setdatatable = [
                 { "id": "01", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "12", "unit": "ถุง", "dates": "04/17/2021" },
                 { "id": "02", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "คอมพิวเตอร์", "amount": "10", "unit": "ถุง", "dates": "04/02/2021" },
-                { "id": "03", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "ไฟฟ้าและวิทยุ", "amount": "5", "unit": "ถุง", "dates": "03/24/2021" },
+                { "id": "03", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "ไฟฟ้า", "amount": "5", "unit": "ถุง", "dates": "03/24/2021" },
                 { "id": "04", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "45", "unit": "ถุง", "dates": "03/12/2021" },
                 { "id": "05", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "7", "unit": "ถุง", "dates": "03/11/2021" },
-                { "id": "06", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "ไฟฟ้าและวิทยุ", "amount": "13", "unit": "ถุง", "dates": "03/09/2021" },
+                { "id": "06", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "ไฟฟ้า", "amount": "13", "unit": "ถุง", "dates": "03/09/2021" },
                 { "id": "07", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "6", "unit": "ถุง", "dates": "03/02/2021" },
                 { "id": "08", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "คอมพิวเตอร์", "amount": "51", "unit": "ถุง", "dates": "02/28/2021" },
                 { "id": "09", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "26", "unit": "ถุง", "dates": "02/19/2021" },
@@ -89,14 +89,32 @@
 
             //function Create Table
             var table = $("#data_table").DataTable({
+                initComplete:function(){
+                    this.api().columns().every(function(){
+                        const column = this;
+                        const select = $("#SelectType")
+                        .appendTo($(column.footer()).empty())
+                        .on('change',function(){
+                            const val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column.search(val ? '^' +val+"$":'',true,false).draw();
+                    })
+                    column.data().unique().sort().each(function(d,j){
+                        select.append('<option value="'+d+'">'+d+'</option>')
+                    })
+                }
+            }
                 data: Setdatatable,
+                columnDef: [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0,
+                }], "order": [[1, 'asc']],
+
                 columns: [
-                    {
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        },
-                        title: "ลำดับ"
-                    },
+                    { title: "ลำดับ", defaultContent: "" },
                     { data: "id", title: "รหัสวัสดุ" },
                     { data: "name", title: "ชื่อ" },
                     { data: "type", title: "หมวดหมู่" },
@@ -106,6 +124,11 @@
                     { title: "แก้ไข", defaultContent: "<button class='btn' id='btnTableEdit'><i class='fas fa-edit'></i></button>" }
                 ]
             });
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
 
             //function selectStatus
             function selectCategory(selectArray, tb) {
@@ -155,56 +178,72 @@
             })
             //ยังไม่สมบูรณ์
             $("#btnAddnew").click(function () {
-                
+
                 $("#modalAddNew").modal("show");
                 $("#AddnewTextID").val("");
                 $("#AddnewTextName").val("");
                 $("#AddnewTextAmount").val("");
-                $("#SelectTypeAddnew").val(selectTypeAddnew);
-                $("#SelectUnitAddnew").val(selectUnitAddnew);
+                $("#SelectTypeAddnew").val(type);
+                $("#SelectUnitAddnew").val(unit);
 
-                $("#btn_addnew").click(function () {
-                    const id = $("#AddnewTextID").val();
-                    const name = $("#AddnewTextName").val();
-                    const amount = $("#AddnewTextAmount").val();
-                    const type = $("#SelectTypeAddnew").val();
-                    const unit = $("#SelectUnitAddnew").val();
+            })
 
-                    //check if the input already have
-                    // let check;
-                    // for (let i = 0; i < Setdatatable.length; i++) {
-                    //     if (Setdatatable[i].id == id) {
-                    //         check = false;
-                    //         break;
-                    //     }
-                    // }
+            $("#btn_addnew").click(function () {
+                const id = $("#AddnewTextID").val();
+                const name = $("#AddnewTextName").val();
+                const amount = $("#AddnewTextAmount").val();
+                const type = $("#SelectTypeAddnew").val();
+                const unit = $("#SelectUnitAddnew").val();
+                const today = new Date();
+                const date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-                    // if (check == false) {
-                    //     Swal.fire({
-                    //         icon: 'error',
-                    //         title: 'Sorry',
-                    //         text: 'This person already have info.',
-                    //     });
-                    // } else {
-                        
-                    // }
+                let check;
+                for (let i = 0; i < Setdatatable.length; i++) {
+                    if (Setdatatable[i].id == id) {
+                        check = false;
+                        break;
+                    }
+                }
+
+                if (check == false) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sorry',
+                        text: 'This person already have info.',
+                    });
+                }else if (id == "" || name == "" || amount == "" || type == "" || unit == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เพิ่มรายการไม่สำเร็จวัสดุสำเร็จ',
+                        text: 'โปรดใส่ข้อมูลให้ครบถ้วน!'
+                    })
+                } else {
                     Setdatatable.push({
-                            
-                            "id": id,
-                            "name": name,
-                            "amount": amount,
-                            "type": type,
-                            "unit": unit
 
-                        });
-                        table.clear();
-                        table.rows.add(Setdatatable).draw();        
-                })
+                        "id": id,
+                        "name": name,
+                        "amount": amount,
+                        "type": type,
+                        "unit": unit,
+                        "dates": date
+
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'เพิ่มรายการวัสดุสำเร็จ',
+                        html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                    })
+                    table.clear();
+                    table.rows.add(Setdatatable).draw();
+                }
+
                 $("#modalAddNew").modal('hide');
             })
 
+
             $("#data_table tbody").on("click", "#btnTableEdit", function () {
-                
+
                 const currentRow = $(this).parents("tr");
                 const data = table.row(currentRow).data();
 
@@ -244,36 +283,35 @@
                         html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
                     })
                 })
-                $("#btn_delete").click(function () {
-
-                    let data = table.row($(this).parents('tr')).data();
-                    Swal.fire({
-                        icon: "warning",
-                        title: "ลบรายการวัสดุ",
-                        text: "คุณแน่ใจไหมว่าต้องการจะลบรายการวัสดุ",
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: "ต้องการ",
-                        cancelButton: "กลับ"
-
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-
-                            table.row(data).remove().draw(false);
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'ลบรายการวัสดุสำเร็จ',
-                                html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
-                            })
-                            $("#modalEdit").modal("hide");
-                        }
-                    });
-
-
-                })
 
             })
+            $("#btn_delete").click(function () {
 
+                let data = table.row($(this).parents('tr')).data();
+                Swal.fire({
+                    icon: "warning",
+                    title: "ลบรายการวัสดุ",
+                    text: "คุณแน่ใจไหมว่าต้องการจะลบรายการวัสดุ",
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "ต้องการ",
+                    cancelButton: "กลับ"
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        table.row(data).remove().draw(false);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'ลบรายการวัสดุสำเร็จ',
+                            html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                        })
+                        $("#modalEdit").modal("hide");
+                    }
+                });
+
+
+            })
 
         });
 
@@ -290,7 +328,6 @@
         ]
 
         var selectTypeAddnew = [
-            { Status: "Select" },
             { Status: "สำนักงาน" },
             { Status: "ไฟฟ้า" },
             { Status: "คอมพิวเตอร์" },
@@ -301,7 +338,6 @@
         ]
 
         var selectUnitAddnew = [
-            { Status: "Select" },
             { Status: "ม้วน" },
             { Status: "เครื่อง" },
             { Status: "แฟ้ม" },
@@ -329,7 +365,6 @@
         ]
 
         var selectTypeEdit = [
-            { Status: "Select" },
             { Status: "สำนักงาน" },
             { Status: "ไฟฟ้า" },
             { Status: "คอมพิวเตอร์" },
@@ -340,7 +375,6 @@
         ]
 
         var selectUnitEdit = [
-            { Status: "Select" },
             { Status: "ม้วน" },
             { Status: "เครื่อง" },
             { Status: "แฟ้ม" },
@@ -490,7 +524,7 @@
                     <!-- dropdown (can't use)-->
                     <from>
                         <label>หมวดหมู่วัสดุ</label>
-                        <select id="SelectStatus" class="mb-3 " style="border-radius: 10px 10px;"></select>
+                        <select id="SelectType" class="mb-3 " style="border-radius: 10px 10px;"></select>
                     </from>
 
                     <form>
@@ -499,11 +533,11 @@
 
                     <!-- btn modal -->
                     <div class="mb-3" style="text-align: right;">
-                        <button type="button" id="btnAdd" class="btn btn-default border border-dark mr-3" data-toggle="modal"
-                        data-target="#modalExcel">
+                        <button type="button" id="btnAdd" class="btn btn-default border border-dark mr-3"
+                            data-toggle="modal" data-target="#modalExcel">
                             นำเข้าข้อมูลวัสดุ
                         </button>
-                        <button type="button" id="btnAddnew" class="btn btn-default border border-dark mr-3" >
+                        <button type="button" id="btnAddnew" class="btn btn-default border border-dark mr-3">
                             เพิ่มข้อมูลวัสดุใหม่
                         </button>
                     </div>
@@ -578,7 +612,7 @@
                                             <label class="col-form-label">รหัสวัสดุ:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" id="AddnewTextID" class="form-control">
+                                            <input type="number" id="AddnewTextID" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -600,7 +634,7 @@
                                             <label class="col-form-label">จำนวน:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" id="AddnewTextAmount" class="form-control">
+                                            <input type="number" id="AddnewTextAmount" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -611,8 +645,7 @@
                                             <label class="col-form-label">หมวดหมู่:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <select name="type" id="SelectTypeAddnew"
-                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                            <select class="form-control" name="type" id="SelectTypeAddnew"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -623,8 +656,7 @@
                                             <label class="col-form-label">หน่วยวัสดุ:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <select name="type" id="SelectUnitAddnew"
-                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                            <select class="form-control" name="type" id="SelectUnitAddnew"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -661,7 +693,7 @@
                                             <label class="col-form-label">รหัสวัสดุ:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" id="EditTextID" class="form-control" disabled>
+                                            <input type="number" id="EditTextID" class="form-control" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -683,7 +715,7 @@
                                             <label class="col-form-label">จำนวน:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" id="EditTextAmount" class="form-control">
+                                            <input type="number" id="EditTextAmount" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -694,8 +726,7 @@
                                             <label class="col-form-label">หมวดหมู่:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <select name="type" id="SelectTypeEdit"
-                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                            <select class="form-control" name="type" id="SelectTypeEdit"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -706,8 +737,7 @@
                                             <label class="col-form-label">หน่วยวัสดุ:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <select name="type" id="SelectUnitEdit"
-                                                style="font-size: 0.8rem; border-radius: 20rem; padding: 1.5rem 1 rem; "></select>
+                                            <select class="form-control" name="type" id="SelectUnitEdit"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -719,8 +749,8 @@
                                             <label class="col-form-label">ลบรายการ:</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="button" id="btn_delete" class="btn"><i
-                                                class="fas fa-trash-alt"></i>
+                                            <button type="button" id="btn_delete" class="btn"><i
+                                                    class="fas fa-trash-alt"></i></button>
                                         </div>
                                     </div>
                                 </div>
