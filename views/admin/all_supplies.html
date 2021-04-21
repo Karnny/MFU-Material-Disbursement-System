@@ -71,7 +71,11 @@
         var rowID;
 
         $(document).ready(function () {
-
+            //selectType
+            $("#SelectType").on('change', function () {
+                table.search(this.value).draw();
+            })
+            
             //function set array of table
             let Setdatatable = [
                 { "id": "01", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "12", "unit": "ถุง", "dates": "04/17/2021" },
@@ -87,25 +91,9 @@
                 { "id": "011", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "65", "unit": "ถุง", "dates": "02/01/2021" }
             ]
 
+
             //function Create Table
             var table = $("#data_table").DataTable({
-                initComplete:function(){
-                    this.api().columns().every(function(){
-                        const column = this;
-                        const select = $("#SelectType")
-                        .appendTo($(column.footer()).empty())
-                        .on('change',function(){
-                            const val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-
-                            column.search(val ? '^' +val+"$":'',true,false).draw();
-                    })
-                    column.data().unique().sort().each(function(d,j){
-                        select.append('<option value="'+d+'">'+d+'</option>')
-                    })
-                }
-            }
                 data: Setdatatable,
                 columnDef: [{
                     "searchable": false,
@@ -123,6 +111,7 @@
                     { data: "dates", title: "วันที่เพิ่มลงคลังล่าสุด" },
                     { title: "แก้ไข", defaultContent: "<button class='btn' id='btnTableEdit'><i class='fas fa-edit'></i></button>" }
                 ]
+
             });
             table.on('order.dt search.dt', function () {
                 table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
@@ -130,41 +119,41 @@
                 });
             }).draw();
 
+
+
             //function selectStatus
             function selectCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
                 let option = ``;
                 for (i in selectArray) {
                     option += `<option>${selectArray[i].Status}</option>`;
                 }
-                tb.html(tb.html() + option);
+                tb.html(tb.html() + select + option);
             }
 
+
             //function Create SelectStatus
-            let select_status = $("#SelectStatus");
-            select_status.html(select_status);
-            selectCategory(selectStatus, select_status);
+            let select_Type = $("#SelectType");
+            selectCategory(selectType, select_Type);
+
 
 
             //function Create SelectType
             let select_typeaddnew = $("#SelectTypeAddnew");
-            select_typeaddnew.html(select_typeaddnew);
             selectCategory(selectTypeAddnew, select_typeaddnew);
 
 
             //function Create SelectUnit
             let select_unitaddnew = $("#SelectUnitAddnew");
-            select_unitaddnew.html(select_unitaddnew);
             selectCategory(selectUnitAddnew, select_unitaddnew);
 
             //function Create SelectTypeEdit
             let select_typeedit = $("#SelectTypeEdit");
-            select_typeedit.html(select_typeedit);
             selectCategory(selectTypeEdit, select_typeedit);
 
 
             //function Create SelectUnitEdit
             let select_unitedit = $("#SelectUnitEdit");
-            select_unitedit.html(select_unitedit);
             selectCategory(selectUnitEdit, select_unitedit);
 
             //btn Swal
@@ -208,10 +197,10 @@
                 if (check == false) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Sorry',
-                        text: 'This person already have info.',
+                        title: 'รหัสวัสดุซ้ำกัน',
+                        text: 'โปรดตรวจสอบรหัสวัสดุอีกครั้ง!',
                     });
-                }else if (id == "" || name == "" || amount == "" || type == "" || unit == "") {
+                } else if (id == "" || name == "" || amount == "" || type == "" || unit == "") {
                     Swal.fire({
                         icon: 'error',
                         title: 'เพิ่มรายการไม่สำเร็จวัสดุสำเร็จ',
@@ -308,17 +297,14 @@
                         })
                         $("#modalEdit").modal("hide");
                     }
-                });
-
-
+                });   
             })
-
+            $("#totalReq").html(Setdatatable.length);
         });
 
         ///array of SelectStatus
-        var selectStatus = [
-            { Status: "Select" },
-            { Status: "สำนักงาน" },
+        var selectType = [
+            { Status: "สำนักงาน " },
             { Status: "ไฟฟ้า" },
             { Status: "คอมพิวเตอร์" },
             { Status: "โฆษณา" },
@@ -524,11 +510,16 @@
                     <!-- dropdown (can't use)-->
                     <from>
                         <label>หมวดหมู่วัสดุ</label>
-                        <select id="SelectType" class="mb-3 " style="border-radius: 10px 10px;"></select>
+                        <select id="SelectType" class="form-control col-1 mb-3 "></select>
                     </from>
 
                     <form>
-                        <label>จำนวน XXX รายการ</label>
+                        <div class="row">
+                            <label class=" ml-3 mr-2">จำนวน</label>
+                            <p id="totalReq"></p>
+                            <label class=" ml-3 mr-2">รายการ</label>
+                        </div>
+
                     </form>
 
                     <!-- btn modal -->
