@@ -2,30 +2,227 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link rel="icon" href="img/Logo IT.png" type="image/x-icon">
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <!--JQ + Bootstrap CDN-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous"></script>
-        <script src="scripts/local/login.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+
+    <script src="scripts/local/login.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 
-    <title>Test Login OAuth</title>
 
-</head>
-
-<body>
 
     <script>
         $(document).ready(function () {
-            
+
+            // $("#btnLogin").click(function () {
+            //     //    signIn();
+            //     //    console.log("Already Sign In");
+            //     window.location.replace('/adminSupReq');
+            // });
+
         });
+
+
     </script>
 
-    <h1>Sign in with Google?</h1>
-    <input type="button" value="Sign in" onClick="signIn()" id="btnSignIn">
+</head>
 
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+                เมนูใช้งาน
+                <i class="fas fa-bars ml-1"></i>
+            </button>
+            <div class="collapse navbar-collapse w-100" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ml-auto">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#homepage">หน้าแรก</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">ติดต่อเรา</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger"
+                            href="/views/login_page.html">เข้าสู่ระบบ</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Masthead-->
+    <header class="masthead" id="homepage">
+        <div class="container">
+            <img class="mb-3" src="img/it-logo.png" style="width: 125px;">
+            <h2 style="font-size: 35px;">ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ <br>
+                มหาวิทยาลัยแม่ฟ้าหลวง</h2>
+            <p class="mb-3" style="font-size: 20px;">เว็ปไซต์สำหรับตรวจสอบรายการวัสดุ เบิกวัสดุ และติดตามสถานะวัสดุ <br>
+                สำหรับบุคลากรภายในสำนักวิชาเทคโนโลยีสารสนเทศ</p>
+            <button class="btn btn-light" style="width: 30%; font-size: medium; border-radius: 50px;" type="button"
+                id="btnLogin" onclick="signIn()"><img src="img/gg logo.png" style="width: 10%; margin-right: 10px;"
+                    alt=""> Sign In with
+                Google</button>
+            <!-- <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a> -->
+        </div>
+    </header>
+
+    <!-- Team-->
+    <section class="page-section bg-light" id="contact">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-dark">บุคลากรสายปฏิบัติการ (เจ้าหน้าที่บริหาร)
+                </h2>
+                <h3 class="section-subheading text-muted">สำนักวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยแม่ฟ้าหลวง</h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto" src="img/csm_คุณพรทิพย์.jpg" alt="" />
+                        <h5 class="mt-4">นางสาว พรทิพย์ ปัญญา</h5>
+                        <p class="text-muted">Email: porntip.pan@mfu.ac.th</p>
+                        <p class="text-muted">Tel. 053-916745</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto" src="img/csm_คุณสยุมพร.jpg" alt="" />
+                        <h5 class="mt-4">นางสาว สยุมพร ไชยชมภู</h5>
+                        <p class="text-muted">Email: sayumporn.cha@mfu.ac.th</p>
+                        <p class="text-muted">Tel. 053-916742</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto" src="img/csm_คุณทัตต์ชไม.jpg" alt="" />
+                        <h5 class="mt-4">นางสาว ทัตต์ชไม หวานชัยสีห์</h5>
+                        <p class="text-muted">Email: tatchamay.wah@mfu.ac.th</p>
+                        <p class="text-muted">Tel. 053-916741</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto" src="img/csm_คุณรัตติกาล.jpg" alt="" />
+                        <h5 class="mt-4">นางสาว รัตติกาล นางแล</h5>
+                        <p class="text-muted">Email: rattikan.nan@mfu.ac.th</p>
+                        <p class="text-muted">Tel. 053-916742</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto" src="img/csm_ปิยวัฒน์.jpg" alt="" />
+                        <h5 class="mt-4">นาย ปิยวัฒน์ ปาระมี</h5>
+                        <p class="text-muted">Email: piyawat.par@mfu.ac.th</p>
+                        <p class="text-muted">Tel. 053-917198</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mt-5">
+                    <h6>ติดต่อ</h6>
+                    <p class="large text-muted">สำนักวิชาเทคโนโลยีสารสนเทศ
+                        มหาวิทยาลัยแม่ฟ้าหลวง
+                        333 หมู่ 1 ตำบลท่าสุด อำเภอเมือง จังหวัดเชียงราย 57100
+                        โทรศัพท์ 0 5391 6741-2
+                        โทรสาร 0 5391 6743
+                        อีเมล: itschool@mfu.ac.th</p>
+                    <a class="btn btn-primary btn-social mx-2"
+                        onClick="window.open('https://www.facebook.com/itschool.mfu.page/');"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-danger btn-social mx-2"
+                        onClick="window.open('https://www.youtube.com/channel/UCbvvlT0UyZHCYdPTXL7vHXQ/featured');"><i
+                            class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section-->
+    <!-- <section class="page-section" id="login" style="background-color: #1e2020;">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase text-light">กรุณาเข้าสู่ระบบ</h2>
+                <h3 class="section-subheading text-light" style="font-size: larger;">
+                    เพื่อเข้าใช้งานระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ
+                    มหาวิทยาลัยแม่ฟ้าหลวง</h3>
+            </div>
+            <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                <div class="row align-items-stretch mb-5">
+                    <div class="col-md-6  mx-auto">
+                        <div class="form-group">
+                            <input class="form-control" id="txtEmail" type="email" placeholder="Email"
+                                required="required"
+                                data-validation-required-message="Please enter your email address." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" id="txtPassword" placeholder="Password"
+                                required="required" data-validation-required-message="Please enter your password" />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div id="success"></div>
+                    <button class="btn btn-primary btn-xl text-uppercase" id="btnLogin">Login</button>
+                </div>
+            </form>
+        </div>
+    </section> -->
+
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left">Copyright © Bug Company</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-right">
+                    <a class="mr-3" href="#!">Privacy Policy</a>
+                    <a href="#!">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Contact form JS-->
+    <script src="assets/mail/jqBootstrapValidation.js"></script>
+    <script src="assets/mail/contact_me.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
 </body>
 
 </html>

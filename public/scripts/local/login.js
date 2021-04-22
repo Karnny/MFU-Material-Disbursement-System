@@ -32,7 +32,10 @@ function signIn() {
                 window.location.replace(response);
             },
             error: (xhr) => {
-                alert(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: xhr.responseText
+                });
             }
         });
     }).catch((err) => {

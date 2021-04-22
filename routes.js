@@ -7,7 +7,7 @@ function router(app) {
     if (req.session.user) {
       res.redirect(req.session.user.main_url);
     } else {
-      res.render('login');
+      res.redirect('/login');
     }
     
   });
