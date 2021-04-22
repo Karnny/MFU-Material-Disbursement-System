@@ -65,7 +65,6 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 
-
     <script>
 
         var rowID;
@@ -79,7 +78,7 @@
                     dateReq: "11/05/2020",
                     dateApp: "12/05/2020",
                     timeApp: "15:48:25",
-                    reqNo: "6300100001",
+                    reqNo: "630000001",
                     name_title: "อาจารย์ ดร.",
                     firstName: "สุรพงษ์",
                     lastName: "อุตมา",
@@ -90,7 +89,7 @@
                     dateReq: "11/05/2020",
                     dateApp: "12/05/2020",
                     timeApp: "15:50:02",
-                    reqNo: "6300100002",
+                    reqNo: "630000002",
                     email: "ternchit@mfu.ac.th",
                     name_title: "อาจารย์",
                     firstName: "เตือนจิต",
@@ -101,7 +100,7 @@
                     dateReq: "12/05/2020",
                     dateApp: "13/05/2020",
                     timeApp: "08:55:18",
-                    reqNo: "6300100003",
+                    reqNo: "630000003",
                     email: "suppakarn.cha@mfu.ac.th",
                     name_title: "ผู้ช่วยศาสตราจารย์ ดร.",
                     firstName: "ศุภกานต์",
@@ -112,7 +111,7 @@
                     dateReq: "12/05/2020",
                     dateApp: "13/05/2020",
                     timeApp: "09:10:01",
-                    reqNo: "6300100004",
+                    reqNo: "630000004",
                     email: "worasak.rue@mfu.ac.th",
                     name_title: "อาจารย์ ดร.",
                     firstName: "วรศักดิ์",
@@ -123,7 +122,7 @@
                     dateReq: "13/05/2020",
                     dateApp: "14/05/2020",
                     timeApp: "08:35:20",
-                    reqNo: "6300100005",
+                    reqNo: "630000005",
                     email: "mahamah.seb@mfu.ac.th",
                     name_title: "อาจารย์ ดร.",
                     firstName: "มาหะมะ",
@@ -134,7 +133,7 @@
                     dateReq: "13/05/2020",
                     dateApp: "14/05/2020",
                     timeApp: "08:39:25",
-                    reqNo: "6300100006",
+                    reqNo: "630000006",
                     email: "thongchai.mfu@gmail.com",
                     name_title: "ผู้ช่วยศาสตราจารย์ น.อ. ดร.",
                     firstName: "ธงชัย",
@@ -145,7 +144,7 @@
                     dateReq: "13/05/2020",
                     dateApp: "14/05/2020",
                     timeApp: "08:41:05",
-                    reqNo: "6300100007",
+                    reqNo: "630000007",
                     email: "khwunta.kir@mfu.ac.th",
                     name_title: "อาจารย์ ดร.",
                     firstName: "ขวัญตา",
@@ -156,7 +155,7 @@
                     dateReq: "14/05/2020",
                     dateApp: "15/05/2020",
                     timeApp: "11:01:59",
-                    reqNo: "6300100008",
+                    reqNo: "630000008",
                     email: "pruet@mfu.ac.th",
                     name_title: "อาจารย์ ดร.",
                     firstName: "พฤทธิ์",
@@ -167,7 +166,7 @@
                     dateReq: "15/05/2020",
                     dateApp: "16/05/2020",
                     timeApp: "11:48:25",
-                    reqNo: "6300100009",
+                    reqNo: "630000009",
                     email: "sirikan@mfu.ac.th",
                     name_title: "ผู้ช่วยศาสตราจารย์ ดร.",
                     firstName: "ศิริกานต์",
@@ -213,9 +212,11 @@
                     {
                         data: "reqStatus", title: "สถานะ", render: function (data, type, row, meta) {
                             if (data == 'กำลังดำเนินการ') {
-                                return '<span class="badge badge-pill badge-warning">'+data+'</span>';
-                            }else if(data == 'รอส่งมอบ'){
-                                return '<span class="badge badge-pill badge-info">'+data+'</span>';
+                                return '<span class="badge badge-pill badge-warning">' + data + '</span>';
+                            } else if (data == 'รอส่งมอบ') {
+                                return '<span class="badge badge-pill badge-info">' + data + '</span>';
+                            } else if (data == 'เสร็จสิ้น') {
+                                return '<span class="badge badge-pill badge-success">' + data + '</span>';
                             }
                         },
                     },
@@ -248,7 +249,63 @@
             //Change the status request
             $("#updateReqTable tbody").on("click", "#btnUpdate", function () {
                 //show modal
-                alert("Test");
+                $("#changeModal").modal("show");
+
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+
+                rowID = table.row(currentRow).index();
+
+                if (reqData[rowID].reqStatus == 'กำลังดำเนินการ') {
+                    $("#btnConSent").attr("disabled", false);
+                    $("#btnConSuc").attr("disabled", true);
+                } else if (reqData[rowID].reqStatus == 'รอส่งมอบ') {
+                    $("#btnConSent").attr("disabled", true);
+                    $("#btnConSuc").attr("disabled", false);
+                }
+
+                //Show each user data from row selected
+                $("#reqNumberChange").html(reqData[rowID].reqNo);
+                $("#reqDateChange").html(reqData[rowID].dateReq);
+                $("#appDateChange").html(reqData[rowID].dateApp);
+                $("#requesterNameChange").html(reqData[rowID].name_title + " " + reqData[rowID].firstName + "  " + reqData[rowID].lastName);
+                $("#requesterEmailChange").html(reqData[rowID].email);
+                $("#reqReasonChange").html(reqData[rowID].reqReason);
+
+
+                $("#btnConSent").click(function () {
+
+                    const reqStatus = reqData[rowID].reqStatus;
+                    // alert(reqStatus);
+                    if (reqStatus == 'กำลังดำเนินการ') {
+                        // alert("hello karnny");
+                        reqData[rowID].reqStatus = 'รอส่งมอบ'
+                        $("#btnConSent").attr("disabled", true);
+                    } else if (reqStatus == 'รอส่งมอบ') {
+                        $("#btnConSent").attr("disabled", true);
+                    }
+
+                    table.clear();
+                    table.rows.add(reqData).draw();
+
+                });
+
+                $("#btnConSuc").click(function () {
+
+                    const reqStatus = reqData[rowID].reqStatus;
+                    // alert(reqStatus);
+                    if (reqStatus == 'รอส่งมอบ') {
+                        // alert("hello karnny");
+                        reqData[rowID].reqStatus = 'เสร็จสิ้น'
+                        $("#btnConSuc").attr("disabled", true);
+                    } else if (reqStatus == 'เสร็จสิ้น') {
+                        $("#btnConSuc").attr("disabled", true);
+                    }
+
+                    table.clear();
+                    table.rows.add(reqData).draw();
+
+                });
             });
 
             //Total request 
@@ -362,7 +419,7 @@
                             <a class="collapse-item"
                                 href="/views/admin/admin_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item"
-                                href="/views/admin/edit_info_history.html">ประวัติการอนุมัติคำขอ</a>
+                                href="/views/admin/admin_req_history.html">ประวัติการอนุมัติคำขอ</a>
                             <a class="collapse-item" href="/views/admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
                             <a class="collapse-item"
                                 href="/views/admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
@@ -404,7 +461,7 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <div class="row">
                         <h5 class=" ml-3 mr-2 text-gray-800">จำนวน</h5>
-                        <p id="totalReq">xxxx</p>
+                        <p id="totalReq"></p>
                         <h5 class="ml-2 text-gray-800">รายการ</h5>
                     </div>
 
@@ -502,6 +559,107 @@
         </div>
     </div>
     <!-- End the More Info Modal -->
+
+    <!--Change Status Modal -->
+    <div class="modal fade" style="width: 100%;" id="changeModal" tabindex="-1" role="dialog"
+        aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">บันทึกการเปลี่ยนแปลงสถานะวัสดุ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Request Detail Begin-->
+                    <div class="row">
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">
+                                <p class="ml-5"><b>เลขที่รายการขอเบิก</b></p>
+                                <p class="ml-3" id="reqNumberChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วันที่ขอเบิก</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="reqDateChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>ผู้ขอเบิก</b></p>
+                                <p class="ml-3" id="requesterNameChange"></p>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <p class="ml-5"><b>อนุมัติเมื่อ</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="appDateChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>อีเมล</b></p>
+                                <p class="ml-3" id="requesterEmailChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วัตถุประสงค์</b></p>
+                                <p class="ml-3" id="reqReasonChange"></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End of Request Detail -->
+
+                    <hr class="sidebar-divider my-0 mb-4 mt-4">
+
+                    <div class="row">
+                        <div class="col-md-9 ml-auto">
+                            <div class="row mt-3">
+                                <div class="col-md-1">
+                                    <span class="badge badge-pill badge-warning">กำลังดำเนินการ</span>
+                                </div>
+                                <div class="row ml-5">
+                                    <p class="ml-5">รอส่งคำขอเบิกจากคลังส่วนกลาง
+                                        ผ่านระบบ MFU-ERP</p>
+                                </div>
+
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-1">
+                                    <span class="badge badge-pill badge-info">รอส่งมอบ</span>
+                                </div>
+                                <div class="row ml-5">
+                                    <p class="ml-5">ได้รับวัสดุจากคลังส่วนกลางแล้ว
+                                        รอส่งมอบให้กับผู้ขอเบิก</p>
+                                    <button class="btn btn-primary ml-5" id="btnConSent">ยืนยัน</button>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-1">
+                                    <span class="badge badge-pill badge-success">เสร็จสิ้น</span>
+                                </div>
+                                <div class="row ml-5">
+                                    <p class="ml-5">ส่งมอบวัสดุให้กับผู้ขอเบิกแล้ว</p>
+                                    <button class="btn btn-primary ml-5" id="btnConSuc">ยืนยัน</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- End the change status modal -->
 </body>
+
+
 
 </html>
