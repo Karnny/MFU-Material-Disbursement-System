@@ -73,17 +73,17 @@
             })
             //function set array of table
             let Setdatatable = [
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "กำลังดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "รอดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "กำลังดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "รอดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "กำลังดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "รอดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "รอดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "กำลังดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "รอดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "รอดำเนินการ" },
-                { dates: "1/5/2021", name: "ดร.", firstname: "คิมดามี", surname: "จันทตา", reqStatus: "กำลังดำเนินการ" }
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" }
             ]
             var supData = [
                 { supID: "101000001", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
@@ -130,7 +130,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }, title: "ลำดับ",
                     },
-                    { data: "dates", title: "วันที่อนุมัติคำขอ" },
+                    { data: "dates", title: "วัน และเวลาที่ขอเบิก" },
                     {
                         title: "ผู้ขอเบิก", render: function (data, type, full, meta) {
                             return full.name + " " + full.firstname + " " + full.surname;
@@ -141,7 +141,7 @@
                         data: "reqStatus", title: "สถานะ", render: function (data, type, row, meta) {
                             if (data == 'กำลังดำเนินการ') {
                                 return '<span class="badge badge-pill badge-warning">' + data + '</span>';
-                            } else if (data == 'รอดำเนินการ') {
+                            } else if (data == 'รอรับวัสดุ') {
                                 return '<span class="badge badge-pill badge-info">' + data + '</span>';
                             }
                         },
@@ -174,7 +174,7 @@
         ///array of SelectStatus
         var selectStatus = [
             { Status: "กำลังดำเนินการ" },
-            { Status: "รอดำเนินการ" }
+            { Status: "รอรับวัสดุ" }
         ]
 
         function testClick(p) {
@@ -268,7 +268,7 @@
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">อาจารย์ ดร.สุรพงษ์ อุตมา</span>
                         <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
                     </a>
                     <!-- Dropdown - User Information -->
