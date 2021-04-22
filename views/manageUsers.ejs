@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- Custom styles -->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+    <!-- Custom styles for this template-->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+    <link href="../css/profile.css" rel="stylesheet">
+
+    <script>
+        let Setdatatable = [
+            { id: "1", email: "teeravisit.lao@mfu.ac.th", name: "ธีรวิศิฏฐ์", lastname: "เลาหะเพ็ญแสง ", position: "คณบดี", role: "ผู้ใช้งาน", phone_num: "053-916744", date: "19/4/2021", status: "Active", fix: "" },
+            { id: "2", email: "suppakarn.cha@mfu.ac.th", name: "ศุภกานต์", lastname: "จันทร์เสรีวิทยา", position: "ผู้ช่วยคณบดี", role: "ผู้ใช้งาน", phone_num: "053-917199", date: "20/4/2021", status: "Active", fix: "" },
+            { id: "3", email: "worasak.rue@mfu.ac.th", name: "วรศักดิ์", lastname: "เรืองศิรรักษ์", position: "ผู้ช่วยคณบดี", role: "ผู้ใช้งาน", phone_num: "053-917198", date: "21/4/2021", status: "Active", fix: "" },
+            { id: "4", email: "mahamah.seb@mfu.ac.th", name: "มาหะมะ", lastname: "เซะบากอ", position: "ผู้ช่วยคณบดี", role: "ผู้ใช้งาน", phone_num: "053-917200", date: "22/4/2021", status: "Active", fix: "" },
+            { id: "5", email: "thongchai.mfu@gmail.com", name: "ธงชัย", lastname: "อยู่ญาติวงศ์", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916741", date: "23/4/2021", status: "Active", fix: "" },
+            { id: "6", email: "surapong@mfu.ac.th", name: "สุรพงษ์", lastname: "อุตมา", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916755", date: "24/4/2021", status: "Active", fix: "" },
+            { id: "7", email: "ternchit@mfu.ac.th", name: "เตือนจิต", lastname: "สุทธหลวง", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916756", date: "25/4/2021", status: "Active", fix: "" },
+            { id: "8", email: "sirikan@mfu.ac.th", name: "ศิริกานต์", lastname: "ชูเชิด", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916763", date: "26/4/2021", status: "Active", fix: "" },
+            { id: "9", email: "pruet@mfu.ac.th", name: "พฤทธิ์", lastname: "พุฒจร", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916765", date: "27/4/2021", status: "Active", fix: "" },
+            { id: "10", email: "natthakan@mfu.ac.th", name: "ณัฐกานต์", lastname: "เอี่ยมอ่อน", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916763", date: "28/4/2021", status: "Active", fix: "" },
+            { id: "11", email: "khwunta.kir@mfu.ac.th", name: "ขวัญตา", lastname: "คีรีมาศทอง", position: "อาจารย์", role: "ผู้ใช้งาน", phone_num: "053-916762", date: "29/4/2021", status: "Active", fix: "" }
+        ];
+
+        function updateDataSet() {
+            $.ajax({
+                type: "GET",
+                url: "/api/getUsers",
+                async: false,
+                dataType: "json",
+                success: function (response) {
+                    Setdatatable = response;
+                },
+                error: function (xhr) {
+                    Swal.fire(xhr.responseText);
+                }
+            });
+        }
+        $(document).ready(function () {
+            //function set array of table
+            updateDataSet();
+
+
+            //function Create Table
+            var table = $("#data_table").DataTable({
+                data: Setdatatable,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "email", title: "อีเมลผู้ใช้งาน" },
+                    {
+                        data: "firstname", title: "ชื่อ-สกุล", render: function (data, type, row, meta) {
+                            return (row.name_title == null || row.name_title == "" ? "" : row.name_title) + " " + row.firstname + " " + row.lastname;
+                        }
+                    },
+                    { data: "division_name", title: "ตำเหน่ง" },
+                    {
+                        data: "role_name", title: "Role", render: function (data, type, row, meta) {
+                            return data;
+                        }
+                    },
+                    { data: "phone_number", title: "เบอร์โทรติดต่อ" },
+                    {
+                        data: "register_date", title: "วันที่เพิ่ม", render: function (data, type, row, meta) {
+                            let dateArr = data.split('-');
+                            return `${dateArr[2]}/${dateArr[1]}/${dateArr[0]}`;
+                        }
+                    },
+                    { data: "user_status", title: "สถานะ" },
+                    { defaultContent: `<button class="btn" id="btnEdit" datatoggle="modal" data-target="#modalEdit" ><i class="fas fa-edit" ></i></button>`, title: "เเก้ไข" }
+                ]
+            });
+            //function  SelectStatus
+            function selectCategory(selectArray, tb) {
+                let option = `<option value="" disabled>--- เลือก ---</option>`;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].status}</option>`;
+                }
+                tb.html(tb.html() + option);
+            }
+
+            //function Create SelectStatus
+            let SelectStatus = $("#edit_SelectStatus");
+            SelectStatus.html(SelectStatus);
+            selectCategory(selectArrayStatus, SelectStatus);
+
+            //function Create SelectPosition
+            let select_position = $("#SelectPosition");
+            select_position.html(select_position);
+            selectCategory(selectArrayPosition, select_position);
+
+            //function Create selectRole
+            let select_role = $("#SelectRole");
+            select_role.html(select_role);
+            selectCategory(selectArrayRole, select_role);
+
+
+            //add data
+            $("#btnADD").click(function () {
+                //call modal
+                $("#modelId_1").modal("show");
+
+                $("#email").val("");
+                $("#name").val("");
+                $("#lastname").val("");
+                $("#SelectPosition").val("");
+                $("#SelectRole").val("");
+                $("#phone_num").val("");
+
+                //add more info
+
+            });
+
+            $("#btnsubmit").click(function () {
+                // เก็บข้อมูล
+                const email = $("#email").val();
+                const firstname = $("#name").val();
+                const lastname = $("#lastname").val();
+                const SelectPosition = $("#SelectPosition").val();
+                const name_title = $("#name_title").val();
+                const SelectRole = $("#SelectRole").val();
+                const phone_number = $("#phone_num").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/addUser",
+                    data: {
+                        email: email,
+                        firstname: firstname,
+                        lastname: lastname,
+                        role: SelectRole,
+                        name_title: name_title,
+                        division_name: SelectPosition,
+                        phone_number: phone_number
+                    },
+                    dataType: "",
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'เพิ่มผู้ใช้สำเร็จ'
+                        }).then(function () {
+                            updateDataSet();
+                            table.clear();
+                            table.rows.add(Setdatatable).draw();
+                            $("#modelId_1").modal("hide");
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: xhr.responseText
+                        });
+                    }
+                });
+
+
+            });
+
+
+
+            // EDIT modal
+            var selectEditData;
+            $("#data_table tbody").on("click", "#btnEdit", function () {
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+                selectEditData = data;
+                rowID = table.row(currentRow).index();
+                //console.log(data);
+                $("#edit_name").val(data.firstname);
+                $("#edit_lastname").val(data.lastname);
+                $("#edit_SelectStatus").val(data.user_status);
+
+                $("#modalEdit").modal("show");
+
+            });
+
+            $("#btnsubmit_edit").click(function () {
+                $("#modalEdit").modal("hide");
+
+                const user_id = selectEditData.user_id;
+                const user_status = $("#edit_SelectStatus").val();
+
+                //2. update data 
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/manageUsers",
+                    data: { user_id: user_id, user_status: user_status },
+                    dataType: "",
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'แก้ไขสถานะของผู้ใช้สำเร็จ'
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: xhr.responseText
+                        });
+                    }
+                });
+
+                updateDataSet();
+                table.clear();
+                table.rows.add(Setdatatable).draw();
+                // let temp = table.row(rowID).data();
+                // temp.name = name;
+                // temp.lastname = lastname;
+                // temp.status = status;
+                // table.row(rowID).data(temp).invalidate();
+
+            })
+
+        });
+
+        //array of select position
+        var selectArrayRole = [
+
+            { status: "Admin" },
+            { status: "Super Admin" },
+            { status: "User" }
+
+        ]
+
+        //array of select role
+        var selectArrayPosition = [
+
+            { status: "คณบดี" },
+            { status: "ผู้ช่วยคณบดี" },
+            { status: "อาจารย์" }
+        ]
+
+        //array of select status
+        var selectArrayStatus = [
+            { status: "Active" },
+            { status: "Disabled" }
+        ]
+
+        //sweet alert ของปุ่ม"บันทึกข้อมูล"(เพิ่มผู้ใช้งาน)
+        function submit() {
+            Swal.fire({
+                icon: 'success',
+                title: 'ดำเนินการเพิ่มข้อมูลเสร็จสิ้น'
+            });
+
+        }
+    </script>
+    <style>
+        .modal-content {
+            background-color: #ffffff;
+            margin: 25% auto;
+            padding: 20px;
+            border: 1px solid #888;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/views/index.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+    </div>
+    <!-- End of Topbar -->
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
+
+            <!-- ManageUser -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseManageUser"
+                    aria-expanded="true" aria-controls="collapseManageUser">
+                    <i class="fas fa-user"></i>
+                    <span>จัดการผู้ใช้งาน</span>
+                </a>
+                <div id="collapseManageUser" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/manageUsers">เพิ่มสมาชิกผู้ใช้งาน</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Topic -->
+        <div class="container-fluid">
+            <h2 class="mt-3">สมาชิกผู้ใช้งานระบบ</h2>
+
+            <!-- ปุ่มเพิ่มผู้ใช้งาน -->
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal" id="btnADD">
+                เพิ่มผู้ใช้งาน
+            </button>
+
+            <div class="modal fade" id="modelId_1" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">เพิ่มผู้ใช้งาน</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">อีเมล:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="email" name="email">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">ชื่อ:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">สกุล:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="lastname" name="lastname">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">คำนำหน้า:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="name_title" name="lastname">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">ตำเเหน่ง:</label>
+                                <div class="col-sm-5">
+                                    <from>
+                                        <select id="SelectPosition" name="Position" class="form-control mb-3 "></select>
+                                    </from>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Role:</label>
+                                <div class="col-sm-5">
+                                    <from>
+                                        <select id="SelectRole" name="Role" class="form-control mb-3 "></select>
+                                    </from>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">เบอร์โทรติดต่อ:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="phone_num" name="phone_num">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="btnsubmit" class="btn btn-primary"
+                                onclick="submit()">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal เเก้ไข -->
+            <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="model_fix"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">เปลี่ยนแปลงสถานะการใช้งาน</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">ชื่อ:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="edit_name" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">สกุล:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="edit_lastname" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">สถานะ:</label>
+                                <div class="col-sm-5">
+                                    <from>
+                                        <select id="edit_SelectStatus" name="status"
+                                            class="form-control mb-3 "></select>
+                                    </from>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="btnsubmit_edit">บันทึกข้อมูล</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1></h1>
+            <!-- End Topic -->
+
+            <!-- table -->
+            <div class="card">
+                <div class="card-body" style="background-color:#ffffff;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                    <table class="table table-bordered" id="data_table" width="100%" cellspacing="0"
+                        style="text-align: center;">
+                    </table>
+                </div>
+            </div>
+            <!-- end table -->
+        </div>
+    </div>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js" defer></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js" defer></script>
+</body>
+
+</html>
