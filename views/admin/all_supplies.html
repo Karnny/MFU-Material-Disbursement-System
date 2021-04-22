@@ -75,20 +75,20 @@
             $("#SelectType").on('change', function () {
                 table.search(this.value).draw();
             })
-            
+
             //function set array of table
             let Setdatatable = [
-                { "id": "01", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "12", "unit": "ถุง", "dates": "04/17/2021" },
-                { "id": "02", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "คอมพิวเตอร์", "amount": "10", "unit": "ถุง", "dates": "04/02/2021" },
-                { "id": "03", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "ไฟฟ้า", "amount": "5", "unit": "ถุง", "dates": "03/24/2021" },
-                { "id": "04", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "45", "unit": "ถุง", "dates": "03/12/2021" },
-                { "id": "05", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "7", "unit": "ถุง", "dates": "03/11/2021" },
-                { "id": "06", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "ไฟฟ้า", "amount": "13", "unit": "ถุง", "dates": "03/09/2021" },
-                { "id": "07", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "6", "unit": "ถุง", "dates": "03/02/2021" },
-                { "id": "08", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "คอมพิวเตอร์", "amount": "51", "unit": "ถุง", "dates": "02/28/2021" },
-                { "id": "09", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "26", "unit": "ถุง", "dates": "02/19/2021" },
-                { "id": "010", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "คอมพิวเตอร์", "amount": "36", "unit": "ถุง", "dates": "02/08/2021" },
-                { "id": "011", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "สำนักงาน", "amount": "65", "unit": "ถุง", "dates": "02/01/2021" }
+                { "id": "01", "name": "แฟ้มเสนองาน", "type": "สำนักงาน", "amount": "12", "unit": "แฟ้ม", "dates": "04/17/2021" },
+                { "id": "02", "name": "ปากกาเพ็นครุภัณฑ์ขนาดเล็ก สีดำ", "type": "สำนักงาน", "amount": "10", "unit": "ด้าม", "dates": "04/02/2021" },
+                { "id": "03", "name": "ปากกาเพ็นครุภัณฑ์ขนาดเล็ก สีขาว", "type": "สำนักงาน", "amount": "5", "unit": "ด้าม", "dates": "03/24/2021" },
+                { "id": "04", "name": "ดินสอ HB", "type": "สำนักงาน", "amount": "45", "unit": "แท่ง", "dates": "03/12/2021" },
+                { "id": "05", "name": "ถ่านก้อนกลาง", "type": "ไฟฟ้า", "amount": "7", "unit": "ก้อน", "dates": "03/11/2021" },
+                { "id": "06", "name": "แผ่น CDR 700 MB", "type": "คอมพิวเตอร์", "amount": "13", "unit": "แผ่น", "dates": "03/09/2021" },
+                { "id": "07", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "โฆษณา", "amount": "6", "unit": "ถุง", "dates": "03/02/2021" },
+                { "id": "08", "name": "เชือกฟาง", "type": "งานบ้าน", "amount": "51", "unit": "ม้วน", "dates": "02/28/2021" },
+                { "id": "09", "name": "กระดุมเสื้อสูท (สีทอง)", "type": "เครื่องแต่งกาย", "amount": "26", "unit": "เม็ด", "dates": "02/19/2021" },
+                { "id": "010", "name": "พระบรมฉายาลักษณ์สมเด็จย่า", "type": "ของที่ระลึก", "amount": "36", "unit": "อัน", "dates": "02/08/2021" },
+                { "id": "011", "name": "เนคไทลายผ้าไหม", "type": "ของที่ระลึก", "amount": "65", "unit": "เส้น", "dates": "02/01/2021" }
             ]
 
 
@@ -230,12 +230,12 @@
                 $("#modalAddNew").modal('hide');
             })
 
-
+            var selectEditData;
             $("#data_table tbody").on("click", "#btnTableEdit", function () {
 
                 const currentRow = $(this).parents("tr");
                 const data = table.row(currentRow).data();
-
+                selectEditData = data;
                 rowID = table.row(currentRow).index();
                 $("#EditTextID").val(data.id);
                 $("#EditTextName").val(data.name);
@@ -269,18 +269,24 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'แก้ไขรายการวัสดุสำเร็จ',
-                        html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                        html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />แก้ไขวัสดุเมื่อ"
                     })
+                    table.on('order.dt search.dt', function () {
+                        table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
                 })
 
             })
-            $("#btn_delete").click(function () {
 
-                let data = table.row($(this).parents('tr')).data();
+            $("#btn_delete").click(function () {
+                const id = $("#EditTextID").val();
+                const dataID = selectEditData.id;
                 Swal.fire({
                     icon: "warning",
                     title: "ลบรายการวัสดุ",
-                    text: "คุณแน่ใจไหมว่าต้องการจะลบรายการวัสดุ",
+                    text: "คุณแน่ใจไหมว่าต้องการจะลบรายการวัสดุ" + " " + id,
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonText: "ต้องการ",
@@ -288,18 +294,24 @@
 
                 }).then((result) => {
                     if (result.isConfirmed) {
-
-                        table.row(data).remove().draw(false);
+                        for(let i = 0; i < Setdatatable.length ;i++){
+                            if(dataID == Setdatatable[i].id){
+                                Setdatatable.splice(i, 1);
+                                table.clear()
+                                table.rows.add(Setdatatable).draw();
+                            }
+                        }
                         Swal.fire({
                             icon: 'success',
                             title: 'ลบรายการวัสดุสำเร็จ',
-                            html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
+                            html: "รหัสวัสดุ<br />ชื่อรายการ<br />ลบรายาการเมื่อ"
                         })
                         $("#modalEdit").modal("hide");
                     }
-                });   
+                });
             })
             $("#totalReq").html(Setdatatable.length);
+
         });
 
         ///array of SelectStatus
