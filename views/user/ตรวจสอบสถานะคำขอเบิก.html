@@ -9,8 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
-    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+    <title>ตรวจสอบสถานะคำขอเบิก</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -28,7 +27,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-<!--Chart CDN-->
+    <!--Chart CDN-->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -41,7 +40,7 @@
 
     <!--Sweet alert CDN-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
-<!--Pagination CDN-->
+    <!--Pagination CDN-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
         integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
         crossorigin="anonymous" />
@@ -69,54 +68,111 @@
     <script>
 
         $(document).ready(function () {
-
+            $("#SelectStatus").on('change', function () {
+                table.search(this.value).draw();
+            })
             //function set array of table
             let Setdatatable = [
-                { id: "1", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>" },
-                { id: "2", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "3", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "4", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "5", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "6", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "7", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "8", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "9", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list: "<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "10", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  },
-                { id: "11", dates: "1/5/2021", name: "ดร.คิมดามี จันทตา", list:"<a onClick='testClick(1)' style='cursor: pointer; text-decoration: underline'>ดูเพิ่มเติม</a>"  }
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "รอรับวัสดุ" },
+                { dates: "1/5/2021", name: "อาจารย์ดร.", firstname: "สุรพงษ์", surname: "อุตมา", reqStatus: "กำลังดำเนินการ" }
             ]
+            var supData = [
+                { supID: "101000001", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "101000002", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "101000003", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "102000054", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "102000055", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "102000056", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "112000078", supName: "ผ้าหมึก Epson LQ 2070/2180i", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "112000085", supName: "หมึก HP laserjet P2015 (Q7553A)", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "112000455", supName: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "103000456", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", supCate: "วัสดุงานบ้านงานครัว", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "110000001", supName: "กระดุมแขนเสื้อสูท (สีทอง)", supUnit: "เม็ด", supCate: "วัสดุเครื่องแต่งกาย", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
+                { supID: "103000456", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", supCate: "วัสดุของที่ระลึก", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
 
-            //function Create Table
+            ];
+            $("#supListTable").DataTable({
+                data: supData,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "supID", title: "รหัสวัสดุ" },
+                    { data: "supName", title: "รายการ" },
+                    { data: "supCate", title: "หมวดหมู่" },
+                    { data: "supAmount", title: "จำนวน" },
+                    { data: "supUnit", title: "หน่วยนับ" },
+                    { data: "supLeft", title: "ยอดคงเหลือในคลัง" },
+
+                ],
+                lengthMenu: [
+                    [5, 10, 15, -1],
+                    ['5', '10', '15', 'Show all']
+                ],
+            });
+
             var table = $("#data_table").DataTable({
                 data: Setdatatable,
                 columns: [
-                    { data: "id", title: "ลำดับ" },
-                    { data: "dates", title: "วันและเวลาที่ขอเบิก"},
-                    { data: "name", title: "ผู้ขอเบิก" },
-                    { data: "list", title: "รายการขอเบิก"},
-                    { defaultContent: `<div class="container-fluid"><button type="button" class="btn btn-warning"  onclick="approve()">กำลังดำเนินการ</button></div>` ,title:"สถานะ"}
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ",
+                    },
+                    { data: "dates", title: "วัน และเวลาที่ขอเบิก" },
+                    {
+                        title: "ผู้ขอเบิก", render: function (data, type, full, meta) {
+                            return full.name + " " + full.firstname + " " + full.surname;
+                        }
+                    },
+                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline; cursor: pointer;' id ='moreInfo' ,>ดูเพิ่มเติม</a>" },
+                    {
+                        data: "reqStatus", title: "สถานะ", render: function (data, type, row, meta) {
+                            if (data == 'กำลังดำเนินการ') {
+                                return '<span class="badge badge-pill badge-warning">' + data + '</span>';
+                            } else if (data == 'รอรับวัสดุ') {
+                                return '<span class="badge badge-pill badge-info">' + data + '</span>';
+                            }
+                        },
+                    },
+
                 ]
+
             });
 
+            $("#data_table tbody").on("click", "#moreInfo", function (){
+                $("#moreInfoModal").modal("show");
+            });
             //function selectStatus
             function selectCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
                 let option = ``;
                 for (i in selectArray) {
                     option += `<option>${selectArray[i].Status}</option>`;
                 }
-                tb.html(tb.html() + option);
+                tb.html(tb.html() + select + option);
             }
 
             //function Create SelectStatus
-            let select_products = $("#SelectStatus");
-            select_products.html(select_products);
-            selectCategory(selectArray, select_products);
+            let select_status = $("#SelectStatus");
+            selectCategory(selectStatus, select_status);
 
-
+            $("#totalReq").html(Setdatatable.length);
         });
 
         ///array of SelectStatus
-        var selectArray = [
-            { Status: "Select" },
+        var selectStatus = [
             { Status: "กำลังดำเนินการ" },
             { Status: "รอรับวัสดุ" }
         ]
@@ -148,7 +204,7 @@
             swalWithBootstrapButtons.fire({
                 title: 'ท่านไม่ต้องการอนุมัติคำขอนี้',
                 text: "กรุณาระบุเหตุผลที่ไม่ต้องการอนุมัติ",
-                input:'textarea',
+                input: 'textarea',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'ยืนยัน',
@@ -173,134 +229,213 @@
                 }
             })
         }
+
+        
     </script>
 
 </head>
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Main Content -->
-        <div id="content">
+    <!-- Main Content -->
+    <div id="content">
 
-            <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
-                <!-- Sidebar Toggle (Topbar) -->
-                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                    <i class="fa fa-bars"></i>
-                </button>
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
 
-                <!-- Topbar Logo -->
-                <div>
-                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
-                </div>
-                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
-                    <!-- //ใส่โลโก่ -->
-                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
-                    <br>
-                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+            <!-- Topbar Logo -->
+            <div>
+                <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+            </div>
+            <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                <!-- //ใส่โลโก่ -->
+                <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                <br>
+                <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
 
-                </div>
+            </div>
 
-                <!-- Topbar Navbar -->
-                <ul class="navbar-nav ml-auto">
-                    <div class="topbar-divider d-none d-sm-block"></div>
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <div class="topbar-divider d-none d-sm-block"></div>
 
-                    <!-- Nav Item - User Information -->
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
-                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">อาจารย์ ดร.สุรพงษ์ อุตมา</span>
+                        <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="/views/index.html">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            ออกจากระบบ
                         </a>
-                        <!-- Dropdown - User Information -->
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                            aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/views/index.html">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                ออกจากระบบ
-                            </a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <body id="page-top">
+
+            <!-- Page Wrapper -->
+            <div id="wrapper">
+
+                <!-- Sidebar -->
+                <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                    style="background-color: #064767;">
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Nav Item - Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>ระบบวัสดุ</span>
+                        </a>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item"
+                                    href="/views/user/รายการวัสดุทั้งหมด.html">รายการวัสดุทั้งหมด</a>
+                                <a class="collapse-item" href="/views/user/ตรวจสอบสถานะคำขอเบิก.html">ตรวจสถานะคำขอ</a>
+                                <a class="collapse-item"
+                                    href="/views/user/ประวัติการเบิกพัสดุ.html">ประวัติการเบิกวัสดุ</a>
+                            </div>
                         </div>
                     </li>
 
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                    <!-- Sidebar Toggler (Sidebar) -->
+
+
+
                 </ul>
+                <!-- End of Sidebar -->
 
-            </nav>
-            <!-- End of Topbar -->
-            
-    <body id="page-top">
+                <!-- Topic -->
+                <div class="container-fluid">
+                    <h2 class="mt-3">ตรวจสอบสถานะคำขอเบิก</h2>
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+                    <!-- dropdown (can't use)-->
+                    <from>
+                        <label>สถานะ</label>
+                        <select id="SelectStatus" class="form-control col-1 mb-3 "></select>
+                    </from>
+                    <form>
+                        <div class="row">
+                            <label class=" ml-3 mr-2">จำนวน</label>
+                            <p id="totalReq"></p>
+                            <label class=" ml-3 mr-2">รายการ</label>
+                        </div>
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
+                    </form>
+                    <!-- End Topic -->
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+                    <!--Card-->
+                    <div class="card">
+                        <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                            <table class="table table-bordered" id="data_table" width="100%" cellspacing="0"
+                                style="text-align: center; ">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>ระบบวัสดุ</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/views/user/รายการวัสดุทั้งหมด.html">รายการวัสดุทั้งหมด</a>
-                        <a class="collapse-item" href="/views/user/ตรวจสอบสถานะคำขอเบิก.html">ตรวจสถานะคำขอ</a>
-                        <a class="collapse-item" href="/views/user/ประวัติการเบิกพัสดุ.html">ประวัติการเบิกวัสดุ</a>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!--End Card-->
+                </div>
+                <!-- More Info Modal -->
+                <div class="modal fade" style="width: 100%;" id="moreInfoModal" tabindex="-1" role="dialog"
+                    aria-labelledby="modelTitleId" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">รายการคำขอเบิกวัสดุ</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <!-- Request Detail Begin-->
+                                <div class="row">
+                                    <div class="col-md-6 ml-auto">
+                                        <div class="row">
+                                            <p class="ml-5"><b>วันที่ขอเบิก</b></p>
+                                            <p class="ml-3">วันที่</p>
+                                            <p class="ml-2" id="reqDate">xx/xx/xxxx</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>ผู้ขอเบิก</b></p>
+                                            <p class="ml-3" id="requesterName">อาจารย์ ดร. สุรพงษ์ อุตมา</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>เลขที่รายการขอเบิก</b></p>
+                                            <p class="ml-3" id="reqNumber">6300100001</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <p class="ml-5"><b>อนุมัติเมื่อ</b></p>
+                                            <p class="ml-3">วันที่</p>
+                                            <p class="ml-2" id="appDate">xx/xx/xxxx</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>อีเมล</b></p>
+                                            <p class="ml-3" id="requesterEmail">surapong@mfu.ac.th</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>วัตถุประสงค์</b></p>
+                                            <p class="ml-3" id="reqNumber">ต้องการนำไปใช้เตรียมเอกสารงานวิจัย</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- End of Request Detail -->
+
+                                <hr class="sidebar-divider my-0 mb-4 mt-4">
+
+                                <table class="table table-bordered text-center" id="supListTable" width="100%"
+                                    cellspacing="0">
+                                </table>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-           
-            
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Topic -->
-        <div class="container-fluid">
-            <h2 class="mt-3">ตรวจสอบสถานะคำขอเบิก</h2>
-
-            <!-- dropdown (can't use)-->
-            <from>
-                <label>สถานะ</label>
-                <select id="SelectStatus" class="mb-3 " style="border-radius: 10px 10px;"></select>
-            </from>
-
-            <!-- End Topic -->
-
-        <!--Card-->
-        <div class="card">
-            <div class="card-body"
-                style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
-                <table class="table table-bordered" id="data_table" width="100%" cellspacing="0" style="text-align: center; ">
-
-                </table>
             </div>
 
-        </div>
-        <!--End Card-->
-        </div>
-        </div>
-        
 
-    <!-- เปลี่ยนรหัสผ่าน modal -->
-        <!-- Button trigger modal -->
+            <!-- เปลี่ยนรหัสผ่าน modal -->
+            <!-- Button trigger modal -->
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
 
-</body>
+        </body>
 
 </html>
