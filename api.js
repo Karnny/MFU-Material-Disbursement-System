@@ -32,11 +32,11 @@ function api(app) {
           }
 
           if (db_result.length != 1) {
-            return res.status(404).send("Not a member");
+            return res.status(404).send("Sorry, this user is not a member yet");
           }
 
           if (db_result[0].user_status != "Active") {
-            return res.status(400).send("Inactive member");
+            return res.status(400).send("This member's account is suspended");
           }
 
           // Role ID Name: 1 = User, 2 = Admin, 3 = Super Advisor, 4 = Super Admin
@@ -46,7 +46,7 @@ function api(app) {
               url = '/user_items';
               break;
             case 2:
-              url = '/admin_requests';
+              url = '/admin/allSupplies';
               break;
             case 3:
               url = '/advisor_requests';
@@ -57,12 +57,18 @@ function api(app) {
 
           //url = '/index';
           req.session.user = {
-            username: payload.name,
+            email: payload.email,
+            picture: payload.picture,
+            firstname: payload.given_name,
+            lastname: payload.family_name,
+            username: payload.username,
             user_id: db_result[0].user_id,
             role_id: db_result[0].role_id,
             role_name: db_result[0].role_name,
             main_url: url
           };
+
+
 
           res.send(url);
         });
@@ -86,6 +92,152 @@ function api(app) {
       }
       res.redirect('/');
     });
+  });
+
+  app.get('/api/admin/getItemsList', checkAuth, (req, res) => {
+
+    const sql = `SELECT itm.item_id AS 'item_id', itm.item_code AS 'id', itm.item_name AS 'name', itm.item_amount AS 'amount',
+                DATE(itm.item_last_add_datetime) AS 'dates', itp.type_name AS 'type', iun.unit_name AS 'unit'
+                FROM Items itm JOIN Item_types itp ON itm.type_id = itp.type_id
+                JOIN Item_units iun ON itm.unit_id = iun.unit_id`;
+
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Server Error");
+      }
+
+      res.json(db_result);
+    });
+  });
+
+  app.put('/api/admin/updateItem', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
+    const {
+      item_code,
+      item_name,
+      item_amount,
+      type_id,
+      unit_id
+    } = req.body;
+
+    if (item_code == null || item_name == null || item_amount == null || type_id == null || unit_id == null) {
+      return res.status(400).send("Invalid input, please check the inputs correctness");
+    } else if (item_code == "" || item_name == "" || item_amount == "" || type_id == "" || unit_id == "") {
+      return res.status(400).send("Invalid input, please check the inputs correctness");
+    }
+
+    const sql = `UPDATE Items SET item_name=?, item_amount=?, item_last_add_datetime=NOW(), type_id=?, unit_id=?
+                WHERE item_code = ?`;
+    database.query(sql, [item_name, item_amount, type_id, unit_id, item_code], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Server Error");
+      }
+
+      if (db_result.affectedRows != 1) {
+        return res.status(400).send("Error updating item record");
+      }
+
+      res.send("Update item " + item_name + " success");
+    });
+
+  });
+
+  app.post('/api/admin/addItem', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
+    const {
+      item_code,
+      item_name,
+      item_amount,
+      type_id,
+      unit_id
+    } = req.body;
+
+    if (item_code == null || item_name == null || item_amount == null || type_id == null || unit_id == null) {
+      return res.status(400).send("Invalid input, please check the inputs correctness");
+    } else if (item_code == "" || item_name == "" || item_amount == "" || type_id == "" || unit_id == "") {
+      return res.status(400).send("Invalid input, please check the inputs correctness");
+    }
+
+    isItemCodeExists(item_code, (isExisted) => {
+      if (isExisted) {
+        return res.status(400).send("Item code is already taken!");
+      }
+
+      const sql = `INSERT INTO Items (item_code, item_name, item_amount, item_last_add_datetime, type_id, unit_id) 
+                  VALUES (?,?,?, NOW(),?,?)`;
+      database.query(sql, [item_code, item_name, item_amount, type_id, unit_id], (err, db_result) => {
+        if (err) {
+          console.log(err.message);
+          return res.status(500).send("Database Server Error");
+        }
+
+        if (db_result.affectedRows != 1) {
+          return res.status(400).send("Error creating new record");
+        }
+
+        res.send("Add new item " + item_code + " success");
+      });
+    });
+
+
+  });
+
+  app.delete('/api/admin/deleteItem', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
+    const item_code = req.body.item_code;
+    
+    if (item_code == null || item_code == "") {
+      return res.status(400).send("Invalid request");
+    }
+
+    const sql = `DELETE FROM Items WHERE item_code = ?`;
+    database.query(sql, [item_code], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Server Error");
+      }
+
+      if (db_result.affectedRows != 1) {
+        return res.status(400).send("Error deleting the record");
+      }
+
+      res.send("Record deleted");
+    });
+  });
+
+  app.get('/api/getItemTypes', checkAuth, (req, res) => {
+    const sql = `SELECT * FROM Item_types`;
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Server Error");
+      }
+      res.json(db_result);
+    });
+
+  });
+
+  app.get('/api/getItemUnits', checkAuth, (req, res) => {
+    const sql = `SELECT * FROM Item_units`;
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Database Server Error");
+      }
+      res.json(db_result);
+    });
+
   });
 
   app.get('/api/getUsers', checkAuth, (req, res) => {
@@ -193,6 +345,23 @@ function api(app) {
       }
     });
   });
+
+  function isItemCodeExists(code, cb) {
+    const sql = `SELECT item_id FROM Items WHERE item_code=?`;
+    database.query(sql, [code], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Server Error");
+      }
+
+      if (db_result.length > 0) {
+        cb(true);
+      } else {
+        cb(false);
+      }
+
+    });
+  }
 
 }
 

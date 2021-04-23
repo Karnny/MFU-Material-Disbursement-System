@@ -12,7 +12,7 @@ function router(app) {
     
   });
 
-
+  // Role ID Name: 1 = User, 2 = Admin, 3 = Super Advisor, 4 = Super Admin
   //other routes here..
   app.get("/login", (req, res) => {
     if (req.session.user) {
@@ -31,7 +31,15 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
     
-    res.render('manageUsers');
+    res.render('manageUsers', {user: req.session.user});
+  });
+
+  app.get('/admin/allSupplies', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('admin_all_supplies', {user: req.session.user});
   });
 
 
