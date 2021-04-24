@@ -66,11 +66,11 @@
     <!-- font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
     <script src="js/sb-admin-2.min.js"></script>
 
 </head>
@@ -78,7 +78,7 @@
     //array of select mian
     var selectArray = [
         { category: "กระดาษ" },
-        { category: "เครื่องเขียน" },asdfasdfasdkjbfasdjkfnasdklfasdklfasdfasdfasdfasdfe
+        { category: "เครื่องเขียน" },
         { category: "เครื่องวัด" }
     ]
 
@@ -118,39 +118,42 @@
 
     $(document).ready(function () {
 
-        let dataSet = [
-            { IDlist: "1", List: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง", Addtopickup: "" },
-            { IDlist: "2", List: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง", Addtopickup: "" },
-            { IDlist: "3", List: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง", Addtopickup: "" },
-            { IDlist: "4", List: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง", Addtopickup: "" },
-            { IDlist: "5", List: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง", Addtopickup: "" },
-            { IDlist: "6", List: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง", Addtopickup: "" }
-        ]
+        var dataSet = [
+            { supID: "1", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน", Amount: "", supCate: "วัสดุสำนักงาน" },
+            { supID: "2", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน", Amount: "", supCate: "วัสดุสำนักงาน" },
+            { supID: "3", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง", Amount: "", supCate: "วัสดุสำนักงาน" },
+            { supID: "4", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน", Amount: "", supCate: "วัสดุไฟฟ้าวิทยุ" },
+            { supID: "5", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน", Amount: "", supCate: "วัสดุไฟฟ้าวิทยุ" },
+            { supID: "6", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน", Amount: "", supCate: "วัสดุไฟฟ้าวิทยุ" },
+            { supID: "7", supName: "ผ้าหมึก Epson LQ 2070/2180i", Amount: "", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์" },
+            { supID: "8", supName: "หมึก HP laserjet P2015 (Q7553A)", Amount: "", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์" },
+            { supID: "9", supName: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", Amount: "", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์" },
+            { supID: "10", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", Amount: "", supCate: "วัสดุงานบ้านงานครัว" },
+            { supID: "11", supName: "กระดุมแขนเสื้อสูท (สีทอง)", supUnit: "เม็ด", Amount: "", supCate: "วัสดุเครื่องแต่งกาย" },
+            { supID: "12", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", Amount: "", supCate: "วัสดุของที่ระลึก" },
+
+        ];
 
         //Create table
         var table = $("#tb_products").DataTable({
             data: dataSet,
             columns: [
-                { data: "IDlist", title: "ลำดับ" },
-                { data: "List", title: "รายการ" },
-                { data: "Category", title: "หมวดหมู่" },
+                { data: "supID", title: "ลำดับ" },
+                { data: "supName", title: "รายการ" },
+                { data: "supCate", title: "หมวดหมู่" },
                 { data: "Amount", title: "จำนวน" },
-                { data: "Unitcounte", title: "หน่วยนับ" },
-                { defaultContent: "<button class='btn btn-success ml-2' id='btnAdd'>Add</button>", title: "เพิ่มลงรายการเบิก" }
+                { data: "supUnit", title: "หน่วยนับ" },
+                { defaultContent: "<button class='btn btn-secondary ml-4' id='btnAdd'><i class='fas fa-plus-square'></button>", title: "เพิ่มลงรายการเบิก" }
+
             ]
         });
 
         //Delete button
-        $("#tb_products tbody").on("click", ".btn-success", function () {
+        $("#tb_products tbody").on("click", ".btn-secondary", function () {
             // alert("test");
             //call modal
             $("#modalAdd").modal("show");
-            $("#txtID").removeAttr('disabled');
-            $("#txtID").val("");
-            $("#txtName").val("");
-            $("input[name='gender']").prop("checked", false);
-            $("#txtMajor").val("");
-            $("#txtSchool").val("");
+
 
             //add more info
             $("#btnSave").click(function () {
@@ -176,7 +179,6 @@
             { id: "2", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
             { id: "3", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
             { id: "4", list: "ที่ติดมุมพลาสติก", Category: "โฆษณา", Amount: "100", Unitcounte: "ถุง" },
-
         ]
 
         //funtion table
@@ -200,7 +202,7 @@
         //function alert of confirm
         document.querySelector(".third").addEventListener('click', function () {
             Swal.fire("ดำเนินการเสร็จสิ้นแล้ว",
-                "ผู้ขอเบิก: ดร.คิมดามี จันทร์ตา",
+                "",
                 "success");
         });
 
@@ -343,7 +345,7 @@
                     <h6 class="mb-3">จำนวน รายการ</h6>
                     <!-- End Topic -->
 
-                    <!-- Modal-->
+                    <!-- Modal รายการคำสั่งเพิ่มรายการวัสดุ-->
                     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
                         aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -358,8 +360,12 @@
                                 <div class="modal-body ">
                                     <div class="List">รายการ:ดินสอ</div>
                                     <div class="CG">หมวดหมู่:เครื่องเขียน</div>
-                                    <div class="amount">จำนวน: <button>&#8722;</button><input class=" text-center"
-                                            type="text" value=""><button>&#43;</button></div>
+                                    <form name="from1">
+                                        <input type=button value=" เพิ่ม " onclick="document.form1.input1.value++">
+                                        <input name=input1 value="1" size=10 onfocus="buffer=this.value"
+                                            onchange="if (isNaN(this.value)) { this.value=buffer}">
+                                        <input type=button value=" ลด " onclick="document.form1.input1.value--">
+                                    </form>
                                     <div class="Unit">หน่วยนับ:แท่ง</div>
                                 </div>
 
