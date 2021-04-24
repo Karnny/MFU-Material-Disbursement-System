@@ -65,109 +65,151 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 
-        <script>
+    <script>
 
-            $(document).ready(function () {
-    
-                //function set array of table
-                let Setdatatable = [
-                    { id: "", serial: "102000055", name: "ถ่าน AA ธรรมดา", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "7", unit: "ก้อน", types: "วัสดุไฟฟ้าวิยุ" },
-                    { id: "", serial: "112000204", name: "หมึกสีเหลือง Designjet 100 (C4838a)", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "5", unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
-                    { id: "", serial: "112000205", name: "หมึกสีเหลือง Ricoh CL1000N(11CL1000TNYL)", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "2", unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
-                    { id: "", serial: "112000455", name: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "3", unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
-                    { id: "", serial: "112000457", name: "หมึก SAMSUNG YELLOW TONER FOR CLP620ND", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "4", unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
-                    { id: "", serial: "112000460", name: "ถุงขยะสีดำขนาด 30*40", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "8", unit: "เเพ๊ค", types: "วัสดุงานบ้านงานบ้าน" },
-                    { id: "", serial: "103000456", name: "ถุงขยะสีดำ ขนาด 36*45", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "9", unit: "เเพ๊ค", types: "วัสดุงานบ้านงานบ้าน" },
-                    { id: "", serial: "116000003", name: "เนคไทตราสัญลักษณ์ มฟล.", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "10", unit: "ลิน", types: "รวม" },
-                    { id: "", serial: "102000277", name: "ถ่านขนาด 9V", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "13", unit: "ก้อน", types: "วัสดุไฟฟ้าวิยุ" },
-                    { id: "", serial: "102000869", name: "ถ่าน AAA ALKALINE (1.5 V)", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "12", unit: "ก้อน", types: "วัสดุไฟฟ้าวิยุ" },
-                    { id: "", serial: "112000148", name: "หมึก Laser jet HP6L", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "1:40", amount: "6", unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" }
+        $(document).ready(function () {
+
+            //function set array of table
+            let suppliesData = [
+                { id: "", serial: "102000055", name: "ถ่าน AA ธรรมดา", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "09:10", amount: Math.floor(Math.random() * 100), unit: "ก้อน", types: "วัสดุไฟฟ้าวิทยุ" },
+                { id: "", serial: "112000204", name: "หมึกสีเหลือง Designjet 100 (C4838a)", list: "", type: "เพิ่มรายการวัสดุใหม่", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "13:25", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { id: "", serial: "112000205", name: "หมึกสีเหลือง Ricoh CL1000N(11CL1000TNYL)", list: "", type: "เพิ่มรายการวัสดุใหม่", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "13:40", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { id: "", serial: "112000455", name: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "15:11", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { id: "", serial: "112000457", name: "หมึก SAMSUNG YELLOW TONER FOR CLP620ND", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "09:12", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { id: "", serial: "112000460", name: "ถุงขยะสีดำขนาด 30*40", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "13:31", amount: Math.floor(Math.random() * 100), unit: "เเพ๊ค", types: "วัสดุงานบ้านงานบ้าน" },
+                { id: "", serial: "103000456", name: "ถุงขยะสีดำ ขนาด 36*45", list: "", type: "นำเข้าข้อมูลวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "11:23", amount: "9", unit: "เเพ๊ค", types: "วัสดุงานบ้านงานบ้าน" },
+                { id: "", serial: "116000003", name: "เนคไทตราสัญลักษณ์ มฟล.", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "16:41", amount: Math.floor(Math.random() * 100), unit: "ลิน", types: "รวม" },
+                { id: "", serial: "102000277", name: "ถ่านขนาด 9V", list: "", type: "เพิ่มรายการวัสดุใหม่", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "17:41", amount: Math.floor(Math.random() * 100), unit: "ก้อน", types: "วัสดุไฟฟ้าวิทยุ" },
+                { id: "", serial: "102000869", name: "ถ่าน AAA ALKALINE (1.5 V)", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "12:51", amount: Math.floor(Math.random() * 100), unit: "ก้อน", types: "วัสดุไฟฟ้าวิทยุ" },
+                { id: "", serial: "112000148", name: "หมึก Laser jet HP6L", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "11:40", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" }
+            ]
+
+            let suppliesData1 = [
+                { serial: "102000055", name: "ถ่าน AA ธรรมดา", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "11:40", amount: Math.floor(Math.random() * 100), unit: "ก้อน", types: "วัสดุไฟฟ้าวิทยุ" },
+                { serial: "112000204", name: "หมึกสีเหลือง Designjet 100", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "12:51", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { serial: "112000205", name: "หมึกสีเหลือง Ricoh CL1000N", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "17:41", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { serial: "112000455", name: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "16:41", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { serial: "112000457", name: "หมึก SAMSUNG YELLOW TONER FOR CLP620ND", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "13:31", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" },
+                { serial: "112000460", name: "ถุงขยะสีดำขนาด 30*40", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "11:23", amount: Math.floor(Math.random() * 100), unit: "เเพ๊ค", types: "วัสดุงานบ้านงานบ้าน" },
+                { serial: "103000456", name: "ถุงขยะสีดำ ขนาด 36*45", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "09:12", amount: Math.floor(Math.random() * 100), unit: "เเพ๊ค", types: "วัสดุงานบ้านงานบ้าน" },
+                { serial: "116000003", name: "เนคไทตราสัญลักษณ์ มฟล.", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "15:11", amount: Math.floor(Math.random() * 100), unit: "รีม", types: "รวม" },
+                { serial: "102000277", name: "ถ่านขนาด 9V", list: "", type: "เพิ่มจำนวนวัสดุ", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "10:11", amount: Math.floor(Math.random() * 100), unit: "ก้อน", types: "วัสดุไฟฟ้าวิทยุ" },
+                { serial: "102000869", name: "ถ่าน AAA ALKALINE ", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "13:25", amount: Math.floor(Math.random() * 100), unit: "ก้อน", types: "วัสดุไฟฟ้าวิทยุ" },
+                { serial: "112000148", name: "หมึก Laser jet HP6L", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "09:10", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" }
+            ]
+
+
+            //function Create Table
+            var table = $("#data_table").DataTable({
+                data: suppliesData,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "serial", title: "รหัสวัสดุ" },
+                    { data: "name", title: "ชื่อวัสดุ" },
+                    {
+                        data: "list", title: "รายละเอียด", render: function (data, type, row) {
+                            return `<a data-toggle="modal" id="btn_more_info" style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>`
+                        }
+                    },
+                    { data: "type", title: "ประเภทการทำรายการ" },
+                    { data: "maker", title: "ผู้ทำรายการ" },
+                    { data: "date", title: "วันที่ทำรายการ" }
                 ]
-    
-    
-                //function Create Table
-                var table = $("#data_table").DataTable({
-                    data: Setdatatable,
-                    columns: [
-                        {
-                            render: function (data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }, title: "ลำดับ"
-                        },
-                        { data: "serial", title: "รหัสวัสดุ" },
-                        { data: "name", title: "ชื่อวัสดุ" },
-                        {
-                            data: "list", title: "รายละเอียด", render: function (data, type, row) {
-                                return `<a data-toggle="modal" data-target="#modelId" id="btn_more_info" style='cursor: pointer;'><u>ดูเพิ่มเติม</u></a>`
-                            }
-                        },
-                        { data: "type", title: "ประเภทการทำรายการ" },
-                        { data: "maker", title: "ผู้ทำรายการ" },
-                        { data: "date", title: "วันที่ทำรายการ" }
-                    ]
-                });
-    
-               
-    
-    
-    
-                //function selectStatus
-                function selectCategory(selectArray, tb) {
-                    let option = ``;
-                    for (i in selectArray) {
-                        option += `<option>${selectArray[i].Status}</option>`;
-                    }
-                    tb.html(tb.html() + option);
-                }
-    
-                //function Create SelectStatus
-                let select_products = $("#SelectStatus");
-                select_products.html(select_products);
-                //selectCategory(selectArray, select_products);
-    
-    
-                //function Create Table in modal
-                var table2 = $("#table_modal").DataTable({
-                    data: Setdatatable,
-                    searching: false,
-                    paging: false,
-                    columns: [
-                        {
-                            render: function (data, type, row, meta) {
-                                return meta.row + meta.settings._iDisplayStart + 1;
-                            }, title: "ลำดับ"
-                        },
-                        { data: "serial", title: "รหัสวัสดุ" },
-                        { data: "name", title: "รายการ" },
-                        { data: "types", title: "หมวดหมู่" },
-                        { data: "amount", title: "จำนวน" },
-                        { data: "unit", title: "หน่วยนับ" }
-    
-                    ]
-                });
-    
-                $("#data_table tbody").on("click", "#btn_more_info", function () {
-                    //show modal
-                    $("#modelId").modal("show");
-                    const currentRow = $(this).parents("tr");
-                    const data = table.row(currentRow).data();
-                    rowID = table.row(currentRow).index();
-    
-                    //Show each user data from row selected
-                    $("#reqDate").html(Setdatatable[rowID].date);
-                    $("#reqtime").html(Setdatatable[rowID].time);
-                    $("#reqname").html(Setdatatable[rowID].maker);
-                    $("#reqtype").html(Setdatatable[rowID].type);
-    
-                    $("#reqserial").html(Setdatatable[rowID].serial);
-                    $("#reqamount").html(Setdatatable[rowID].amount);
-                    $("#reqtypes").html(Setdatatable[rowID].types);
-                    $("#requnit").html(Setdatatable[rowID].unit);
-                    $("#reqdes").html(Setdatatable[rowID].name);
-    
-                });
             });
-        </script>
+
+
+
+
+
+            //function selectStatus
+            function selectCategory(selectArray, tb) {
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].Status}</option>`;
+                }
+                tb.html(tb.html() + option);
+            }
+
+            //function Create SelectStatus
+            let select_products = $("#SelectStatus");
+            select_products.html(select_products);
+            //selectCategory(selectArray, select_products);
+
+
+            //function Create Table in modal
+            var table2 = $("#table_modal").DataTable({
+                data: suppliesData,
+                searching: false,
+                paging: false,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "serial", title: "รหัสวัสดุ" },
+                    { data: "name", title: "รายการ" },
+                    { data: "types", title: "หมวดหมู่" },
+                    { data: "amount", title: "จำนวน" },
+                    { data: "unit", title: "หน่วยนับ" }
+
+                ]
+            });
+
+            $("#data_table tbody").on("click", "#btn_more_info", function () {
+                //show modal
+                $("#editSupModal").modal("show");
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+                rowID = table.row(currentRow).index();
+
+                //Show each user data from row selected
+                $("#editDate").html(suppliesData[rowID].date);
+                $("#editTime").html(suppliesData[rowID].time);
+                $("#editor").html(suppliesData[rowID].maker);
+                $("#typeCase").html(suppliesData[rowID].type);
+
+                if (suppliesData[rowID].type == 'แก้ไขข้อมูล') {
+                    $('#addCard').hide();
+                    $('#firstCard').show();
+                    $('#secondCard').show();
+                } else if (suppliesData[rowID].type == 'เพิ่มรายการวัสดุใหม่') {
+                    $('#addCard').show();
+                    $('#firstCard').hide();
+                    $('#secondCard').hide();
+                } else if (suppliesData[rowID].type == 'นำเข้าข้อมูลวัสดุ') {
+                    $('#addCard').hide();
+                    $('#firstCard').hide();
+                    $('#secondCard').hide();
+                }
+
+                //card before edit 
+                $("#supserial").html(suppliesData[rowID].serial);
+                $("#supamount").html(suppliesData[rowID].amount);
+                $("#suptypes").html(suppliesData[rowID].types);
+                $("#supunit").html(suppliesData[rowID].unit);
+                $("#supname").html(suppliesData[rowID].name);
+
+                //card after edit
+                $("#supserialEdit").html(suppliesData1[rowID].serial);
+                $("#supamountEdit").html(suppliesData1[rowID].amount);
+                $("#suptypesEdit").html(suppliesData1[rowID].types);
+                $("#supunitEdit").html(suppliesData1[rowID].unit);
+                $("#supnameEdit").html(suppliesData1[rowID].name);
+
+                //card after edit
+                $("#supserialAdd").html(suppliesData1[rowID].serial);
+                $("#suptypesAdd").html(suppliesData1[rowID].types);
+                $("#supunitAdd").html(suppliesData1[rowID].unit);
+                $("#supnameAdd").html(suppliesData1[rowID].name);
+
+            });
+        });
+    </script>
 
 </head>
 
@@ -243,7 +285,7 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/views/admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
-                            <a class="collapse-item" 
+                            <a class="collapse-item"
                                 href="/views/admin/admin_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item"
                                 href="/views/admin/admin_req_history.html">ประวัติการอนุมัติคำขอ</a>
@@ -280,16 +322,15 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <h2 class="mt-3">ประวัติการทำรายการข้อมูลวัสดุ</h2>
+                <h2 class="mt-5">ประวัติการทำรายการข้อมูลวัสดุ</h2>
                 <br>
                 <!-- End Topic -->
-    
+
                 <!-- table -->
                 <div class="card">
                     <div class="card-body" style="background-color:#ffffff;   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
                         <table class="table table-bordered" id="data_table" width="100%" cellspacing="0"
                             style="text-align: center;">
-    
                         </table>
                     </div>
                 </div>
@@ -303,64 +344,134 @@
     </div>
 
     <!-- Modal ของ รายการคำขอเบิกวัสดุ -->
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="editSupModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">การทำรายการข้อมูลวัสดุ</h5>
+                    <h5 class="modal-title">ประวัติการทำรายการวัสดุ</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
-                    <div class="row col-md-6">
-                        <div class="ml-3"><strong>วันที่: </strong></div>
-                        <div class="ml-2" id="reqDate"></div>
-                        <div class="ml-3"><strong>เวลา: </strong></div>
-                        <div class="ml-2" id="reqtime"></div>
-                    </div>
-                    <div class="row col-md-6">
-                        <div class="col-xs-3 ml-3"><strong>ผู้ทำรายการ: </strong></div>
-                        <div class="col-6" id="reqname"> </div>
-                        <div class="col-xs-3 ml-3"><strong>ประเภทการทำรายการ: </strong></div>
-                        <div class="col-5" id="reqtype"></div>
-                        <h1></h1>
-                    </div>
-                    <!-- ตารางใน Modal-->
-                    <div class="card">
-                        <div class="modal-body">
-                            <!-- Text input-->
-                            <div class="row mx-auto justify-content-center">
 
-                                <div class="row mx-auto">
-                                    <label class="control-label mr-3 col-12"><strong>รหัสวัสดุ</strong></label>
-                                    <label class="control-label  col-14" id="reqserial"></label>
-                                </div>
+                    <!-- Editor Detail -->
+                    <div class="row">
 
-                                <div class="row mx-auto">
-                                    <label class="control-label mr-3  col-12"><strong>ชื่อวัสดุ</strong></label>
-                                    <label class="control-label  col-14" id="reqdes"></label>
-                                </div>
-
-                                <div class="row mx-auto ">
-                                    <label class="control-label mr-3 col-12"><strong>หมวดหมู่</strong></label>
-                                    <label class="control-label  col-14" id="reqtypes"></label>
-                                </div>
-
-                                <div class="row mx-auto">
-                                    <label class="control-label mr-3 col-12"><strong>จำนวน</strong></label>
-                                    <label class="control-label ml-3 col-14" id="reqamount"></label>
-                                </div>
-
-                                <div class="row mx-auto">
-                                    <label class="control-label mr-3 col-12"><strong>หน่วยนับ</strong></label>
-                                    <label class="control-label ml-3 col-14" id="requnit"></label>
-                                </div>
-
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">
+                                <p class="ml-5"><b>แก้ไขเมื่อวันที่</b></p>
+                                <p class="ml-3" id="editDate"></p>
+                                <p class="ml-5"><b>เวลา</b></p>
+                                <p class="ml-2" id="editTime"></p>
                             </div>
-
+                            <div class="row">
+                                <p class="ml-5"><b>ผู้ทำรายการ</b></p>
+                                <p class="ml-3" id="editor"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>ประเภทการทำรายการ</b></p>
+                                <p class="ml-3" id="typeCase"></p>
+                            </div>
                         </div>
+
+                        <div class="col-md-6"></div>
+
                     </div>
+                    <!-- Divider -->
+                    <hr class="sidebar-divider">
+
+                    <div class="row">
+                        <!-- when edit type is แก้ไขข้อมูล -->
+                        <div class="col-md-6 ml-auto" id="firstCard">
+                            <p class="ml-4"><b>ข้อมูลก่อนการแก้ไขล่าสุด</b></p>
+                            <div class="card ml-4 mb-4" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <p class="ml-5"><b>รหัสวัสดุ</b></p>
+                                        <p class="ml-3" id="supserial"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>รายการ</b></p>
+                                        <p class="ml-3" id="supname"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>จำนวน</b></p>
+                                        <p class="ml-3" id="supamount"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>หน่วยนับ</b></p>
+                                        <p class="ml-3" id="supunit"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>หมวดหมู่</b></p>
+                                        <p class="ml-3" id="suptypes"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" id="secondCard">
+                            <p class="ml-4"><b>ข้อมูลหลังการแก้ไข</b></p>
+                            <div class="card ml-4 mb-4" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <p class="ml-5"><b>รหัสวัสดุ</b></p>
+                                        <p class="ml-3" id="supserialEdit"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>รายการ</b></p>
+                                        <p class="ml-3" id="supnameEdit"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>จำนวน</b></p>
+                                        <p class="ml-3" id="supamountEdit"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>หน่วยนับ</b></p>
+                                        <p class="ml-3" id="supunitEdit"></p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="ml-5"><b>หมวดหมู่</b></p>
+                                        <p class="ml-3" id="suptypesEdit"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of the div when edit type is แก้ไขข้อมูล -->
+
+                        <!-- when edit type is เพิ่มรายการวัสดุใหม่ -->
+                        <div id="addCard">
+                            <div class="col-md-12 ml-auto">
+                                <div class="card ml-4 mb-4" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); width: 28rem;">
+                                    <div class="card-body m-3">
+                                        <div class="row">
+                                            <p class="ml-5"><b>รหัสวัสดุ</b></p>
+                                            <p class="ml-3" id="supserialAdd"></p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>รายการ</b></p>
+                                            <p class="ml-3" id="supnameAdd"></p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>หมวดหมู่</b></p>
+                                            <p class="ml-3" id="suptypesAdd"></p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="ml-5"><b>หน่วยนับ</b></p>
+                                            <p class="ml-3" id="supunitAdd"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of the div when edit type is เพิ่มรายการวัสดุใหม่ -->
+
+                    </div>
+                    <!-- End of Editor Detail -->
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
