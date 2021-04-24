@@ -73,6 +73,29 @@
         // Success Status = 1 Reject Status = 2 In progress Status = 3 End Status = 4
 
         $(document).ready(function () {
+            var selectType = [
+                { status: "กำลังดำเนินการ" },
+                { status: "รอส่งมอบ" },
+            ]
+
+            $("#SelectType").on('change', function () {
+                table.search(this.value).draw();
+            })
+
+            //function selectStatus
+            function selectCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].status}</option>`;
+                }
+                tb.html(tb.html() + select + option);
+            }
+
+            //function Create SelectStatus
+            let select_Type = $("#SelectType");
+            selectCategory(selectType, select_Type);
+
             var reqData = [
                 {
                     dateReq: "11/05/2020",
@@ -456,6 +479,12 @@
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
                     <h2 class="mb-0">ดำเนินรายการคำขอเบิกวัสดุ</h2>
+                </div>
+
+                <!-- dropdown (can use)-->
+                <div class="row">
+                    <h5 class="ml-3 mr-3 text-gray-800">สถานะ</h5>
+                    <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
                 </div>
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">

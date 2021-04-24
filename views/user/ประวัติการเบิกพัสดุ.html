@@ -71,28 +71,35 @@
 
     <script>
 
-        //array of selectCategory
-        var selectArray = [
-            { category: "ของสิ้นเปลือง" },
-            { category: "ของสิ้นเปลือง" },
-            { category: "ของสิ้นเปลือง" },
-            { category: "ของสิ้นเปลือง" },
-            { category: "ของสิ้นเปลือง" },
-        ]
-
         var rowID;
 
-
-        //function selectStatus
-        function selectCategory(selectArray, tb) {
-            let option = ``;
-            for (i in selectArray) {
-                option += `<option>${selectArray[i].category}</option>`;
-            }
-            tb.html(tb.html() + option);
-        }
-
         $(document).ready(function () {
+
+            var selectType = [
+                { status: "ไม่อนุมัติ" },
+                { status: "เสร็จสิ้น" },
+            ]
+
+            $("#SelectType").on('change', function () {
+                table.search(this.value).draw();
+            })
+
+            //function selectStatus
+            function selectCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].status}</option>`;
+                }
+                tb.html(tb.html() + select + option);
+            }
+
+            //function Create SelectStatus
+            let select_Type = $("#SelectType");
+            selectCategory(selectType, select_Type);
+
+
+
             var reqData = [
                 {
                     dateReq: "11/05/2020",
@@ -214,11 +221,14 @@
             //Create
             var table = $("#updateReqTable").DataTable({
                 data: reqData,
+                columnDef: [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0,
+                }], "order": [[1, 'asc']],
                 columns: [
                     {
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }, title: "ลำดับ",
+                        title: "ลำดับ", defaultContent: ""
                     },
                     { "className": "text-left", data: "dateApp", title: "วันที่อนุมัติคำขอ" },
                     { "className": "text-left", data: "timeApp", title: "เวลาที่อนุมัติคำขอ" },
@@ -239,6 +249,11 @@
                     }
                 ]
             });
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
 
 
             //more info button
@@ -275,6 +290,7 @@
             //Table in More Info Modal
             $("#supListTable").DataTable({
                 data: supData,
+
                 columns: [
                     {
                         render: function (data, type, row, meta) {
@@ -399,6 +415,11 @@
                     <h2 class="mb-0">ประวัติการเบิกพัสดุ</h2>
                 </div>
 
+                <!-- dropdown (can use)-->
+                <div class="row">
+                    <h5 class="ml-3 mr-3 text-gray-800">สถานะ</h5>
+                    <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
+                </div>
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <div class="row">
@@ -406,7 +427,6 @@
                         <p id="totalReq"></p>
                         <h5 class="ml-2 text-gray-800">รายการ</h5>
                     </div>
-
                 </div>
 
                 <!--Supplies DataTales -->
