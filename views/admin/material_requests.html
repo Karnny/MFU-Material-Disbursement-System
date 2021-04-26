@@ -211,7 +211,7 @@
           },
         ];
         //  data set name of supplie
-        var suppliesData = [
+        var reqData = [
           {
             supID: "101000001",
             supName: "กรรไกรตัดกระดาษ 6",
@@ -307,8 +307,11 @@
             supUnit: "แพ็ก",
             supCate: "วัสดุของที่ระลึก",
             supLeft: "80",
-          },
+          }
         ];
+
+        //Total request 
+        $("#totalReq").html(reqData.length);
 
         //function Create Table
         var table = $("#data_table").DataTable({
@@ -333,7 +336,7 @@
 
         //Table in More Info Modal
         $("#supListTable").DataTable({
-          data: suppliesData,
+          data: reqData,
           columns: [
             {
               render: function (data, type, row, meta) {
@@ -362,19 +365,16 @@
         const data = table.row(currentRow).data();
 
         rowID = table.row(currentRow).index();
-        $("#reqDate").html(reqData[rowID].dates);
-        $("#reqTime").html(reqData[rowID].time);
-        $("#requesterName").html(reqData[rowID].name);
-        $("#requesterEmail").html(reqData[rowID].email);
-        $("#reqReason").html(reqData[rowID].reqReason);
+        $("#reqDate").html(reqData[rowid].dates);
+        $("#reqTime").html(reqData[rowid].time);
+        $("#requesterName").html(reqData[rowid].name);
+        $("#requesterEmail").html(reqData[rowid].email);
+        $("#reqReason").html(reqData[rowid].reqReason);
       }
 
       //function Approve
       function approve(id) {
-        let table = document.querySelector('table');
-        // Delete second row
-        table.deleteRow(1);
-        //alert("test");
+        // alert(id);
         Swal.fire(
           "คุณดำเนินการเสร็จสิ้น",
           "อนุมัติรายการคำขอเบิกวัสดุแล้ว",
@@ -405,9 +405,6 @@
           })
           .then((result) => {
             if (result.isConfirmed) {
-              let table = document.querySelector('table');
-              // delete second row
-              table.deleteRow(1);
               swalWithBootstrapButtons.fire(
                 "ดำเนินการไม่อนุมัติเสร็จสิ้น",
                 "คุณได้ทำการไม่อนุมัติ",
@@ -606,7 +603,15 @@
         <div class="container-fluid">
           <h2 class="mt-3">รายการคำขอเบิกวัสดุ</h2>
 
-          <p id="demo">จำนวน 11 รายการ</p>
+          <div
+            class="d-sm-flex align-items-center justify-content-between mb-4"
+          >
+            <div class="row">
+              <h5 class="ml-3 mr-2 text-gray-800">จำนวน</h5>
+              <p id="totalReq"></p>
+              <h5 class="ml-2 text-gray-800">รายการ</h5>
+            </div>
+          </div>
           <!-- End Topic -->
 
           <!-- More Info Modal -->
