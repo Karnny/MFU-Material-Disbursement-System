@@ -42,6 +42,14 @@ function router(app) {
     res.render('admin_all_supplies', {user: req.session.user});
   });
 
+  app.get('/admin/editHistory', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('admin_edit_info_history', {user: req.session.user});
+  });
+
 
 }
 

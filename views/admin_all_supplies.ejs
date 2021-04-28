@@ -249,7 +249,7 @@
                 $("#modalAddNew").modal("show");
                 $("#AddnewTextID").val("");
                 $("#AddnewTextName").val("");
-                $("#AddnewTextAmount").val("");
+                // $("#AddnewTextAmount").val("");
                 $("#SelectTypeAddnew").val("");
                 $("#SelectUnitAddnew").val("");
 
@@ -258,7 +258,7 @@
             $("#btn_addnew").click(function () {
                 const id = $("#AddnewTextID").val();
                 const name = $("#AddnewTextName").val();
-                const amount = $("#AddnewTextAmount").val();
+                const amount = 0;
                 const type = $("#SelectTypeAddnew").val();
                 const unit = $("#SelectUnitAddnew").val();
 
@@ -278,7 +278,7 @@
                         title: 'รหัสวัสดุซ้ำกัน',
                         text: 'โปรดตรวจสอบรหัสวัสดุอีกครั้ง!',
                     });
-                } else if (id == "" || name == "" || amount == "" || type == "" || unit == "") {
+                } else if (id == "" || name == "" || type == "" || unit == "") {
                     Swal.fire({
                         icon: 'error',
                         title: 'เพิ่มรายการไม่สำเร็จ',
@@ -358,7 +358,8 @@
                 rowID = table.row(currentRow).index();
                 $("#EditTextID").val(data.id);
                 $("#EditTextName").val(data.name);
-                $("#EditTextAmount").val(data.amount);
+                $("#TextAmount").val(data.amount);
+                $("#EditTextAmount").val("");
                 $("#SelectTypeEdit").val(data.type);
                 $("#SelectUnitEdit").val(data.unit);
 
@@ -371,9 +372,11 @@
                 const trueIndex = Setdatatable.map(e => e.id).indexOf(selectEditData.id);
                 const id = selectEditData.id;
                 const name = $("#EditTextName").val();
-                const amount = $("#EditTextAmount").val();
+                const amount = Number($("#EditTextAmount").val());
+                const editAmountType = $(`input[name='EditAmountType']:checked`).val();
                 const type = $("#SelectTypeEdit").val();
                 const unit = $("#SelectUnitEdit").val();
+
 
                 let type_id;
                 for (i in selectType) {
@@ -396,15 +399,14 @@
                         item_code: id,
                         item_name: name,
                         item_amount: amount,
+                        updateAmountType: editAmountType,
                         type_id: type_id,
                         unit_id: unit_id
                     },
                     dataType: "",
                     success: function (response) {
-                        Setdatatable[trueIndex].name = name;
-                        Setdatatable[trueIndex].amount = amount;
-                        Setdatatable[trueIndex].type = type;
-                        Setdatatable[trueIndex].unit = unit;
+
+                        updateDataSet();
 
                         //2. update data table
                         // let temp = table.row(rowID).data();
@@ -451,7 +453,7 @@
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonText: "ต้องการ",
-                    cancelButton: "กลับ"
+                    cancelButtonText: "กลับ"
 
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -534,7 +536,10 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= user.firstname %> <%= user.lastname %></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <%= user.firstname %>
+                                    <%= user.lastname %>
+                            </span>
                             <img class="img-profile rounded-circle" src="/img/manIcon.png">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -555,180 +560,176 @@
     </div>
     <!-- End of Topbar -->
 
-            <!-- Page Wrapper -->
-            <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-                <!-- Sidebar -->
-                <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
-                    style="background-color: #064767;">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
 
-                    <!-- Divider -->
-                    <hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
-                    <!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Dashboard -->
 
-                    <!-- Overview -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
-                            aria-expanded="true" aria-controls="collapseOverview">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>ระบบวัสดุ</span>
-                        </a>
-                        <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item"
-                                    href="/views/admin/material_requests.html">รายการคำขอเบิกวัสดุ</a>
-                                <a class="collapse-item"
-                                    href="/views/admin/admin_request_history.html">ประวัติการอนุมัติคำขอ</a>
-                                <a class="collapse-item" href="/views/admin/all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
-                                <a class="collapse-item"
-                                    href="/views/admin/edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- Divider -->
-                    <hr class="sidebar-divider d-none d-md-block">
-
-                    <!-- Report -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
-                            aria-expanded="true" aria-controls="collapseReport">
-                            <i class="fas fa-file-alt"></i>
-                            <span>รายการวัสดุ</span>
-                        </a>
-                        <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- Divider -->
-                    <hr class="sidebar-divider d-none d-md-block">
-
-                </ul>
-                <!-- End of Sidebar -->
-
-                <!-- Topic -->
-                <div class="container-fluid">
-                    <h2 class="mt-3">ข้อมูลวัสดุทั้งหมด</h2>
-
-                    <!-- dropdown (can't use)-->
-                    <from>
-                        <label>หมวดหมู่วัสดุ</label>
-                        <select id="SelectType" class="form-control col-1 mb-3 "></select>
-                    </from>
-
-                    <form>
-                        <div class="row">
-                            <label class=" ml-3 mr-2">จำนวน</label>
-                            <p id="totalReq"></p>
-                            <label class=" ml-3 mr-2">รายการ</label>
-                        </div>
-
-                    </form>
-
-                    <!-- btn modal -->
-                    <div class="mb-3" style="text-align: right;">
-                        <button type="button" id="btnAdd" class="btn btn-default border border-dark mr-3"
-                            data-toggle="modal" data-target="#modalExcel">
-                            นำเข้าข้อมูลวัสดุ
-                        </button>
-                        <button type="button" id="btnAddnew" class="btn btn-default border border-dark mr-3">
-                            เพิ่มข้อมูลวัสดุใหม่
-                        </button>
-                    </div>
-
-                    <!-- End Topic -->
-
-                    <div class="card">
-                        <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
-                            <table class="table" id="data_table" width="100%" cellspacing="0"
-                                style="text-align: center; ">
-
-                            </table>
-                        </div>
-
+            <!-- Overview -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview" aria-expanded="true"
+                    aria-controls="collapseOverview">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ระบบวัสดุ</span>
+                </a>
+                <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                        <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                        <a class="collapse-item" href="/admin/reqHistory">ประวัติการอนุมัติคำขอ</a>
+                        <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
+                        <a class="collapse-item" href="/admin/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
                     </div>
                 </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Report -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true"
+                    aria-controls="collapseReport">
+                    <i class="fas fa-file-alt"></i>
+                    <span>รายการวัสดุ</span>
+                </a>
+                <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Topic -->
+        <div class="container-fluid">
+            <h2 class="mt-3">ข้อมูลวัสดุทั้งหมด</h2>
+
+            <!-- dropdown (can't use)-->
+            <from>
+                <label>หมวดหมู่วัสดุ</label>
+                <select id="SelectType" class="form-control col-1 mb-3 "></select>
+            </from>
+
+            <form>
+                <div class="row">
+                    <label class=" ml-3 mr-2">จำนวน</label>
+                    <p id="totalReq"></p>
+                    <label class=" ml-3 mr-2">รายการ</label>
+                </div>
+
+            </form>
+
+            <!-- btn modal -->
+            <div class="mb-3" style="text-align: right;">
+                <button type="button" id="btnAdd" class="btn btn-default border border-dark mr-3" data-toggle="modal"
+                    data-target="#modalExcel">
+                    นำเข้าข้อมูลวัสดุ
+                </button>
+                <button type="button" id="btnAddnew" class="btn btn-default border border-dark mr-3">
+                    เพิ่มข้อมูลวัสดุใหม่
+                </button>
             </div>
 
-            <!-- Modal นำเข้าข้อมูลวัสดุ-->
-            <div class="modal fade" id="modalExcel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">นำเข้าข้อมูลวัสดุ</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <!-- End Topic -->
+
+            <div class="card">
+                <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                    <table class="table" id="data_table" width="100%" cellspacing="0" style="text-align: center; ">
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal นำเข้าข้อมูลวัสดุ-->
+    <div class="modal fade" id="modalExcel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">นำเข้าข้อมูลวัสดุ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mx-auto justify-content-center">
+                        <div class="mr-3">
+                            <form method="post" action="" enctype="multipart/form-data"> ชื่อไฟล์ :
                         </div>
-                        <div class="modal-body">
+
+                        <div>
+                            <input type="file" name="file" id="file" class="form-control">
+                        </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn_upload"
+                        data-dismiss="modal">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal เพิ่มข้อมูลวัสดุใหม่-->
+    <div class="modal fade" id="modalAddNew" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">เพิ่มรายการวัสดุใหม่</h5>
+                    </div>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+
+                        <div class="form-group">
                             <div class="row mx-auto justify-content-center">
-                                <div class="mr-3">
-                                    <form method="post" action="" enctype="multipart/form-data"> ชื่อไฟล์ :
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">รหัสวัสดุ:</label>
                                 </div>
-
-                                <div>
-                                    <input type="file" name="file" id="file" class="form-control">
+                                <div class="col-md-8">
+                                    <input type="number" id="AddnewTextID" class="form-control">
                                 </div>
-                                </form>
                             </div>
-
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn_upload"
-                                data-dismiss="modal">บันทึกข้อมูล</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Modal เพิ่มข้อมูลวัสดุใหม่-->
-            <div class="modal fade" id="modalAddNew" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div>
-                                <h5 class="modal-title">เพิ่มรายการวัสดุใหม่</h5>
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">ชื่อรายการวัสดุ:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" id="AddnewTextName" class="form-control">
+                                </div>
                             </div>
-
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-
-                            </button>
                         </div>
-                        <div class="modal-body">
-                            <form action="">
 
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">รหัสวัสดุ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="number" id="AddnewTextID" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">ชื่อรายการวัสดุ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="text" id="AddnewTextName" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
+                        <!-- <div class="form-group">
                                     <div class="row mx-auto justify-content-center">
                                         <div class="col-md-4 d-flex justify-content-end">
                                             <label class="col-form-label">จำนวน:</label>
@@ -737,134 +738,167 @@
                                             <input type="number" id="AddnewTextAmount" class="form-control">
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">หมวดหมู่:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <select class="form-control" name="type" id="SelectTypeAddnew"></select>
-                                        </div>
-                                    </div>
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">หมวดหมู่:</label>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">หน่วยวัสดุ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <select class="form-control" name="type" id="SelectUnitAddnew"></select>
-                                        </div>
-                                    </div>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="type" id="SelectTypeAddnew"></select>
                                 </div>
-
-                            </form>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                            <button type="button" class="btn btn-primary" id="btn_addnew">บันทึกข้อมูล</button>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">หน่วยวัสดุ:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="type" id="SelectUnitAddnew"></select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="btn btn-primary" id="btn_addnew">บันทึกข้อมูล</button>
                 </div>
             </div>
-
-            <!-- Modal แก้ไขข้อมูลวัสดุ-->
-            <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">แก้ไขข้อมูลวัสดุ</h5>
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="">
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">รหัสวัสดุ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="number" id="EditTextID" class="form-control" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">ชื่อรายการวัสดุ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="text" id="EditTextName" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">จำนวน:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="number" id="EditTextAmount" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">หมวดหมู่:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <select class="form-control" name="type" id="SelectTypeEdit"></select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">หน่วยวัสดุ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <select class="form-control" name="type" id="SelectUnitEdit"></select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- icon ถังขยะเบี้ยว -->
-                                <div class="form-group">
-                                    <div class="row mx-auto justify-content-center">
-                                        <div class="col-md-4 d-flex justify-content-end">
-                                            <label class="col-form-label">ลบรายการ:</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <button type="button" id="btn_delete" class="btn"><i
-                                                    class="fas fa-trash-alt"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                            <button type="button" class="btn btn-primary" id="btn_edit">แก้ไขข้อมูล</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
+    </div>
+
+    <!-- Modal แก้ไขข้อมูลวัสดุ-->
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">แก้ไขข้อมูลวัสดุ</h5>
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">รหัสวัสดุ:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" id="EditTextID" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">ชื่อรายการวัสดุ:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" id="EditTextName" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">จำนวน:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" id="TextAmount" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">แก้ไขจำนวน:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" min="0" id="EditTextAmount" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">แก้ไขจำนวนโดย:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row my-2">
+                                        <div>
+                                            <input type="radio" name="EditAmountType" class="ml-2" value="increase">
+                                            เพิ่มจำนวน
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="EditAmountType" class="ml-2" value="decrease">
+                                            ลดจำนวน
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">หมวดหมู่:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="type" id="SelectTypeEdit"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">หน่วยวัสดุ:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="type" id="SelectUnitEdit"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- icon ถังขยะเบี้ยว -->
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">ลบรายการ:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <button type="button" id="btn_delete" class="btn"><i
+                                            class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="btn btn-primary" id="btn_edit">แก้ไขข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" defer></script>
 

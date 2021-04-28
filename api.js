@@ -4,6 +4,7 @@ const { OAuth2Client } = require('google-auth-library');
 const { resume } = require("./config/dbConfig");
 const client = new OAuth2Client(process.env.CLIENT_ID);
 const checkAuth = require('./checkAuth');
+const { RSA_NO_PADDING } = require("constants");
 
 // API function fields
 function api(app) {
@@ -99,7 +100,8 @@ function api(app) {
     const sql = `SELECT itm.item_id AS 'item_id', itm.item_code AS 'id', itm.item_name AS 'name', itm.item_amount AS 'amount',
                 DATE(itm.item_last_add_datetime) AS 'dates', itp.type_name AS 'type', iun.unit_name AS 'unit'
                 FROM Items itm JOIN Item_types itp ON itm.type_id = itp.type_id
-                JOIN Item_units iun ON itm.unit_id = iun.unit_id`;
+                JOIN Item_units iun ON itm.unit_id = iun.unit_id
+                WHERE used='Y'`;
 
     database.query(sql, (err, db_result) => {
       if (err) {
@@ -107,6 +109,32 @@ function api(app) {
         return res.status(500).send("Database Server Error");
       }
 
+      res.json(db_result);
+    });
+  });
+
+  app.get('/api/admin/getEditHistory', checkAuth, (req, res) => {
+
+    const sql = `SELECT iuh.update_id AS 'update_id', iuh.old_item_name AS 'old_item_name', iuh.update_item_name AS 'update_item_name',
+                iuh.old_item_amount AS 'old_item_amount', iuh.update_item_amount AS 'update_item_amount',
+                itpO.type_name AS 'old_item_type_name', itp.type_name AS 'update_item_type_name',
+                iunO.unit_name AS 'old_item_unit_name', iun.unit_name AS 'update_item_unit_name',
+                iuh.update_type AS 'update_type', DATE(iuh.update_datetime) AS 'date', TIME(iuh.update_datetime) AS 'time',
+                itm.item_code AS 'item_code', CONCAT(us.firstname, ' ', us.lastname) AS 'updater_name'
+                FROM Item_update_history iuh 
+                JOIN Items itm ON iuh.item_id = itm.item_id
+                JOIN Users us ON iuh.updater_id = us.user_id
+                JOIN Item_types itpO ON iuh.old_item_type_id = itpO.type_id
+                JOIN Item_types itp ON iuh.update_item_type_id = itp.type_id
+                JOIN Item_units iunO ON iuh.old_item_unit_id = iunO.unit_id
+                JOIN Item_units iun ON iuh.update_item_unit_id = iun.unit_id
+                WHERE itm.used = 'Y' 
+                ORDER BY iuh.update_datetime DESC`;
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Database Error while fetching update history");
+      }
       res.json(db_result);
     });
   });
@@ -120,32 +148,312 @@ function api(app) {
       item_code,
       item_name,
       item_amount,
+      updateAmountType,
       type_id,
       unit_id
     } = req.body;
 
-    if (item_code == null || item_name == null || item_amount == null || type_id == null || unit_id == null) {
+    // Check common input correction
+    if (item_code == null || item_name == null || type_id == null || unit_id == null) {
       return res.status(400).send("Invalid input, please check the inputs correctness");
-    } else if (item_code == "" || item_name == "" || item_amount == "" || type_id == "" || unit_id == "") {
+    } else if (item_code == "" || item_name == "" || type_id == "" || unit_id == "") {
       return res.status(400).send("Invalid input, please check the inputs correctness");
     }
 
-    const sql = `UPDATE Items SET item_name=?, item_amount=?, item_last_add_datetime=NOW(), type_id=?, unit_id=?
-                WHERE item_code = ?`;
-    database.query(sql, [item_name, item_amount, type_id, unit_id, item_code], (err, db_result) => {
-      if (err) {
-        console.log(err.message);
-        return res.status(500).send("Database Server Error");
+    // Check if update item_amount is needed
+
+    if (item_amount == null || item_amount == "" || item_amount == 0) {
+      updateItemWithoutAmount();
+    } else {
+      updateItemWithAmount();
+    }
+
+    // -----------------------------------
+
+    function updateItemWithoutAmount() {
+
+
+      // update history record
+      // 1. getting old record data
+      getItemData(item_code, (err, db_result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send(err);
+        }
+
+        // 2. insert them with new data to history table
+        const insData = {
+
+          old_item_name: db_result.item_name,
+          update_item_name: item_name,
+          old_item_amount: db_result.item_amount,
+          update_item_amount: db_result.item_amount,
+          old_item_type_id: db_result.type_id,
+          update_item_type_id: type_id,
+          old_item_unit_id: db_result.unit_id,
+          update_item_unit_id: unit_id,
+          update_type: "แก้ไขข้อมูล",
+          updater_id: req.session.user.user_id,
+          item_id: db_result.item_id
+
+        };
+
+        insertUpdateHistory('update', insData, (err) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+          } else {
+            // 3. update item table record
+            // update Item record
+            const sql = `UPDATE Items SET item_name=?, item_last_add_datetime=NOW(), type_id=?, unit_id=?
+                        WHERE item_code = ?`;
+            database.query(sql, [item_name, type_id, unit_id, item_code], (err, db_result) => {
+              if (err) {
+                console.log(err.message);
+                return res.status(500).send("Database Server Error");
+              }
+
+              if (db_result.affectedRows != 1) {
+                return res.status(400).send("Error updating item record");
+              }
+
+              res.send("Update item " + item_name + " success");
+            });
+
+          }
+        });
+      });
+
+    }
+
+    function updateItemWithAmount() {
+      if (updateAmountType != 'increase' && updateAmountType != 'decrease') {
+        return res.status(400).send("Specify the item amount updating by 'increase' or 'decrease'");
       }
 
-      if (db_result.affectedRows != 1) {
-        return res.status(400).send("Error updating item record");
+      // update history record
+      // 1. getting old record data
+
+
+      getItemData(item_code, (err, db_result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send(err);
+        }
+
+        let updatedItemAmount = 0;
+        if (updateAmountType == 'increase') {
+          updatedItemAmount = db_result.item_amount + Number(item_amount);
+        } else if (updateAmountType == 'decrease') {
+          if (item_amount > db_result.item_amount) {
+            return res.status(400).send("The decrease item amount is higher than the actual item amount left in the database");
+          } else {
+            updatedItemAmount = db_result.item_amount - Number(item_amount);
+          }
+
+        }
+
+        // 2. insert them with new data to history table
+        const insData = {
+          old_item_name: db_result.item_name,
+          update_item_name: item_name,
+          old_item_amount: db_result.item_amount,
+          update_item_amount: updatedItemAmount,
+          old_item_type_id: db_result.type_id,
+          update_item_type_id: type_id,
+          old_item_unit_id: db_result.unit_id,
+          update_item_unit_id: unit_id,
+          update_type: (function () {
+            if (updateAmountType === 'increase') {
+              return "เพิ่มจำนวน";
+            } else if (updateAmountType === 'decrease') {
+              return "ลดจำนวน";
+            } else {
+              return res.status(500).send("Cannot set update type to updating history");
+            }
+          })(),
+          updater_id: req.session.user.user_id,
+          item_id: db_result.item_id
+
+        };
+
+        insertUpdateHistory('update', insData, (err) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+          } else {
+            // 3. update item table record
+            updateWithAmount(updatedItemAmount);
+          }
+        });
+
+      });
+
+      function updateWithAmount(finalAmount) {
+
+        const sql = `UPDATE Items SET item_name=?, item_amount=?, item_last_add_datetime=NOW(), type_id=?, unit_id=?
+                    WHERE item_code = ?`;
+        database.query(sql, [item_name, finalAmount, type_id, unit_id, item_code], (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            return res.status(500).send("Database Server Error");
+          }
+
+          if (db_result.affectedRows != 1) {
+            return res.status(400).send("Error updating item record");
+          }
+
+          res.send("Update item " + item_name + " success");
+        });
       }
 
-      res.send("Update item " + item_name + " success");
-    });
+    }
 
   });
+
+  function insertUpdateHistory(insOption, insData, cb) {
+    if (insOption === "update") {
+      const {
+        old_item_name,
+        update_item_name,
+        old_item_amount,
+        update_item_amount,
+        old_item_type_id,
+        update_item_type_id,
+        old_item_unit_id,
+        update_item_unit_id,
+        update_type,
+        updater_id,
+        item_id
+      } = insData;
+
+      const sql = `INSERT INTO Item_update_history (
+        old_item_name,
+        update_item_name,
+        old_item_amount,
+        update_item_amount,
+        old_item_type_id,
+        update_item_type_id,
+        old_item_unit_id,
+        update_item_unit_id,
+        update_type,
+        update_datetime,
+        updater_id,
+        item_id
+        ) VALUES (?,?,?,?,?,?,?,?,?, NOW(),?,?)`;
+
+      database.query(sql, [old_item_name,
+        update_item_name,
+        old_item_amount,
+        update_item_amount,
+        old_item_type_id,
+        update_item_type_id,
+        old_item_unit_id,
+        update_item_unit_id,
+        update_type,
+        updater_id,
+        item_id], (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            cb(err);
+          } else {
+            if (db_result.affectedRows != 1) {
+              cb(new Error("Error updating history record"))
+            } else {
+              cb(undefined);
+            }
+          }
+        });
+    } else if (insOption === "add") {
+      const {
+        update_item_name,
+        update_item_amount,
+        update_item_type_id,
+        update_item_unit_id,
+        update_type,
+        updater_id,
+        item_id
+      } = insData;
+
+      const sql = `INSERT INTO Item_update_history (
+        
+        update_item_name,
+        
+        update_item_amount,
+        
+        update_item_type_id,
+        
+        update_item_unit_id,
+        update_type,
+        update_datetime,
+        updater_id,
+        item_id
+        ) VALUES (?,?,?,?,?, NOW(),?,?)`;
+
+      database.query(sql, [update_item_name,
+        update_item_amount,
+        update_item_type_id,
+        update_item_unit_id,
+        update_type,
+        updater_id,
+        item_id], (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            cb(err);
+          } else {
+            if (db_result.affectedRows != 1) {
+              cb(new Error("Error adding history record"));
+            } else {
+              cb(undefined);
+            }
+          }
+        });
+    } else if (insOption === "delete") {
+      const {
+        update_item_name,
+        update_item_amount,
+        update_item_type_id,
+        update_item_unit_id,
+        update_type,
+        updater_id,
+        item_id
+      } = insData;
+
+      const sql = `INSERT INTO Item_update_history (
+        
+        update_item_name,
+        
+        update_item_amount,
+        
+        update_item_type_id,
+        
+        update_item_unit_id,
+        update_type,
+        update_datetime,
+        updater_id,
+        item_id
+        ) VALUES (?,?,?,?,?, NOW(),?,?)`;
+
+      database.query(sql, [update_item_name,
+        update_item_amount,
+        update_item_type_id,
+        update_item_unit_id,
+        update_type,
+        updater_id,
+        item_id], (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            cb(err);
+          } else {
+            if (db_result.affectedRows != 1) {
+              cb(new Error("Error adding history record"));
+            } else {
+              cb(undefined);
+            }
+          }
+        });
+    }
+  } // ==== end of ADMIN UPDATE ITEM API =====
 
   app.post('/api/admin/addItem', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2) { // check for Admin level
@@ -171,8 +479,9 @@ function api(app) {
         return res.status(400).send("Item code is already taken!");
       }
 
+      // Begin adding new item to table
       const sql = `INSERT INTO Items (item_code, item_name, item_amount, item_last_add_datetime, type_id, unit_id) 
-                  VALUES (?,?,?, NOW(),?,?)`;
+      VALUES (?,?,?, NOW(),?,?)`;
       database.query(sql, [item_code, item_name, item_amount, type_id, unit_id], (err, db_result) => {
         if (err) {
           console.log(err.message);
@@ -180,11 +489,35 @@ function api(app) {
         }
 
         if (db_result.affectedRows != 1) {
-          return res.status(400).send("Error creating new record");
+          return res.status(400).send("Error creating new item record");
         }
 
-        res.send("Add new item " + item_code + " success");
+        const insHisData = {
+          update_item_name: item_name,
+          update_item_amount: item_amount,
+          update_item_type_id: type_id,
+          update_item_unit_id: unit_id,
+          update_type: "เพิ่มรายการวัสดุใหม่",
+          updater_id: req.session.user.user_id,
+          item_id: db_result.insertId
+        };
+
+
+        insertUpdateHistory('add', insHisData, (err) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+          } else {
+            res.send("Add new item " + item_code + " success");
+          }
+        });
+
+
       });
+
+
+
+
     });
 
 
@@ -196,24 +529,49 @@ function api(app) {
     }
 
     const item_code = req.body.item_code;
-    
+
     if (item_code == null || item_code == "") {
       return res.status(400).send("Invalid request");
     }
 
-    const sql = `DELETE FROM Items WHERE item_code = ?`;
-    database.query(sql, [item_code], (err, db_result) => {
-      if (err) {
-        console.log(err.message);
-        return res.status(500).send("Database Server Error");
-      }
+    getItemData(item_code, (err, db_result) => {
 
-      if (db_result.affectedRows != 1) {
-        return res.status(400).send("Error deleting the record");
-      }
+      const insHisData = {
+        update_item_name: db_result.item_name,
+        update_item_amount: db_result.item_amount,
+        update_item_type_id: db_result.type_id,
+        update_item_unit_id: db_result.unit_id,
+        update_type: "ลบวัสดุ",
+        updater_id: req.session.user.user_id,
+        item_id: db_result.item_id
+      };
 
-      res.send("Record deleted");
+      insertUpdateHistory('delete', insHisData, (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+
+          const sql = `UPDATE Items SET used='N', item_code='' WHERE item_code = ?`;
+          database.query(sql, [item_code], (err, db_result) => {
+            if (err) {
+              console.log(err.message);
+              return res.status(500).send("Database Server Error");
+            }
+
+            if (db_result.affectedRows != 1) {
+              return res.status(400).send("Error deleting the record");
+            }
+
+            res.send("Record deleted");
+          });
+        }
+      });
+
     });
+
+
+
   });
 
   app.get('/api/getItemTypes', checkAuth, (req, res) => {
@@ -347,7 +705,7 @@ function api(app) {
   });
 
   function isItemCodeExists(code, cb) {
-    const sql = `SELECT item_id FROM Items WHERE item_code=?`;
+    const sql = `SELECT item_id FROM Items WHERE item_code=? AND used='Y'`;
     database.query(sql, [code], (err, db_result) => {
       if (err) {
         console.log(err.message);
@@ -362,6 +720,44 @@ function api(app) {
 
     });
   }
+
+  // function getItemAmount(item_code, cb) {
+
+  //   const sql = `SELECT item_amount FROM Items WHERE item_code = ?`;
+  //   database.query(sql, [item_code], (err, db_result) => {
+  //     if (err) {
+  //       console.log(err.message);
+  //       return cb("Database Error when getting item amount");
+  //     }
+
+  //     if (db_result.length != 1) {
+  //       return cb("Database Error, item is duplicated");
+  //     }
+
+  //     cb(db_result[0].item_amount);
+  //   });
+
+  // }
+
+  function getItemData(item_code, cb) {
+
+    const sql = `SELECT * FROM Items WHERE item_code = ? AND used='Y'`;
+    database.query(sql, [item_code], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        cb(new Error("Database Error when getting item data"));
+      }
+
+      if (db_result.length != 1) {
+        cb(new Error("Database Error, item is duplicated"));
+      }
+
+      cb(undefined, db_result[0]);
+    });
+
+  }
+
+
 
 }
 
