@@ -50,6 +50,22 @@ function router(app) {
     res.render('admin_edit_info_history', {user: req.session.user});
   });
 
+  app.get('/admin/updateRequest', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('admin_update_req', {user: req.session.user});
+  });
+  
+  app.get('/admin/requestHistory', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('admin_req_history', {user: req.session.user});
+  });
+
 
 }
 
