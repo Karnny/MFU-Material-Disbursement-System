@@ -75,25 +75,15 @@
 
 </head>
 <script>
-    //array of select mian
+    //array of select 
     var selectArray = [
-        { category: "กระดาษ" },
-        { category: "เครื่องเขียน" },
-        { category: "เครื่องวัด" }
+        { category: "วัสดุสำนักงาน" },
+        { category: "วัสดุคอมพิวเตอร์" },
+        { category: "วัสดุเครื่องแต่งกาย" }
     ]
-
-    //function selectCategory
-    function selectCategory(selectArray, tb) {
-        let option = ``;
-        for (i in selectArray) {
-            option += `<option>${selectArray[i].category}</option>`;
-        }
-        tb.html(tb.html() + option);
-    }
-
-    $(document).ready(function () {
-
-        var  dataSet = [
+    
+ 
+    var  dataSet = [
                 { supID: "1", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
                 { supID: "2", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
                 { supID: "3", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง",Amount:"", supCate: "วัสดุสำนักงาน"},
@@ -108,18 +98,14 @@
                 { supID: "12", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก",Amount:"", supCate: "วัสดุของที่ระลึก"},
                 
         ];
+
+    var dataofcart = [
+              
+    ]
+
+    var tablemodal;
+    $(document).ready(function () {
         
-        var  supListTable = [
-                { supID: "1", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
-                { supID: "2", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
-                { supID: "3", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง",Amount:"", supCate: "วัสดุสำนักงาน"},
-                { supID: "4", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
-                { supID: "5", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
-                { supID: "6", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
-                { supID: "7", supName: "ผ้าหมึก Epson LQ 2070/2180i",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
-                { supID: "8", supName: "หมึก HP laserjet P2015 (Q7553A)",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},         
-        ];
-    
         //Total lsit
         $("#totalReq").html(dataSet.length);
 
@@ -127,37 +113,74 @@
         var table = $("#tb_products").DataTable({
             data: dataSet,
             columns: [
-                { data: "supID", title: "ลำดับ" },
-                { data: "supName", title: "รายการ" },
-                { data: "supCate", title: "หมวดหมู่" },
+                { render:function(data,type, row,meta){
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }, title:"ลำดับ"},
+                { "className": "text-left",data: "supName", title: "รายการ" },
+                { "className": "text-left",data: "supCate", title: "หมวดหมู่" },
                 { data: "Amount", title: "จำนวน" },
-                { data: "supUnit", title: "หน่วยนับ" },
-                { defaultContent: `<button class="btn btn-secondary ml-4" id="btnAdd"><i class="fas fa-plus-square"></button>`, title: "เพิ่มลงรายการเบิก"}
+                { "className": "text-left",data: "supUnit", title: "หน่วยนับ" },
+                { defaultContent: `<span style='cursor: pointer;' class="btnAdd"><i class="fas fa-plus-square"></span>`, title: "เพิ่มลงรายการเบิก"}
 
             ]
         });
-    
-        $("#tb_products tbody").on("click", ".btn-secondary", function () {
+        
+
+        var mainrowid;
+        $("#tb_products tbody").on("click", ".btnAdd", function () {
             // alert("test");
+
             //call modal
             $("#modalAdd").modal("show");
-            
+            const currentRow = $(this).parents("tr");
+            const data = table.row(currentRow).data();
 
-            //add more info
-            $("#btnSave").click(function () {
+            let rowID = table.row(currentRow).index();
+            mainrowid = rowID;
 
-            });
+            //show each list data
+            $("#list").html(dataSet[rowID].supName);
+            $("#category").html(dataSet[rowID].supCate);
+        
+            $("#unit").html(dataSet[rowID].supUnit);
+
+        
         });
 
+         //add more info
+         $("#btnSave").click(function () {
+                
+                let amount = $("#amount").val()
+                let data = dataSet[mainrowid];
+                data.amountcart = amount;
+                dataofcart.push(data);
+                console.log(data);
+
+                // clear table 
+                tablemodal.clear();
+                // add date new table
+                tablemodal.rows.add(dataofcart).draw();
+
+        });
+        
+        //btn  open listrquests
         $("#btnRQ").click(function () {
 
         //call modal
         $("#modalRQ").modal("show");
+        const currentRow = $(this).parents("tr");
+        const data = table.row(currentRow).data();
+
+        rowID = table.row(currentRow).index();
+        
 
         });
-        //Table in More Info Modal
-        $("#supListTable").DataTable({
-          data: supListTable,
+    
+        //Table in More Info Modal 
+        tablemodal = $("#supListTable").DataTable({
+          data: dataofcart,
+          searching: false,
+          paging: false,
           columns: [
             {
               render: function (data, type, row, meta) {
@@ -167,9 +190,9 @@
             },
             { data: "supName", title: "รายการ" },
             { data: "supCate", title: "หมวดหมู่" },
-            { data: "supAmount", title: "จำนวน" },
+            { data: "amountcart", title: "จำนวน" },
             { data: "supUnit", title: "หน่วยนับ" },
-            { defaultContent: `<button type="button" class='btn btn-secondary' id='deleteRow'><i class='fa fa-trash'></i></button>`, title: "ลบรายการ" }
+            { defaultContent: `<span style='cursor: pointer;' class ='deleteRow' id = 'deleteRow'><i class='fa fa-trash'></i></span>`, title: "ลบรายการ" }
           ],
           lengthMenu: [
             [5, 10, 15, -1],
@@ -177,11 +200,40 @@
           ],
         });
 
-        //delete lise on table modal
-        $("#supListTable tbody").on("click",".btn-secondary",function(){
-             alert("test");       
-        });
+        //remove item  in cart
+        $("#supListTable tbody").on("click",".deleteRow",function(){
+
+                const currentRow = $(this).parents("tr");
+                const data = tablemodal.row(currentRow).data();
+                let rowID;
+                rowID = tablemodal.row(currentRow).index();
+                
+                // alert(rowID);
+                // delete table
+                dataofcart.splice(rowID, 1);
+
+                // clear table 
+                tablemodal.clear();
+                // update  new table
+                tablemodal.rows.add(dataofcart).draw();
+        }); 
+    
         
+        //function select
+        function selectCategory(selectArray, tb) {
+            let option = ``;
+            for (i in selectArray) {
+                    option += `<option>${selectArray[i].category}</option>`;
+            }
+            tb.html(tb.html() + option);
+        }
+
+        //function Create Select
+        let select_CG = $("#SelectCG");
+        select_CG.html(select_CG);
+        selectCategory(selectArray, select_CG);
+
+
     });
 </script>
 
@@ -312,7 +364,7 @@
                     <!-- dropdown (can't use)-->
                     <from>
                         <label>หมวดหมู่</label>
-                        <select id="SelectCG" class="" style="border-radius: 10px 10px;">
+                        <select id="SelectCG" class="browser-default custom-select col-md-2" style="border-radius: 10px 10px;">
                             <option value="0">Select</option>
                         </select>
                     </from>
@@ -329,7 +381,7 @@
                     <!-- Modal รายการคำสั่งเพิ่มรายการวัสดุ-->
                     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
                         aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-md" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">แบบขอเบิกรายการวัสดุ</h5>
@@ -337,24 +389,24 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body ">
+                                <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                           <div class="row">
-                                            <p class="ml-5"><b>รายการ</b></p>
+                                            <p class="ml-5"><b>รายการ:</b></p>
                                             <p class="ml-2" id="list"></p>
                                           </div>
                                           <div class="row">
-                                            <p class="ml-5"><b>หมวดหมู่</b></p>
+                                            <p class="ml-5"><b>หมวดหมู่:</b></p>
                                             <p class="ml-2" id="category"></p>
                                           </div>
                                           <div class="row">
-                                            <p class="ml-5"><b>จำนวน</b></p>
-                                            <p class="ml-3" id="amount"></p>
+                                            <p class="ml-5"><b>จำนวน:</b></p>
+                                            <input type="number" class="form-control col-md-2 ml-2" id="amount" min="1" max="999"> 
                                           </div>
                                           <div class="row">
-                                            <p class="ml-5"><b>หน่วยนับ</b></p>
-                                            <p class="ml-3" id="unit"></p>
+                                            <p class="ml-5"><b>หน่วยนับ:</b></p>
+                                            <p class="ml-2" id="unit"></p>
                                           </div>
                                         </div>
                                     </div>
