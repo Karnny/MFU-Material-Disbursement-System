@@ -70,7 +70,7 @@
   <script>
     $(document).ready(function () {
       //function set array of table
-      let Setdatatable = [
+      let userInfo = [
         {
           id: "1",
           dates: "12/2/2021",
@@ -273,28 +273,43 @@
 
       //function Create Table
       var table = $("#data_table").DataTable({
-        data: Setdatatable,
+        data: userInfo,
         columns: [
           { data: "id", title: "ลำดับ" },
           { data: "dates", title: "วันที่ขอเบิก" },
           { data: "time", title: "เวลาที่ขอเบิก" },
           { data: "name", title: "ผู้ขอเบิก" },
-          {
-            data: "list",
-            title: "รายการขอเบิก",
-            render: function (data, type, row, meta) {
-              return `<a style='cursor: pointer;' onClick=OpenModal(${row.id})><u>ดูเพิ่มเติม</u></a>`;
-            },
-          },
+          { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline; cursor: pointer;' id = 'moreInfo'>ดูเพิ่มเติม</a>" },
           {
             defaultContent: `<button type="button" class="btn btn-success"  onclick="approve()">อนุมัติ</button> <button type="button" class="btn btn-danger" onclick="disapprove()">ไม่อนุมัติ</button>`,
           },
         ],
       });
 
+      $("#data_table tbody").on("click", "#moreInfo", function () {
+        // alert(id)
+        $("#moreInfoModal").modal("show");
+
+        const currentRow = $(this).parents("tr");
+        const data = table.row(currentRow).data();
+
+        rowID = table.row(currentRow).index();
+
+        console.log(rowID);
+
+        $("#reqDate").html(userInfo[rowID].dates);
+        $("#reqTime").html(userInfo[rowID].time);
+        $("#requesterName").html(userInfo[rowID].name);
+        $("#requesterEmail").html(userInfo[rowID].email);
+        $("#reqReason").html(userInfo[rowID].reqReason);
+
+      });
+
+
       //Table in More Info Modal
       $("#supListTable").DataTable({
         data: suppliesData,
+        searching: false,
         columns: [
           {
             render: function (data, type, row, meta) {
@@ -315,24 +330,6 @@
         ],
       });
     });
-
-    function OpenModal(id) {
-      // alert(id)
-      $("#moreInfoModal").modal("show");
-
-      const currentRow = $(this).parents("tr");
-      const data = table.row(currentRow).data();
-
-      rowID = table.row(currentRow).index();
-
-      console.log(rowID);
-
-      $("#reqDate").html(Setdatatable[rowID].dates);
-      $("#reqTime").html(Setdatatable[rowID].time);
-      $("#requesterName").html(Setdatatable[rowID].name);
-      $("#requesterEmail").html(Setdatatable[rowID].email);
-      $("#reqReason").html(Setdatatable[rowID].reqReason);
-    }
 
     //function Approve
     function approve(id) {
