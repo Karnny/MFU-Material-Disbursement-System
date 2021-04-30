@@ -1,11 +1,8 @@
 const path = require("path");
 const database = require('./config/dbConfig')
 const { OAuth2Client } = require('google-auth-library');
-const { resume } = require("./config/dbConfig");
 const client = new OAuth2Client(process.env.CLIENT_ID);
 const checkAuth = require('./checkAuth');
-const { RSA_NO_PADDING } = require("constants");
-const { stat } = require("fs");
 
 // API function fields
 function api(app) {
@@ -45,10 +42,10 @@ function api(app) {
           let url;
           switch (db_result[0].role_id) {
             case 1:
-              url = '/user_items';
+              url = '/user/allSupplies';
               break;
             case 2:
-              url = '/admin/allSupplies';
+              url = '/admin/pendingRequests';
               break;
             case 3:
               url = '/advisor_requests';

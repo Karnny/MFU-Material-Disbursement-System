@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+</head>
+<script>
+    //array of select 
+    var selectArray = [
+        { category: "วัสดุสำนักงาน" },
+        { category: "วัสดุคอมพิวเตอร์" },
+        { category: "วัสดุเครื่องแต่งกาย" }
+    ]
+    
+ 
+    var  dataSet = [
+                { supID: "1", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
+                { supID: "2", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
+                { supID: "3", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง",Amount:"", supCate: "วัสดุสำนักงาน"},
+                { supID: "4", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
+                { supID: "5", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
+                { supID: "6", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
+                { supID: "7", supName: "ผ้าหมึก Epson LQ 2070/2180i",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
+                { supID: "8", supName: "หมึก HP laserjet P2015 (Q7553A)",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
+                { supID: "9", supName: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
+                { supID: "10", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก",Amount:"", supCate: "วัสดุงานบ้านงานครัว"},
+                { supID: "11", supName: "กระดุมแขนเสื้อสูท (สีทอง)", supUnit: "เม็ด",Amount:"", supCate: "วัสดุเครื่องแต่งกาย"},
+                { supID: "12", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก",Amount:"", supCate: "วัสดุของที่ระลึก"},
+                
+        ];
+
+    var dataofcart = [
+              
+    ]
+
+    var tablemodal;
+    $(document).ready(function () {
+        
+        //Total lsit
+        $("#totalReq").html(dataSet.length);
+
+        //Create table
+        var table = $("#tb_products").DataTable({
+            data: dataSet,
+            columns: [
+                { render:function(data,type, row,meta){
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }, title:"ลำดับ"},
+                { "className": "text-left",data: "supName", title: "รายการ" },
+                { "className": "text-left",data: "supCate", title: "หมวดหมู่" },
+                { data: "Amount", title: "จำนวน" },
+                { "className": "text-left",data: "supUnit", title: "หน่วยนับ" },
+                { defaultContent: `<span style='cursor: pointer;' class="btnAdd"><i class="fas fa-plus-square"></span>`, title: "เพิ่มลงรายการเบิก"}
+
+            ]
+        });
+        
+
+        var mainrowid;
+        $("#tb_products tbody").on("click", ".btnAdd", function () {
+            // alert("test");
+
+            //call modal
+            $("#modalAdd").modal("show");
+            const currentRow = $(this).parents("tr");
+            const data = table.row(currentRow).data();
+
+            let rowID = table.row(currentRow).index();
+            mainrowid = rowID;
+
+            //show each list data
+            $("#list").html(dataSet[rowID].supName);
+            $("#category").html(dataSet[rowID].supCate);
+        
+            $("#unit").html(dataSet[rowID].supUnit);
+
+        
+        });
+
+         //add more info
+         $("#btnSave").click(function () {
+                
+                let amount = $("#amount").val()
+                let data = dataSet[mainrowid];
+                data.amountcart = amount;
+                dataofcart.push(data);
+                console.log(data);
+
+                // clear table 
+                tablemodal.clear();
+                // add date new table
+                tablemodal.rows.add(dataofcart).draw();
+
+        });
+        
+        //btn  open listrquests
+        $("#btnRQ").click(function () {
+
+        //call modal
+        $("#modalRQ").modal("show");
+        const currentRow = $(this).parents("tr");
+        const data = table.row(currentRow).data();
+
+        rowID = table.row(currentRow).index();
+        
+
+        });
+    
+        //Table in More Info Modal 
+        tablemodal = $("#supListTable").DataTable({
+          data: dataofcart,
+          searching: false,
+          paging: false,
+          columns: [
+            {
+              render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              },
+              title: "ลำดับ",
+            },
+            { data: "supName", title: "รายการ" },
+            { data: "supCate", title: "หมวดหมู่" },
+            { data: "amountcart", title: "จำนวน" },
+            { data: "supUnit", title: "หน่วยนับ" },
+            { defaultContent: `<span style='cursor: pointer;' class ='deleteRow' id = 'deleteRow'><i class='fa fa-trash'></i></span>`, title: "ลบรายการ" }
+          ],
+          lengthMenu: [
+            [5, 10, 15, -1],
+            ["5", "10", "15", "Show all"],
+          ],
+        });
+
+        //remove item  in cart
+        $("#supListTable tbody").on("click",".deleteRow",function(){
+
+                const currentRow = $(this).parents("tr");
+                const data = tablemodal.row(currentRow).data();
+                let rowID;
+                rowID = tablemodal.row(currentRow).index();
+                
+                // alert(rowID);
+                // delete table
+                dataofcart.splice(rowID, 1);
+
+                // clear table 
+                tablemodal.clear();
+                // update  new table
+                tablemodal.rows.add(dataofcart).draw();
+        }); 
+    
+        
+        //function select
+        function selectCategory(selectArray, tb) {
+            let option = ``;
+            for (i in selectArray) {
+                    option += `<option>${selectArray[i].category}</option>`;
+            }
+            tb.html(tb.html() + option);
+        }
+
+        //function Create Select
+        let select_CG = $("#SelectCG");
+        select_CG.html(select_CG);
+        selectCategory(selectArray, select_CG);
+
+
+    });
+</script>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Logo -->
+            <div>
+                <img class="" src="/img/Logo IT.png" width="60" height="50" alt="">
+            </div>
+            <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                <!-- //ใส่โลโก่ -->
+                <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                <br>
+                <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+            </div>
+
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                        <img class="img-profile rounded-circle" src="/img/manIcon.png">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            หน้าข้อมูลส่วนตัว
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            ออกจากระบบ
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <body id="page-top">
+
+            <!-- Page Wrapper -->
+            <div id="wrapper">
+
+                <!-- Sidebar -->
+                <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                    style="background-color: #064767;">
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Nav Item - Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>ระบบวัสดุ</span>
+                        </a>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item"
+                                    href="/views/user/รายการวัสดุทั้งหมด.html">รายการวัสดุทั้งหมด</a>
+                                <a class="collapse-item" href="/views/user/ตรวจสอบสถานะคำขอเบิก.html">ตรวจสถานะคำขอ</a>
+                                <a class="collapse-item"
+                                    href="/views/user/ประวัติการเบิกพัสดุ.html">ประวัติการเบิกวัสดุ</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                    <!-- Sidebar Toggler (Sidebar) -->
+
+
+
+                </ul>
+                <!-- End of Sidebar -->
+
+                <!-- Logout Modal-->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <a class="btn btn-primary" href="login.html">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic -->
+                <div class="container-fluid">
+                    <h2 class="mt-3">รายการวัสดุทั้งหมด</h2>
+
+                    <!-- dropdown (can't use)-->
+                    <from>
+                        <label>หมวดหมู่</label>
+                        <select id="SelectCG" class="browser-default custom-select col-md-2" style="border-radius: 10px 10px;">
+                            <option value="0">Select</option>
+                        </select>
+                    </from>
+
+                   <divclass="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="row">
+                            <h5 class="ml-3 mr-2 text-gray-800">จำนวน</h5>
+                                <p id="totalReq"></p>
+                            <h5 class="ml-2 text-gray-800">รายการ</h5>
+                        </div>
+                   </divclass=>
+                    <!-- End Topic -->
+
+                    <!-- Modal รายการคำสั่งเพิ่มรายการวัสดุ-->
+                    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-md" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">แบบขอเบิกรายการวัสดุ</h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="row">
+                                            <p class="ml-5"><b>รายการ:</b></p>
+                                            <p class="ml-2" id="list"></p>
+                                          </div>
+                                          <div class="row">
+                                            <p class="ml-5"><b>หมวดหมู่:</b></p>
+                                            <p class="ml-2" id="category"></p>
+                                          </div>
+                                          <div class="row">
+                                            <p class="ml-5"><b>จำนวน:</b></p>
+                                            <input type="number" class="form-control col-md-2 ml-2" id="amount" min="1" max="999"> 
+                                          </div>
+                                          <div class="row">
+                                            <p class="ml-5"><b>หน่วยนับ:</b></p>
+                                            <p class="ml-2" id="unit"></p>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                                    <button type="button" class="btn btn-primary" id="btnSave"
+                                        data-dismiss="modal">เพิ่มลงตระกร้า</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal รายการขอเบิก -->
+                    <div class="modal fade" id="modalRQ" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                        aria-hidden="true" style="width: 100%;">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">แบบขอเบิกรายการวัสดุ</h3>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body ">
+                                    <div class="container-fluid">
+                                        <h5 class="modal-title">รายการวัสดุที่ต้องการเบิก</h5>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="table-responsive text-center">
+                                                    <table class="table table-bordered text-center" id="supListTable" width="100%" cellspacing="0">
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <form>
+                                            <div class="form-group">
+                                                <h5>วัตถุประสงค์</h5>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                                    <button type="button" class="btn btn-primary third" id="btnSave"
+                                        data-dismiss="modal">ยืนยัน</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <class class="card">
+                        <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+
+                            <!-- table -->
+                            <table class="table text-center table-bordered" id="tb_products" width="100%"
+                                cellspacing="0">
+                                <div class="btnRq" style="float: right;">
+                                    <button type="button" class="btn btn-secondary" id="btnRQ">รายการขอเบิก</button>
+                                </div><br><br>
+                            </table>
+                        </div>
+                </div>
+                <!-- end table -->
+            </div>
+    </div>
+
+    </body>
+
+</html>
