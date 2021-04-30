@@ -599,6 +599,27 @@ function api(app) {
 
   });
 
+  app.get('/api/admin/getPendingRequest', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
+    const sql = `SELECT rq.request_id AS 'reqNo', DATE(rq.request_datetime) AS 'dates', TIME(rq.request_datetime) AS 'time',
+                CONCAT(us.division_name, ' ', us.name_title, ' ', us.firstname, ' ', us.lastname) AS 'name', us.email AS 'email',
+                rq.request_reason AS 'reqReason' 
+                FROM Requests rq
+                JOIN Users us ON rq.user_id = us.user_id
+                WHERE rq.progress_state = 0`;
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while fetching pending requests");
+      }
+
+      res.json(db_result);
+    });
+  });
+
   app.get('/api/admin/getUpdateRequest', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2) { // check for Admin level
       return res.status(400).send('Action not allowed');
@@ -636,7 +657,8 @@ function api(app) {
 
     const sql = `SELECT rq.request_id AS 'reqNo', DATE(rq.request_datetime) AS 'dateReq', DATE(rq.approve_datetime) AS 'dateApp', TIME(rq.approve_datetime) AS 'timeApp',
                 CONCAT(us.division_name, ' ', us.name_title) AS 'name_title', us.firstname AS 'firstName', us.lastname AS 'lastName', us.email AS 'email',
-                rq.progress_state AS 'progress_state' , rq.request_reason AS 'reqReason', rq.approval_status AS 'approval_status' 
+                rq.progress_state AS 'progress_state' , rq.request_reason AS 'reqReason', rq.approval_status AS 'approval_status',
+                rq.reject_reason AS 'reject_reason', DATE(rq.reject_dateTime) AS 'reject_date'
                 FROM Requests rq
                 JOIN Users us ON rq.user_id = us.user_id
                 WHERE rq.progress_state = 3`;
@@ -648,13 +670,13 @@ function api(app) {
 
       for (i in db_result) {
         if (db_result[i].progress_state == 3) {
-          if (db_result[i].approval_status = "approved") {
+          if (db_result[i].approval_status == "approved") {
             db_result[i].reqStatus = "เสร็จสิ้น";
           } else if (db_result[i].approval_status != "approved") {
             db_result[i].reqStatus = "ไม่อนุมัติ";
           }
-          
-        } 
+
+        }
       }
 
       res.json(db_result);
@@ -662,13 +684,17 @@ function api(app) {
   });
 
   app.get('/api/admin/getRequestDetailsId/:id', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
     const id = req.params.id;
 
     if (id == null || id == "") {
       return res.status(400).send("Please provide a request id");
     }
 
-    const sql = `SELECT itm.item_id AS 'supID', itm.item_name AS 'supName', 
+    const sql = `SELECT itm.item_code AS 'supID', itm.item_name AS 'supName', 
                 itp.type_name AS 'supCate', iun.unit_name AS 'supUnit', itm.item_amount AS 'supLeft',
                 rhi.item_request_amount AS 'supAmount'
                 FROM Items itm 
@@ -687,7 +713,118 @@ function api(app) {
     });
   });
 
+  app.put('/api/admin/updateRequestApproval', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
+    const { reqNo, status, rejectReason } = req.body;
+
+    if (reqNo == null || reqNo == "") {
+      return res.status(400).send("Please provide a request id");
+    }
+
+    if (status == null || status == "") {
+      return res.status(400).send("Please provide a request approve status");
+    }
+
+    let appr;
+    switch (status) {
+      case "approved":
+        appr = "approved";
+        updateItemAmount();
+        makeApprove();
+        break;
+      case "disapprove":
+        appr = "disapprove";
+        makeDisapprove();
+        break;
+      default:
+        return res.status(400).send("Invalid status");
+    }
+
+    function updateItemAmount() {
+      // 1. get all item of that request 
+      const sql = `SELECT item_id, item_request_amount AS 'amount' 
+                  FROM Requests_has_Items
+                  WHERE request_id = ?`;
+
+      database.query(sql, [reqNo], (err, rhs_result) => {
+        if (err) {
+          console.log(err.message);
+          return res.status(500).send("Database Error while updating requested item amount");
+        }
+
+        if (rhs_result.length == 0) {
+          return res.status(400).send("Error, there are no items of that request");
+        }
+
+        // 2. Subtract items in Items table with each item in RHS
+        try {
+
+          for (i in rhs_result) {
+            const sql = `UPDATE Items SET item_amount = item_amount - ? WHERE item_id = ?`;
+            database.query(sql, [Number(rhs_result[i].amount), rhs_result[i].item_id],
+              (err, db_result) => {
+                if (err) {
+                  console.log(err);
+                  let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
+                  throw new Error(log);
+                  
+                }
+
+              });
+          }
+
+        } catch (e) {
+          return res.status(500).send(e);
+        }
+
+      });
+    }
+
+    function makeApprove() {
+      const sql = `UPDATE Requests SET approval_status = ?, progress_state = 1 WHERE request_id = ?`;
+      database.query(sql, [appr, reqNo], (err, db_result) => {
+        if (err) {
+          console.log(err.message);
+          return res.status(500).send("Database Error while updating approval status");
+        }
+
+        if (db_result.affectedRows != 1) {
+          return res.status(400).send("Error while updating approval record");
+        }
+
+        res.send("Changes applied");
+
+      });
+    }
+
+    function makeDisapprove() {
+      const sql = `UPDATE Requests SET approval_status = ?, progress_state = 3, reject_reason = ?, reject_datetime = NOW() WHERE request_id = ?`;
+      database.query(sql, [appr, rejectReason, reqNo], (err, db_result) => {
+        if (err) {
+          console.log(err.message);
+          return res.status(500).send("Database Error while updating approval status");
+        }
+
+        if (db_result.affectedRows != 1) {
+          return res.status(400).send("Error while updating approval record");
+        }
+
+        res.send("Changes applied");
+
+      });
+    }
+
+
+  });
+
   app.put('/api/admin/updateRequestStatus', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
     const { reqNo, status } = req.body;
 
     if (reqNo == null || reqNo == "") {
@@ -715,6 +852,10 @@ function api(app) {
       if (err) {
         console.log();
         return res.status(500).send("Database Error while updating request status");
+      }
+
+      if (db_result.affectedRows != 1) {
+        return res.status(400).send("Error updating request status");
       }
 
       res.send("Change applied");
