@@ -100,7 +100,8 @@ function api(app) {
                 DATE(itm.item_last_add_datetime) AS 'dates', itp.type_name AS 'supCate', iun.unit_name AS 'supUnit'
                 FROM Items itm JOIN Item_types itp ON itm.type_id = itp.type_id
                 JOIN Item_units iun ON itm.unit_id = iun.unit_id
-                WHERE used='Y'`;
+                WHERE used='Y'
+                AND itm.item_amount > 0`;
 
     database.query(sql, (err, db_result) => {
       if (err) {
