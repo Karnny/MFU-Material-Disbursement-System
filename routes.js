@@ -82,6 +82,21 @@ function router(app) {
     res.render('user_all_supplies', {user: req.session.user});
   });
 
+  app.get('/user/checkRequests', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 1) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('user_check_reqStatus', {user: req.session.user});
+  });
+
+  app.get('/user/requestHistory', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 1) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('user_request_history', {user: req.session.user});
+  });
 
 }
 

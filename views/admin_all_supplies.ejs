@@ -326,7 +326,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'เพิ่มรายการวัสดุสำเร็จ',
-                                html: `ชื่อรายการ ${name}<br />จำนวน ${amount}<br />ผู้ดำเนินรานการ <%= user.firstname %> <%= user.lastname %><br />เพิ่มลงคลังเมื่อ ${new Date().toISOString().slice(0, 10)}`
+                                html: `ชื่อรายการ ${name}<br />จำนวน ${amount}<br />ผู้ดำเนินรายการ <%= user.firstname %> <%= user.lastname %><br />เพิ่มลงคลังเมื่อ ${new Date().toISOString().slice(0, 10)}`
                             });
                             table.clear();
                             table.rows.add(Setdatatable).draw();

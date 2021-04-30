@@ -13,7 +13,6 @@
     <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -64,14 +63,16 @@
 
 
     <!-- font awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
 
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" defer></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
 </head>
 <script>
@@ -81,157 +82,220 @@
         { category: "วัสดุคอมพิวเตอร์" },
         { category: "วัสดุเครื่องแต่งกาย" }
     ]
-    
- 
-    var  dataSet = [
-                { supID: "1", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
-                { supID: "2", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน",Amount:"", supCate: "วัสดุสำนักงาน"},
-                { supID: "3", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง",Amount:"", supCate: "วัสดุสำนักงาน"},
-                { supID: "4", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
-                { supID: "5", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
-                { supID: "6", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน",Amount:"", supCate: "วัสดุไฟฟ้าวิทยุ"},
-                { supID: "7", supName: "ผ้าหมึก Epson LQ 2070/2180i",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
-                { supID: "8", supName: "หมึก HP laserjet P2015 (Q7553A)",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
-                { supID: "9", supName: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND",Amount:"", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์"},
-                { supID: "10", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก",Amount:"", supCate: "วัสดุงานบ้านงานครัว"},
-                { supID: "11", supName: "กระดุมแขนเสื้อสูท (สีทอง)", supUnit: "เม็ด",Amount:"", supCate: "วัสดุเครื่องแต่งกาย"},
-                { supID: "12", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก",Amount:"", supCate: "วัสดุของที่ระลึก"},
-                
-        ];
 
-    var dataofcart = [
-              
-    ]
 
+    var dataSet = [
+        { supID: "1", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน", Amount: "", supCate: "วัสดุสำนักงาน" },
+        { supID: "2", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน", Amount: "", supCate: "วัสดุสำนักงาน" },
+
+
+    ];
+
+    var cartData = [
+
+    ];
+
+    var table;
     var tablemodal;
+
+    function updateDataSet() {
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/api/user/getItemsList",
+            dataType: "",
+            success: function (response) {
+                dataSet = response;
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+
+    function updateItemType() {
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/api/getItemTypes",
+            dataType: "",
+            success: function (response) {
+                selectArray = response;
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    }
     $(document).ready(function () {
-        
+        updateItemType();
+        updateDataSet();
         //Total lsit
         $("#totalReq").html(dataSet.length);
 
         //Create table
-        var table = $("#tb_products").DataTable({
+        table = $("#tb_products").DataTable({
             data: dataSet,
             columns: [
-                { render:function(data,type, row,meta){
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                }, title:"ลำดับ"},
-                { "className": "text-left",data: "supName", title: "รายการ" },
-                { "className": "text-left",data: "supCate", title: "หมวดหมู่" },
+                {
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }, title: "ลำดับ"
+                },
+                { "className": "text-left", data: "supName", title: "รายการ" },
+                { "className": "text-left", data: "supCate", title: "หมวดหมู่" },
                 { data: "Amount", title: "จำนวน" },
-                { "className": "text-left",data: "supUnit", title: "หน่วยนับ" },
-                { defaultContent: `<span style='cursor: pointer;' class="btnAdd"><i class="fas fa-plus-square"></span>`, title: "เพิ่มลงรายการเบิก"}
+                { "className": "text-left", data: "supUnit", title: "หน่วยนับ" },
+                { defaultContent: `<span style='cursor: pointer;' class="btnAdd"><i class="fas fa-plus-square"></span>`, title: "เพิ่มลงรายการเบิก" }
 
             ]
         });
-        
 
-        var mainrowid;
+
+        var mainRowID;
         $("#tb_products tbody").on("click", ".btnAdd", function () {
             // alert("test");
 
             //call modal
-            $("#modalAdd").modal("show");
+            $("#amount").val(1);
             const currentRow = $(this).parents("tr");
             const data = table.row(currentRow).data();
 
             let rowID = table.row(currentRow).index();
-            mainrowid = rowID;
+            mainRowID = rowID;
 
             //show each list data
             $("#list").html(dataSet[rowID].supName);
             $("#category").html(dataSet[rowID].supCate);
-        
+
             $("#unit").html(dataSet[rowID].supUnit);
-
-        
-        });
-
-         //add more info
-         $("#btnSave").click(function () {
-                
-                let amount = $("#amount").val()
-                let data = dataSet[mainrowid];
-                data.amountcart = amount;
-                dataofcart.push(data);
-                console.log(data);
-
-                // clear table 
-                tablemodal.clear();
-                // add date new table
-                tablemodal.rows.add(dataofcart).draw();
+            $("#modalAdd").modal("show");
 
         });
-        
+
+        //add more info
+        $("#btnAddToCart").click(function () {
+
+            let amount = $("#amount").val();
+            let data = dataSet[mainRowID];
+
+            for (i in cartData) {
+                if (data.supID == cartData[i].supID) {
+                    cartData[i].choseAmount = Number(cartData[i].choseAmount) + Number(amount);
+                    tablemodal.clear();
+                    tablemodal.rows.add(cartData).draw();
+                    return;
+                    break;
+                }
+            }
+
+            data.choseAmount = amount;
+            cartData.push(data);
+
+            // clear table 
+            tablemodal.clear();
+            // add date new table
+            tablemodal.rows.add(cartData).draw();
+
+        });
+
         //btn  open listrquests
         $("#btnRQ").click(function () {
 
-        //call modal
-        $("#modalRQ").modal("show");
-        const currentRow = $(this).parents("tr");
-        const data = table.row(currentRow).data();
+            //call modal
+            $("#modalRQ").modal("show");
+            const currentRow = $(this).parents("tr");
+            const data = table.row(currentRow).data();
 
-        rowID = table.row(currentRow).index();
-        
+            rowID = table.row(currentRow).index();
+
 
         });
-    
+
+        $("#btnSave").click(function () {
+            
+            $.ajax({
+                type: "POST",
+                url: "/api/user/requestItems",
+                data: { reqData: cartData, reqReason: $("#message-text").val() },
+                dataType: "",
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'ดำเนินการเสร็จสิ้น',
+                        html: `ผู้ดำเนินรายการ <%= user.firstname %> <%= user.lastname %><br />ขอเบิกเมื่อ ${new Date().toISOString().slice(0, 10)}`
+                    });
+
+                    $("#modalRQ").modal("hide");
+                    cartData = [];
+                    tablemodal.clear().draw();
+                },
+                error: function (xhr) {
+                    Swal.fire(xhr.responseText);
+                }
+            });
+        });
+
         //Table in More Info Modal 
         tablemodal = $("#supListTable").DataTable({
-          data: dataofcart,
-          searching: false,
-          paging: false,
-          columns: [
-            {
-              render: function (data, type, row, meta) {
-                return meta.row + meta.settings._iDisplayStart + 1;
-              },
-              title: "ลำดับ",
-            },
-            { data: "supName", title: "รายการ" },
-            { data: "supCate", title: "หมวดหมู่" },
-            { data: "amountcart", title: "จำนวน" },
-            { data: "supUnit", title: "หน่วยนับ" },
-            { defaultContent: `<span style='cursor: pointer;' class ='deleteRow' id = 'deleteRow'><i class='fa fa-trash'></i></span>`, title: "ลบรายการ" }
-          ],
-          lengthMenu: [
-            [5, 10, 15, -1],
-            ["5", "10", "15", "Show all"],
-          ],
+            data: cartData,
+            searching: false,
+            paging: false,
+            columns: [
+                {
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                    title: "ลำดับ",
+                },
+                { data: "supName", title: "รายการ" },
+                { data: "supCate", title: "หมวดหมู่" },
+                { data: "choseAmount", title: "จำนวน" },
+                { data: "supUnit", title: "หน่วยนับ" },
+                { defaultContent: `<span style='cursor: pointer;' class ='deleteRow' id = 'deleteRow'><i class='fa fa-trash'></i></span>`, title: "ลบรายการ" }
+            ],
+            lengthMenu: [
+                [5, 10, 15, -1],
+                ["5", "10", "15", "Show all"],
+            ],
         });
 
         //remove item  in cart
-        $("#supListTable tbody").on("click",".deleteRow",function(){
+        $("#supListTable tbody").on("click", ".deleteRow", function () {
 
-                const currentRow = $(this).parents("tr");
-                const data = tablemodal.row(currentRow).data();
-                let rowID;
-                rowID = tablemodal.row(currentRow).index();
-                
-                // alert(rowID);
-                // delete table
-                dataofcart.splice(rowID, 1);
+            const currentRow = $(this).parents("tr");
+            const data = tablemodal.row(currentRow).data();
+            let rowID;
+            rowID = tablemodal.row(currentRow).index();
 
-                // clear table 
-                tablemodal.clear();
-                // update  new table
-                tablemodal.rows.add(dataofcart).draw();
-        }); 
-    
-        
+            // alert(rowID);
+            // delete table
+            cartData.splice(rowID, 1);
+
+            // clear table 
+            tablemodal.clear();
+            // update  new table
+            tablemodal.rows.add(cartData).draw();
+        });
+
+
         //function select
         function selectCategory(selectArray, tb) {
             let option = ``;
             for (i in selectArray) {
-                    option += `<option>${selectArray[i].category}</option>`;
+                option += `<option>${selectArray[i].type_name}</option>`;
             }
             tb.html(tb.html() + option);
         }
 
         //function Create Select
         let select_CG = $("#SelectCG");
-        select_CG.html(select_CG);
+        // select_CG.html(select_CG);
         selectCategory(selectArray, select_CG);
+        select_CG.change(function () {
+            table.search($(this).val());
+            table.draw();
+        });
 
 
     });
@@ -272,7 +336,10 @@
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                            <%= user.firstname %>
+                                <%= user.lastname %>
+                        </span>
                         <img class="img-profile rounded-circle" src="/img/manIcon.png">
                     </a>
                     <!-- Dropdown - User Information -->
@@ -317,11 +384,9 @@
                         <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item"
-                                    href="/views/user/รายการวัสดุทั้งหมด.html">รายการวัสดุทั้งหมด</a>
-                                <a class="collapse-item" href="/views/user/ตรวจสอบสถานะคำขอเบิก.html">ตรวจสถานะคำขอ</a>
-                                <a class="collapse-item"
-                                    href="/views/user/ประวัติการเบิกพัสดุ.html">ประวัติการเบิกวัสดุ</a>
+                                <a class="collapse-item" href="/user/allSupplies">รายการวัสดุทั้งหมด</a>
+                                <a class="collapse-item" href="/user/checkRequests">ตรวจสถานะคำขอ</a>
+                                <a class="collapse-item" href="/user/requestHistory">ประวัติการเบิกวัสดุ</a>
                             </div>
                         </div>
                     </li>
@@ -351,7 +416,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="login.html">Logout</a>
+                                <a class="btn btn-primary" href="/logout">Logout</a>
                             </div>
                         </div>
                     </div>
@@ -364,118 +429,122 @@
                     <!-- dropdown (can't use)-->
                     <from>
                         <label>หมวดหมู่</label>
-                        <select id="SelectCG" class="browser-default custom-select col-md-2" style="border-radius: 10px 10px;">
-                            <option value="0">Select</option>
+                        <select id="SelectCG" class="browser-default custom-select col-md-2"
+                            style="border-radius: 10px 10px;">
+                            <option value="">ทั้งหมด</option>
                         </select>
                     </from>
 
-                   <divclass="d-sm-flex align-items-center justify-content-between mb-4">
+                    <divclass="d-sm-flex align-items-center justify-content-between mb-4">
                         <div class="row">
                             <h5 class="ml-3 mr-2 text-gray-800">จำนวน</h5>
-                                <p id="totalReq"></p>
+                            <p id="totalReq"></p>
                             <h5 class="ml-2 text-gray-800">รายการ</h5>
                         </div>
-                   </divclass=>
-                    <!-- End Topic -->
+                        </divclass=>
+                        <!-- End Topic -->
 
-                    <!-- Modal รายการคำสั่งเพิ่มรายการวัสดุ-->
-                    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-md" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">แบบขอเบิกรายการวัสดุ</h5>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                          <div class="row">
-                                            <p class="ml-5"><b>รายการ:</b></p>
-                                            <p class="ml-2" id="list"></p>
-                                          </div>
-                                          <div class="row">
-                                            <p class="ml-5"><b>หมวดหมู่:</b></p>
-                                            <p class="ml-2" id="category"></p>
-                                          </div>
-                                          <div class="row">
-                                            <p class="ml-5"><b>จำนวน:</b></p>
-                                            <input type="number" class="form-control col-md-2 ml-2" id="amount" min="1" max="999"> 
-                                          </div>
-                                          <div class="row">
-                                            <p class="ml-5"><b>หน่วยนับ:</b></p>
-                                            <p class="ml-2" id="unit"></p>
-                                          </div>
-                                        </div>
+                        <!-- Modal รายการคำสั่งเพิ่มรายการวัสดุ-->
+                        <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">แบบขอเบิกรายการวัสดุ</h5>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                                    <button type="button" class="btn btn-primary" id="btnSave"
-                                        data-dismiss="modal">เพิ่มลงตระกร้า</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal รายการขอเบิก -->
-                    <div class="modal fade" id="modalRQ" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                        aria-hidden="true" style="width: 100%;">
-                        <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title">แบบขอเบิกรายการวัสดุ</h3>
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-
-                                <div class="modal-body ">
-                                    <div class="container-fluid">
-                                        <h5 class="modal-title">รายการวัสดุที่ต้องการเบิก</h5>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="table-responsive text-center">
-                                                    <table class="table table-bordered text-center" id="supListTable" width="100%" cellspacing="0">
-
-                                                    </table>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <p class="ml-5"><b>รายการ:</b></p>
+                                                    <p class="ml-2" id="list"></p>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="ml-5"><b>หมวดหมู่:</b></p>
+                                                    <p class="ml-2" id="category"></p>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="ml-5"><b>จำนวน:</b></p>
+                                                    <input type="number" class="form-control col-md-2 ml-2" id="amount"
+                                                        min="1" max="999">
+                                                </div>
+                                                <div class="row">
+                                                    <p class="ml-5"><b>หน่วยนับ:</b></p>
+                                                    <p class="ml-2" id="unit"></p>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <form>
-                                            <div class="form-group">
-                                                <h5>วัตถุประสงค์</h5>
-                                                <textarea class="form-control" id="message-text"></textarea>
-                                            </div>
-                                        </form>
                                     </div>
-                                </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                                    <button type="button" class="btn btn-primary third" id="btnSave"
-                                        data-dismiss="modal">ยืนยัน</button>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">ยกเลิก</button>
+                                        <button type="button" class="btn btn-primary" id="btnAddToCart"
+                                            data-dismiss="modal">เพิ่มลงตระกร้า</button>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <!-- Modal รายการขอเบิก -->
+                        <div class="modal fade" id="modalRQ" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                            aria-hidden="true" style="width: 100%;">
+                            <div class="modal-dialog modal-xl" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">แบบขอเบิกรายการวัสดุ</h3>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
 
-                    <class class="card">
-                        <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                                    <div class="modal-body ">
+                                        <div class="container-fluid">
+                                            <h5 class="modal-title">รายการวัสดุที่ต้องการเบิก</h5>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="table-responsive text-center">
+                                                        <table class="table table-bordered text-center"
+                                                            id="supListTable" width="100%" cellspacing="0">
 
-                            <!-- table -->
-                            <table class="table text-center table-bordered" id="tb_products" width="100%"
-                                cellspacing="0">
-                                <div class="btnRq" style="float: right;">
-                                    <button type="button" class="btn btn-secondary" id="btnRQ">รายการขอเบิก</button>
-                                </div><br><br>
-                            </table>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <form>
+                                                <div class="form-group">
+                                                    <h5>วัตถุประสงค์</h5>
+                                                    <textarea class="form-control" id="message-text"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">ยกเลิก</button>
+                                        <button type="button" class="btn btn-primary third" id="btnSave">ยืนยัน</button>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
+
+                        <class class="card">
+                            <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+
+                                <!-- table -->
+                                <table class="table text-center table-bordered" id="tb_products" width="100%"
+                                    cellspacing="0">
+                                    <div class="btnRq" style="float: right;">
+                                        <button type="button" class="btn btn-secondary" id="btnRQ">รายการขอเบิก</button>
+                                    </div><br><br>
+                                </table>
+                            </div>
                 </div>
                 <!-- end table -->
             </div>

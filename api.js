@@ -3,6 +3,7 @@ const database = require('./config/dbConfig')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
 const checkAuth = require('./checkAuth');
+const { EWOULDBLOCK } = require("constants");
 
 // API function fields
 function api(app) {
@@ -90,6 +91,24 @@ function api(app) {
         res.status(500).send('Action unable to complete');
       }
       res.redirect('/');
+    });
+  });
+
+  app.get('/api/user/getItemsList', checkAuth, (req, res) => {
+
+    const sql = `SELECT itm.item_id AS 'item_id', itm.item_code AS 'supID', itm.item_name AS 'supName', itm.item_amount AS 'Amount',
+                DATE(itm.item_last_add_datetime) AS 'dates', itp.type_name AS 'supCate', iun.unit_name AS 'supUnit'
+                FROM Items itm JOIN Item_types itp ON itm.type_id = itp.type_id
+                JOIN Item_units iun ON itm.unit_id = iun.unit_id
+                WHERE used='Y'`;
+
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Server Error");
+      }
+
+      res.json(db_result);
     });
   });
 
@@ -453,6 +472,48 @@ function api(app) {
     }
   } // ==== end of ADMIN UPDATE ITEM API =====
 
+  app.post('/api/user/requestItems', checkAuth, (req, res) => {
+    const { reqData, reqReason } = req.body;
+
+    if (!reqData || !reqReason) {
+      return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+    }
+
+    // 1. Insert to Requests table
+    // 2. Insert to RHS table
+    const sql = `INSERT INTO Requests (request_reason, request_datetime, approval_status, progress_state, user_id) 
+                VALUES (?, NOW(), '', 0, ?)`;
+
+    database.query(sql, [reqReason, req.session.user.user_id], (err, insResult) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while adding newly request");
+      }
+
+      if (insResult.affectedRows != 1) {
+        return res.status(400).send("Error, the item requesting cannot be done");
+      }
+
+      const request_id = insResult.insertId;
+      const sql = `INSERT INTO Requests_has_Items (request_id, item_id, item_request_amount) 
+                  VALUES (?,?,?)`;
+      for (i in reqData) {
+        database.query(sql, [request_id, reqData[i].item_id, reqData[i].choseAmount], (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            return res.status(500).send("Database Error while adding newly request item");
+          }
+
+        });
+      }
+
+      res.send("Request success")
+
+
+    });
+
+  });
+
   app.post('/api/admin/addItem', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2) { // check for Admin level
       return res.status(400).send('Action not allowed');
@@ -680,10 +741,97 @@ function api(app) {
     });
   });
 
+  app.get('/api/user/getRequest', checkAuth, (req, res) => {
+
+    const sql = `SELECT rq.request_id AS 'reqNo', DATE(rq.request_datetime) AS 'dates', TIME(rq.request_datetime) AS 'time',DATE(rq.approve_datetime) AS 'dateApp', TIME(rq.approve_datetime) AS 'timeApp',
+                CONCAT(us.division_name, ' ', us.name_title) AS 'name_title', us.firstname AS 'firstname', us.lastname AS 'lastname', us.email AS 'email',
+                rq.progress_state AS 'progress_state' , rq.request_reason AS 'reqReason' 
+                FROM Requests rq
+                JOIN Users us ON rq.user_id = us.user_id
+                WHERE rq.approval_status = 'approved'
+                AND rq.progress_state < 3
+                AND rq.user_id = ?`;
+    database.query(sql, [req.session.user.user_id], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while fetching requests");
+      }
+
+      for (i in db_result) {
+        if (db_result[i].progress_state == 1) {
+          db_result[i].reqStatus = "กำลังดำเนินการ";
+        } else if (db_result[i].progress_state == 2) {
+          db_result[i].reqStatus = "รอรับวัสดุ";
+        }
+      }
+
+      res.json(db_result);
+    });
+  });
+
+  app.get('/api/user/getRequestHistory', checkAuth, (req, res) => {
+
+    const sql = `SELECT rq.request_id AS 'reqNo', DATE(rq.request_datetime) AS 'dateReq', DATE(rq.approve_datetime) AS 'dateApp', TIME(rq.approve_datetime) AS 'timeApp',
+                CONCAT(us.division_name, ' ', us.name_title) AS 'name_title', us.firstname AS 'firstName', us.lastname AS 'lastName', us.email AS 'email',
+                rq.progress_state AS 'progress_state' , rq.request_reason AS 'reqReason', rq.approval_status AS 'approval_status',
+                rq.reject_reason AS 'reject_reason', DATE(rq.reject_dateTime) AS 'reject_date'
+                FROM Requests rq
+                JOIN Users us ON rq.user_id = us.user_id
+                WHERE rq.progress_state = 3
+                AND rq.user_id = ?`;
+    database.query(sql, [req.session.user.user_id], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while fetching requests history");
+      }
+
+      for (i in db_result) {
+        if (db_result[i].progress_state == 3) {
+          if (db_result[i].approval_status == "approved") {
+            db_result[i].reqStatus = "เสร็จสิ้น";
+          } else if (db_result[i].approval_status != "approved") {
+            db_result[i].reqStatus = "ไม่อนุมัติ";
+          }
+
+        }
+      }
+
+      res.json(db_result);
+    });
+  });
+
   app.get('/api/admin/getRequestDetailsId/:id', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2) { // check for Admin level
       return res.status(400).send('Action not allowed');
     }
+
+    const id = req.params.id;
+
+    if (id == null || id == "") {
+      return res.status(400).send("Please provide a request id");
+    }
+
+    const sql = `SELECT itm.item_code AS 'supID', itm.item_name AS 'supName', 
+                itp.type_name AS 'supCate', iun.unit_name AS 'supUnit', itm.item_amount AS 'supLeft',
+                rhi.item_request_amount AS 'supAmount'
+                FROM Items itm 
+                JOIN Item_types itp ON itm.type_id = itp.type_id
+                JOIN Item_units iun ON itm.unit_id = iun.unit_id
+                JOIN Requests_has_Items rhi ON itm.item_id = rhi.item_id
+                WHERE rhi.request_id = ?`;
+
+    database.query(sql, [id], (err, db_result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Database Error while fetching Request details");
+      }
+
+      res.json(db_result);
+    });
+  });
+
+  app.get('/api/user/getRequestDetailsId/:id', checkAuth, (req, res) => {
+
 
     const id = req.params.id;
 
@@ -767,7 +915,7 @@ function api(app) {
                   console.log(err);
                   let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
                   throw new Error(log);
-                  
+
                 }
 
               });
@@ -781,8 +929,10 @@ function api(app) {
     }
 
     function makeApprove() {
-      const sql = `UPDATE Requests SET approval_status = ?, progress_state = 1 WHERE request_id = ?`;
-      database.query(sql, [appr, reqNo], (err, db_result) => {
+      const sql = `UPDATE Requests SET approval_status = ?, progress_state = 1, request_approval_endorser_id = ?,
+                  approve_datetime = NOW() 
+                  WHERE request_id = ?`;
+      database.query(sql, [appr, req.session.user.user_id, reqNo], (err, db_result) => {
         if (err) {
           console.log(err.message);
           return res.status(500).send("Database Error while updating approval status");
@@ -798,8 +948,10 @@ function api(app) {
     }
 
     function makeDisapprove() {
-      const sql = `UPDATE Requests SET approval_status = ?, progress_state = 3, reject_reason = ?, reject_datetime = NOW() WHERE request_id = ?`;
-      database.query(sql, [appr, rejectReason, reqNo], (err, db_result) => {
+      const sql = `UPDATE Requests SET approval_status = ?, progress_state = 3, reject_reason = ?, 
+                  reject_datetime = NOW(), request_approval_endorser_id = ?, approve_datetime = NOW() 
+                  WHERE request_id = ?`;
+      database.query(sql, [appr, rejectReason, req.session.user.user_id, reqNo], (err, db_result) => {
         if (err) {
           console.log(err.message);
           return res.status(500).send("Database Error while updating approval status");
@@ -983,24 +1135,6 @@ function api(app) {
     });
   }
 
-  // function getItemAmount(item_code, cb) {
-
-  //   const sql = `SELECT item_amount FROM Items WHERE item_code = ?`;
-  //   database.query(sql, [item_code], (err, db_result) => {
-  //     if (err) {
-  //       console.log(err.message);
-  //       return cb("Database Error when getting item amount");
-  //     }
-
-  //     if (db_result.length != 1) {
-  //       return cb("Database Error, item is duplicated");
-  //     }
-
-  //     cb(db_result[0].item_amount);
-  //   });
-
-  // }
-
   function getItemData(item_code, cb) {
 
     const sql = `SELECT * FROM Items WHERE item_code = ? AND used='Y'`;
@@ -1018,7 +1152,6 @@ function api(app) {
     });
 
   }
-
 
 
 }
