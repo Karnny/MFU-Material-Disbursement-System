@@ -22,7 +22,7 @@ function api(app) {
 
         // check email in our Database
         const sql = `SELECT us.user_id AS 'user_id', us.email AS 'email', us.role_id AS 'role_id', ur.role_name AS 'role_name', us.user_status AS 'user_status'
-                    FROM users us JOIN user_roles ur ON us.role_id = ur.role_id
+                    FROM Users us JOIN User_roles ur ON us.role_id = ur.role_id
                     WHERE email = ?`;
         database.query(sql, [email], (err, db_result) => {
 
@@ -1021,10 +1021,11 @@ function api(app) {
     const sql = `SELECT us.user_id AS 'user_id', us.email AS 'email', us.name_title AS 'name_title', us.division_name AS 'division_name',
                 us.firstname AS 'firstname', us.lastname AS 'lastname', us.role_id AS 'role_id', ur.role_name AS 'role_name', us.phone_number AS 'phone_number',
                 DATE(us.register_datetime) AS 'register_date', us.user_status AS 'user_status'
-                FROM users us JOIN user_roles ur ON us.role_id = ur.role_id`;
+                FROM Users us JOIN User_roles ur ON us.role_id = ur.role_id`;
 
     database.query(sql, (err, db_result) => {
       if (err) {
+        console.log(err.message);
         return res.status(500).send("Database Server Error");
       }
 
@@ -1044,7 +1045,7 @@ function api(app) {
       return res.status(400).send("User status must be 'Active' or 'Disabled'");
     }
 
-    const sql = `UPDATE users SET user_status = ? WHERE user_id = ?`;
+    const sql = `UPDATE Users SET user_status = ? WHERE user_id = ?`;
     database.query(sql, [user_status, user_id], (err, db_result) => {
       if (err) {
         console.log(err);
@@ -1103,7 +1104,7 @@ function api(app) {
         break;
     }
 
-    const sql = `INSERT INTO users (email, name_title, division_name, firstname, lastname, role_id, register_datetime, phone_number)
+    const sql = `INSERT INTO Users (email, name_title, division_name, firstname, lastname, role_id, register_datetime, phone_number)
                 VALUES(?,?,?,?,?,?, NOW(),?)`;
     database.query(sql, [email, name_title, division_name, firstname, lastname, insRole, phone_number], (err, db_result) => {
       if (err) {
