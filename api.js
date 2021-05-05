@@ -1104,21 +1104,53 @@ function api(app) {
         break;
     }
 
-    const sql = `INSERT INTO Users (email, name_title, division_name, firstname, lastname, role_id, register_datetime, phone_number)
-                VALUES(?,?,?,?,?,?, NOW(),?)`;
-    database.query(sql, [email, name_title, division_name, firstname, lastname, insRole, phone_number], (err, db_result) => {
+    isUserEmailExists(email, (err, isTrue, db_q) => {
       if (err) {
-        console.log(err);
-        return res.status(500).send("Database Server Error");
+        console.log(err.message);
+        return res.status(500).send("Database Server Error while checking user email");
+      } else if (isTrue) {
+        return res.status(400).send("The user email is already exist");
       } else {
-        if (db_result.affectedRows != 1) {
-          return res.status(400).send("Unable to add new user");
-        } else {
-          res.send("Add user " + email + " complete");
-        }
+
+        const sql = `INSERT INTO Users (email, name_title, division_name, firstname, lastname, role_id, register_datetime, phone_number)
+        VALUES(?,?,?,?,?,?, NOW(),?)`;
+        database.query(sql, [email, name_title, division_name, firstname, lastname, insRole, phone_number], (err, db_result) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send("Database Server Error");
+          } else {
+            if (db_result.affectedRows != 1) {
+              return res.status(400).send("Unable to add new user");
+            } else {
+              res.send("Add user " + email + " complete");
+            }
+          }
+        });
+
       }
+
     });
+
   });
+
+  function isUserEmailExists(email, cb) {
+    const sql = `SELECT user_id FROM Users WHERE email = ?`;
+    database.query(sql, [email], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        cb(err, undefined, undefined);
+      } else {
+
+        if (db_result.length > 0) {
+          cb(undefined, true, db_result);
+        } else {
+          cb(undefined, false, db_result);
+        }
+
+      }
+
+    });
+  }
 
   function isItemCodeExists(code, cb) {
     const sql = `SELECT item_id FROM Items WHERE item_code=? AND used='Y'`;
