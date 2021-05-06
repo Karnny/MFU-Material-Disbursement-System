@@ -879,7 +879,7 @@ function api(app) {
       case "approved":
         appr = "approved";
         updateItemAmount();
-        makeApprove();
+        
         break;
       case "disapprove":
         appr = "disapprove";
@@ -905,26 +905,40 @@ function api(app) {
           return res.status(400).send("Error, there are no items of that request");
         }
 
-        // 2. Subtract items in Items table with each item in RHS
-        try {
+        // 1.5 check if each item is available to subtract
+        const sql_check = `SELECT item_amount FROM Items WHERE item_id = ?`;
+        for (i in rhs_result) {
+          database.query(sql_check, [rhs_result[i].item_id], (err, db_itm) => {
+            if (err) {
+              console.log(err.message);
+              return res.status(500).send("Database Server Error while checking item amount");
+            } else {
+              if (db_itm[0].item_amount < rhs_result[i].amount) {
+                return res.status(400).send("Error, the amount of requested item exceeded the actual amount.");
+              } else {
 
-          for (i in rhs_result) {
-            const sql = `UPDATE Items SET item_amount = item_amount - ? WHERE item_id = ?`;
-            database.query(sql, [Number(rhs_result[i].amount), rhs_result[i].item_id],
-              (err, db_result) => {
-                if (err) {
-                  console.log(err);
-                  let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
-                  throw new Error(log);
-
+                // 2. Subtract items in Items table with each item in RHS
+                for (i in rhs_result) {
+                  const sql = `UPDATE Items SET item_amount = item_amount - ? WHERE item_id = ?`;
+                  database.query(sql, [Number(rhs_result[i].amount), rhs_result[i].item_id],
+                    (err, db_result) => {
+                      if (err) {
+                        console.log(err);
+                        let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
+                        return res.status(500).send(log);
+                      }
+      
+                    });
                 }
 
-              });
-          }
+                makeApprove();
 
-        } catch (e) {
-          return res.status(500).send(e);
+              }
+            }
+          });
         }
+
+      
 
       });
     }
