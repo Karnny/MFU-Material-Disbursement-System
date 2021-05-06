@@ -215,7 +215,11 @@
 
         },
         error: function (xhr) {
-          Swal.fire(xhr.responseText);
+          Swal.fire(
+            "Error",
+            xhr.responseText,
+            "error"
+            );
         }
 
       });
