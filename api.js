@@ -629,9 +629,7 @@ function api(app) {
       });
 
     });
-
-
-
+    
   });
 
   app.get('/api/getItemTypes', checkAuth, (req, res) => {

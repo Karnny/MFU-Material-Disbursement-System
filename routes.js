@@ -9,7 +9,7 @@ function router(app) {
     } else {
       res.redirect('/login');
     }
-    
+
   });
 
   // Role ID Name: 1 = User, 2 = Admin, 3 = Super Advisor, 4 = Super Admin
@@ -30,8 +30,8 @@ function router(app) {
     if (req.session.user.role_id != 4) {
       return res.redirect(req.session.user.main_url);
     }
-    
-    res.render('manageUsers', {user: req.session.user});
+
+    res.render('manageUsers', { user: req.session.user });
   });
 
   app.get('/admin/allSupplies', checkAuth, (req, res) => {
@@ -39,7 +39,7 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('admin_all_supplies', {user: req.session.user});
+    res.render('admin_all_supplies', { user: req.session.user });
   });
 
   app.get('/admin/editHistory', checkAuth, (req, res) => {
@@ -47,7 +47,7 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('admin_edit_info_history', {user: req.session.user});
+    res.render('admin_edit_info_history', { user: req.session.user });
   });
 
   app.get('/admin/updateRequest', checkAuth, (req, res) => {
@@ -55,15 +55,15 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('admin_update_req', {user: req.session.user});
+    res.render('admin_update_req', { user: req.session.user });
   });
-  
+
   app.get('/admin/requestHistory', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('admin_req_history', {user: req.session.user});
+    res.render('admin_req_history', { user: req.session.user });
   });
 
   app.get('/admin/pendingRequests', checkAuth, (req, res) => {
@@ -71,7 +71,7 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('admin_pending_requests', {user: req.session.user});
+    res.render('admin_pending_requests', { user: req.session.user });
   });
 
   app.get('/user/allSupplies', checkAuth, (req, res) => {
@@ -79,7 +79,7 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('user_all_supplies', {user: req.session.user});
+    res.render('user_all_supplies', { user: req.session.user });
   });
 
   app.get('/user/checkRequests', checkAuth, (req, res) => {
@@ -87,7 +87,7 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('user_check_reqStatus', {user: req.session.user});
+    res.render('user_check_reqStatus', { user: req.session.user });
   });
 
   app.get('/user/requestHistory', checkAuth, (req, res) => {
@@ -95,8 +95,25 @@ function router(app) {
       return res.redirect(req.session.user.main_url);
     }
 
-    res.render('user_request_history', {user: req.session.user});
+    res.render('user_request_history', { user: req.session.user });
   });
+
+  app.get('/advisor/allSupplies', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 3) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('ad_all_supplies', { user: req.session.user });
+  });
+
+  app.get('/advisor/editHistory', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 3) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('ad_edit_info_history', { user: req.session.user });
+  });
+
 
 }
 
