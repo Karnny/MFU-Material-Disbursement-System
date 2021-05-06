@@ -169,7 +169,8 @@
                             return `${dateArr[2]}/${dateArr[1]}/${dateArr[0]}`;
                         }
                     },
-                    { title: "แก้ไข", defaultContent: "<button class='btn' id='btnTableEdit'><i class='fas fa-edit'></i></button>" }
+                    { title: "แก้ไข", defaultContent: "<button class='btn' id='btnTableEdit'><i class='fas fa-edit'></i></button>" },
+                    {title:"ลบ", defaultContent:"<button class='btn' id='btnTableDel'><i class='fas fa-trash-alt'></i></button>"}
                 ]
 
             });
@@ -243,7 +244,6 @@
                 })
 
             })
-            //ยังไม่สมบูรณ์
             $("#btnAddnew").click(function () {
 
                 $("#modalAddNew").modal("show");
@@ -348,6 +348,7 @@
             })
 
             var selectEditData;
+            var selectDelData;
             var rowID;
             $("#data_table tbody").on("click", "#btnTableEdit", function () {
 
@@ -443,13 +444,20 @@
                 }).draw();
             });
 
-            $("#btn_delete").click(function () {
+            $("#data_table tbody").on("click", "#btnTableDel", function () {
+
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+                selectDelData = data;
+
+                rowID = table.row(currentRow).index();
                 const id = $("#EditTextID").val();
-                const dataID = selectEditData.id;
+                const dataID = selectDelData.id;
+
                 Swal.fire({
                     icon: "warning",
                     title: "ลบรายการวัสดุ",
-                    text: "คุณแน่ใจไหมว่าต้องการจะลบรายการวัสดุ" + " " + selectEditData.name,
+                    text: "คุณแน่ใจไหมว่าต้องการจะลบรายการวัสดุ" + " " + selectDelData.name,
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonText: "ต้องการ",
@@ -473,7 +481,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'ลบรายการวัสดุสำเร็จ',
-                                    html: `รหัสวัสดุ ${id}<br />ชื่อรายการ ${selectEditData.name}<br />ลบรายการเมื่อ ${new Date().toISOString().slice(0, 10)}`
+                                    html: `รหัสวัสดุ ${id}<br />ชื่อรายการ ${selectDelData.name}<br />ลบรายการเมื่อ ${new Date().toISOString().slice(0, 10)}`
                                 })
                                 $("#modalEdit").modal("hide");
                             },
@@ -573,12 +581,12 @@
 
             <!-- Overview -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview" aria-expanded="true"
+                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview" aria-expanded="true"
                     aria-controls="collapseOverview">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>ระบบวัสดุ</span>
                 </a>
-                <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ</a>
@@ -595,12 +603,12 @@
 
             <!-- Report -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true"
+                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport" aria-expanded="true"
                     aria-controls="collapseReport">
                     <i class="fas fa-file-alt"></i>
                     <span>รายการวัสดุ</span>
                 </a>
-                <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
@@ -823,17 +831,6 @@
                         <div class="form-group">
                             <div class="row mx-auto justify-content-center">
                                 <div class="col-md-4 d-flex justify-content-end">
-                                    <label class="col-form-label">แก้ไขจำนวน:</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="number" min="0" id="EditTextAmount" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row mx-auto justify-content-center">
-                                <div class="col-md-4 d-flex justify-content-end">
                                     <label class="col-form-label">แก้ไขจำนวนโดย:</label>
                                 </div>
                                 <div class="col-md-8">
@@ -856,6 +853,17 @@
                         <div class="form-group">
                             <div class="row mx-auto justify-content-center">
                                 <div class="col-md-4 d-flex justify-content-end">
+                                    <label class="col-form-label">แก้ไขจำนวน:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" min="0" id="EditTextAmount" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mx-auto justify-content-center">
+                                <div class="col-md-4 d-flex justify-content-end">
                                     <label class="col-form-label">หมวดหมู่:</label>
                                 </div>
                                 <div class="col-md-8">
@@ -871,19 +879,6 @@
                                 </div>
                                 <div class="col-md-8">
                                     <select class="form-control" name="type" id="SelectUnitEdit" style="border-radius: 20px;"></select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- icon ถังขยะเบี้ยว -->
-                        <div class="form-group">
-                            <div class="row mx-auto justify-content-center">
-                                <div class="col-md-4 d-flex justify-content-end">
-                                    <label class="col-form-label">ลบรายการ:</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <button type="button" id="btn_delete" class="btn"><i
-                                            class="fas fa-trash-alt"></i></button>
                                 </div>
                             </div>
                         </div>
