@@ -98,6 +98,32 @@ function router(app) {
     res.render('user_request_history', { user: req.session.user });
   });
 
+  //advisor part
+
+  app.get('/advisor/pendingRequests', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 3) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('ad_pending_req', { user: req.session.user });
+  });
+
+  app.get('/advisor/updateRequest', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 3) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('ad_update_req', { user: req.session.user });
+  });
+
+  app.get('/advisor/requestHistory', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 3) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('ad_req_history', { user: req.session.user });
+  });
+
   app.get('/advisor/allSupplies', checkAuth, (req, res) => {
     if (req.session.user.role_id != 3) {
       return res.redirect(req.session.user.main_url);
@@ -113,6 +139,15 @@ function router(app) {
 
     res.render('ad_edit_info_history', { user: req.session.user });
   });
+
+  app.get('/advisor/stat', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 3) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('ad_static', { user: req.session.user });
+  });
+
 
 
 }

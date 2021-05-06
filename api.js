@@ -49,7 +49,7 @@ function api(app) {
               url = '/admin/pendingRequests';
               break;
             case 3:
-              url = '/advisor_requests';
+              url = '/advisor/pendingRequests';
               break;
             case 4:
               url = '/manageUsers';
@@ -629,7 +629,7 @@ function api(app) {
       });
 
     });
-    
+
   });
 
   app.get('/api/getItemTypes', checkAuth, (req, res) => {
@@ -657,7 +657,7 @@ function api(app) {
   });
 
   app.get('/api/admin/getPendingRequest', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 2) { // check for Admin level
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
     }
 
@@ -678,7 +678,7 @@ function api(app) {
   });
 
   app.get('/api/admin/getUpdateRequest', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 2) { // check for Admin level
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
     }
 
@@ -708,7 +708,7 @@ function api(app) {
   });
 
   app.get('/api/admin/getRequestHistory', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 2) { // check for Admin level
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
     }
 
@@ -800,7 +800,7 @@ function api(app) {
   });
 
   app.get('/api/admin/getRequestDetailsId/:id', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 2) { // check for Admin level
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
     }
 
@@ -858,7 +858,7 @@ function api(app) {
   });
 
   app.put('/api/admin/updateRequestApproval', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 2) { // check for Admin level
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
     }
 
@@ -983,7 +983,7 @@ function api(app) {
   });
 
   app.put('/api/admin/updateRequestStatus', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 2) { // check for Admin level
+    if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
     }
 

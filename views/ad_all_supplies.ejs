@@ -70,19 +70,7 @@
 
         var rowID;
         //function set array of table
-        let Setdatatable = [
-            { "id": "01", "name": "แฟ้มเสนองาน", "type": "สำนักงาน", "amount": "12", "unit": "แฟ้ม", "dates": "04/17/2021" },
-            { "id": "02", "name": "ปากกาเพ็นครุภัณฑ์ขนาดเล็ก สีดำ", "type": "สำนักงาน", "amount": "10", "unit": "ด้าม", "dates": "04/02/2021" },
-            { "id": "03", "name": "ปากกาเพ็นครุภัณฑ์ขนาดเล็ก สีขาว", "type": "สำนักงาน", "amount": "5", "unit": "ด้าม", "dates": "03/24/2021" },
-            { "id": "04", "name": "ดินสอ HB", "type": "สำนักงาน", "amount": "45", "unit": "แท่ง", "dates": "03/12/2021" },
-            { "id": "05", "name": "ถ่านก้อนกลาง", "type": "ไฟฟ้า", "amount": "7", "unit": "ก้อน", "dates": "03/11/2021" },
-            { "id": "06", "name": "แผ่น CDR 700 MB", "type": "คอมพิวเตอร์", "amount": "13", "unit": "แผ่น", "dates": "03/09/2021" },
-            { "id": "07", "name": "ที่ติดมุมภาพแบบพลาสติก", "type": "โฆษณา", "amount": "6", "unit": "ถุง", "dates": "03/02/2021" },
-            { "id": "08", "name": "เชือกฟาง", "type": "งานบ้าน", "amount": "51", "unit": "ม้วน", "dates": "02/28/2021" },
-            { "id": "09", "name": "กระดุมเสื้อสูท (สีทอง)", "type": "เครื่องแต่งกาย", "amount": "26", "unit": "เม็ด", "dates": "02/19/2021" },
-            { "id": "010", "name": "พระบรมฉายาลักษณ์สมเด็จย่า", "type": "ของที่ระลึก", "amount": "36", "unit": "อัน", "dates": "02/08/2021" },
-            { "id": "011", "name": "เนคไทลายผ้าไหม", "type": "ของที่ระลึก", "amount": "65", "unit": "เส้น", "dates": "02/01/2021" }
-        ]
+        let Setdatatable = [];
 
         //array of SelectStatus
         var selectType = [];
@@ -188,25 +176,20 @@
                 tb.html(tb.html() + option);
             }
 
+            function setCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].type_name}</option>`;
+                }
+                tb.html(tb.html() + select + option);
+            }
+
 
             //function Create SelectStatus
             let select_Type = $("#SelectType");
-            selectCategory(selectType, select_Type);
+            setCategory(selectType, select_Type);
 
-            //function Create SelectType
-            let select_typeaddnew = $("#SelectTypeAddnew");
-            selectCategory(selectTypeAddnew, select_typeaddnew);
-
-
-            //function Create SelectTypeEdit
-            let select_typeedit = $("#SelectTypeEdit");
-            selectCategory(selectTypeEdit, select_typeedit);
-
-
-            var selectEditData;
-
-
-            $("#totalReq").html(Setdatatable.length);
 
         });
 
@@ -250,13 +233,16 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
-                            <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <%= user.firstname %>
+                                    <%= user.lastname %>
+                            </span>
+                            <img class="img-profile rounded-circle" src="/img/manIcon.png">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/views/index.html">
+                            <a class="dropdown-item" href="/logout">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 ออกจากระบบ
                             </a>
@@ -283,24 +269,20 @@
 
                     <!-- Overview -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
+                        <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
                             aria-expanded="true" aria-controls="collapseOverview">
                             <i class="fas fa-fw fa-folder"></i>
                             <span>ระบบวัสดุ</span>
                         </a>
-                        <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                        <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="/advisor/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                                <a class="collapse-item" href="/advisor/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                                <a class="collapse-item" href="/advisor/requestHistory">ประวัติการอนุมัติคำขอ</a>
+                                <a class="collapse-item" href="/advisor/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
                                 <a class="collapse-item"
-                                    href="/views/super_advisor/ad_material_req.html">รายการคำขอเบิกวัสดุ</a>
-                                <a class="collapse-item"
-                                    href="/views/super_advisor/ad_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
-                                <a class="collapse-item"
-                                    href="/views/super_advisor/ad_req_history.html">ประวัติการอนุมัติคำขอ</a>
-                                <a class="collapse-item"
-                                    href="/views/super_advisor/ad_all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
-                                <a class="collapse-item"
-                                    href="/views/super_advisor/ad_edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                                    href="/advisor/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
                             </div>
                         </div>
                     </li>
@@ -310,16 +292,15 @@
 
                     <!-- Report -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
+                        <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
                             aria-expanded="true" aria-controls="collapseReport">
                             <i class="fas fa-file-alt"></i>
                             <span>รายการวัสดุ</span>
                         </a>
-                        <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                        <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item"
-                                    href="/views/super_advisor/ad_static.html">รายงานสถิติการเบิก</a>
+                                <a class="collapse-item" href="/advisor/stat">รายงานสถิติการเบิก</a>
                             </div>
                         </div>
                     </li>

@@ -67,12 +67,45 @@
 
     <script>
 
+        var reqData = [
+            {
+                dateReq: "11/05/2020",
+                dateApp: "12/05/2020",
+                timeApp: "15:48:25",
+                reqNo: "630000001",
+                name_title: "อาจารย์ ดร.",
+                firstName: "สุรพงษ์",
+                lastName: "อุตมา",
+                email: "surapong@mfu.ac.th",
+                reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqReason: "ต้องการนำไปใช้เตรียมเอกสารงานวิจัย"
+            }
+
+        ];
+
+        var supData = [];
+
         var rowID;
+        var tableReqDetails;
 
         //Note1
         // Success Status = 1 Reject Status = 2 In progress Status = 3 End Status = 4
+        function updateReqList() {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "/api/admin/getUpdateRequest",
+                dataType: "",
+                success: function (response) {
+                    reqData = response;
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
 
         $(document).ready(function () {
+            updateReqList();
             var selectType = [
                 { status: "กำลังดำเนินการ" },
                 { status: "รอส่งมอบ" },
@@ -80,7 +113,7 @@
 
             $("#SelectType").on('change', function () {
                 table.search(this.value).draw();
-            })
+            });
 
             //function selectStatus
             function selectCategory(selectArray, tb) {
@@ -96,123 +129,6 @@
             let select_Type = $("#SelectType");
             selectCategory(selectType, select_Type);
 
-            var reqData = [
-                {
-                    dateReq: "11/05/2020",
-                    dateApp: "12/05/2020",
-                    timeApp: "15:48:25",
-                    reqNo: "630000001",
-                    name_title: "อาจารย์ ดร.",
-                    firstName: "สุรพงษ์",
-                    lastName: "อุตมา",
-                    email: "surapong@mfu.ac.th",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqReason: "ต้องการนำไปใช้เตรียมเอกสารงานวิจัย"
-                },
-                {
-                    dateReq: "11/05/2020",
-                    dateApp: "12/05/2020",
-                    timeApp: "15:50:02",
-                    reqNo: "630000002",
-                    email: "ternchit@mfu.ac.th",
-                    name_title: "อาจารย์",
-                    firstName: "เตือนจิต",
-                    lastName: "สุทธหลวง",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "รอส่งมอบ", reqReason: "-"
-                },
-                {
-                    dateReq: "12/05/2020",
-                    dateApp: "13/05/2020",
-                    timeApp: "08:55:18",
-                    reqNo: "630000003",
-                    email: "suppakarn.cha@mfu.ac.th",
-                    name_title: "ผู้ช่วยศาสตราจารย์ ดร.",
-                    firstName: "ศุภกานต์",
-                    lastName: "จันทร์เสรีวิทยา",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqReason: "-"
-                },
-                {
-                    dateReq: "12/05/2020",
-                    dateApp: "13/05/2020",
-                    timeApp: "09:10:01",
-                    reqNo: "630000004",
-                    email: "worasak.rue@mfu.ac.th",
-                    name_title: "อาจารย์ ดร.",
-                    firstName: "วรศักดิ์",
-                    lastName: "เรืองศิรรักษ์",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "รอส่งมอบ", reqReason: "-"
-                },
-                {
-                    dateReq: "13/05/2020",
-                    dateApp: "14/05/2020",
-                    timeApp: "08:35:20",
-                    reqNo: "630000005",
-                    email: "mahamah.seb@mfu.ac.th",
-                    name_title: "อาจารย์ ดร.",
-                    firstName: "มาหะมะ",
-                    lastName: "เซะบากอ",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "รอส่งมอบ", reqReason: "-"
-                },
-                {
-                    dateReq: "13/05/2020",
-                    dateApp: "14/05/2020",
-                    timeApp: "08:39:25",
-                    reqNo: "630000006",
-                    email: "thongchai.mfu@gmail.com",
-                    name_title: "ผู้ช่วยศาสตราจารย์ น.อ. ดร.",
-                    firstName: "ธงชัย",
-                    lastName: "อยู่ญาติวงศ์",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "รอส่งมอบ", reqReason: "-"
-                },
-                {
-                    dateReq: "13/05/2020",
-                    dateApp: "14/05/2020",
-                    timeApp: "08:41:05",
-                    reqNo: "630000007",
-                    email: "khwunta.kir@mfu.ac.th",
-                    name_title: "อาจารย์ ดร.",
-                    firstName: "ขวัญตา",
-                    lastName: "คีรีมาศทอง",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqReason: "-"
-                },
-                {
-                    dateReq: "14/05/2020",
-                    dateApp: "15/05/2020",
-                    timeApp: "11:01:59",
-                    reqNo: "630000008",
-                    email: "pruet@mfu.ac.th",
-                    name_title: "อาจารย์ ดร.",
-                    firstName: "พฤทธิ์",
-                    lastName: "พุฒจร",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "รอส่งมอบ", reqReason: "-"
-                },
-                {
-                    dateReq: "15/05/2020",
-                    dateApp: "16/05/2020",
-                    timeApp: "11:48:25",
-                    reqNo: "630000009",
-                    email: "sirikan@mfu.ac.th",
-                    name_title: "ผู้ช่วยศาสตราจารย์ ดร.",
-                    firstName: "ศิริกานต์",
-                    lastName: "ชูเชิด",
-                    reqList: "ดูเพิ่มเติม", reqStatus: "รอส่งมอบ", reqReason: "-"
-                },
-            ];
-
-            var supData = [
-                { supID: "101000001", supName: "กรรไกรตัดกระดาษ 6", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "101000002", supName: "กรรไกรตัดกระดาษ 9", supUnit: "อัน", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "101000003", supName: "เครื่องคิดเลข 12 หลัก", supUnit: "เครื่อง", supCate: "วัสดุสำนักงาน", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "102000054", supName: "ตลับสายไฟคอมพิวเตอร์", supUnit: "อัน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "102000055", supName: "ถ่าน AA ธรรมดา", supUnit: "ก้อน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "102000056", supName: "ถ่านก้อนกลาง", supUnit: "ก้อน", supCate: "วัสดุไฟฟ้าวิทยุ", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "112000078", supName: "ผ้าหมึก Epson LQ 2070/2180i", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "112000085", supName: "หมึก HP laserjet P2015 (Q7553A)", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "112000455", supName: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", supUnit: "กล่อง", supCate: "วัสดุคอมพิวเตอร์", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "103000456", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", supCate: "วัสดุงานบ้านงานครัว", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "110000001", supName: "กระดุมแขนเสื้อสูท (สีทอง)", supUnit: "เม็ด", supCate: "วัสดุเครื่องแต่งกาย", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-                { supID: "103000456", supName: "ถุงขยะสีดำขนาด 30*40", supUnit: "แพ็ก", supCate: "วัสดุของที่ระลึก", supAmount: Math.floor(Math.random() * 100), supLeft: Math.floor(Math.random() * 100) },
-
-            ];
 
             //Create
             var table = $("#updateReqTable").DataTable({
@@ -254,8 +170,25 @@
                 $("#moreInfoModal").modal("show");
                 const currentRow = $(this).parents("tr");
                 const data = table.row(currentRow).data();
-
+                const reqNo = data.reqNo;
                 rowID = table.row(currentRow).index();
+
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "/api/admin/getRequestDetailsId/" + reqNo,
+                    dataType: "",
+                    success: function (response) {
+                        supData = response;
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+                tableReqDetails.clear();
+                tableReqDetails.rows.add(supData).draw();
+
 
                 //Show each user data from row selected
                 $("#reqNumber").html(reqData[rowID].reqNo);
@@ -271,7 +204,7 @@
             $("#totalReq").html(reqData.length);
 
             //Table in More Info Modal
-            $("#supListTable").DataTable({
+            tableReqDetails = $("#supListTable").DataTable({
                 data: supData,
                 columns: [
                     {
@@ -292,7 +225,6 @@
                     ['5', '10', '15', 'Show all']
                 ],
             });
-
         });
 
         // function randomStatus(){
@@ -335,13 +267,16 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">P'Nim</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <%= user.firstname %>
+                                    <%= user.lastname %>
+                            </span>
                             <img class="img-profile rounded-circle" src="/img/manIcon.png">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/views/index.html">
+                            <a class="dropdown-item" href="/logout">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 ออกจากระบบ
                             </a>
@@ -366,24 +301,19 @@
 
                 <!-- Overview -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOverview"
+                    <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
                         aria-expanded="true" aria-controls="collapseOverview">
                         <i class="fas fa-fw fa-folder"></i>
                         <span>ระบบวัสดุ</span>
                     </a>
-                    <div id="collapseOverview" class="collapse" aria-labelledby="headingPages"
+                    <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item"
-                                href="/views/super_advisor/ad_material_req.html">รายการคำขอเบิกวัสดุ</a>
-                            <a class="collapse-item"
-                                href="/views/super_advisor/ad_update_req.html">ดำเนินรายการคำขอเบิกวัสดุ</a>
-                            <a class="collapse-item"
-                                href="/views/super_advisor/ad_req_history.html">ประวัติการอนุมัติคำขอ</a>
-                            <a class="collapse-item"
-                                href="/views/super_advisor/ad_all_supplies.html">ข้อมูลวัสดุทั้งหมด</a>
-                            <a class="collapse-item"
-                                href="/views/super_advisor/ad_edit_info_history.html">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/requestHistory">ประวัติการอนุมัติคำขอ</a>
+                            <a class="collapse-item" href="/advisor/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
+                            <a class="collapse-item" href="/advisor/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
                         </div>
                     </div>
                 </li>
@@ -393,15 +323,15 @@
 
                 <!-- Report -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseReport"
+                    <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
                         aria-expanded="true" aria-controls="collapseReport">
                         <i class="fas fa-file-alt"></i>
                         <span>รายการวัสดุ</span>
                     </a>
-                    <div id="collapseReport" class="collapse" aria-labelledby="headingPages"
+                    <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/views/super_advisor/ad_static.html">รายงานสถิติการเบิก</a>
+                            <a class="collapse-item" href="/advisor/stat">รายงานสถิติการเบิก</a>
                         </div>
                     </div>
                 </li>
