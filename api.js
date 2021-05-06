@@ -3,7 +3,7 @@ const database = require('./config/dbConfig')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
 const checkAuth = require('./checkAuth');
-const { EWOULDBLOCK } = require("constants");
+
 
 // API function fields
 function api(app) {
@@ -576,8 +576,6 @@ function api(app) {
       });
 
 
-
-
     });
 
 
@@ -631,7 +629,18 @@ function api(app) {
     });
 
 
+  });
 
+  app.get('/api/getPendingRequestCount', checkAuth, (req, res) => {
+    const sql = `SELECT COUNT(*) AS 'count' FROM Requests WHERE progress_state = 0`;
+    database.query(sql, (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while getting total number of item");
+      } else {
+        res.json(db_result[0]);
+      }
+    });
   });
 
   app.get('/api/getItemTypes', checkAuth, (req, res) => {
@@ -879,7 +888,7 @@ function api(app) {
       case "approved":
         appr = "approved";
         updateItemAmount();
-        
+
         break;
       case "disapprove":
         appr = "disapprove";
@@ -927,7 +936,7 @@ function api(app) {
                         let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
                         return res.status(500).send(log);
                       }
-      
+
                     });
                 }
 
@@ -938,7 +947,7 @@ function api(app) {
           });
         }
 
-      
+
 
       });
     }

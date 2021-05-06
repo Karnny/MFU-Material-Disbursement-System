@@ -132,11 +132,31 @@
             });
         }
 
-        $(document).ready(function () {
+        function updateBadge() {
+            $.ajax({
+                type: "GET",
+                url: "/api/getPendingRequestCount",
+                dataType: "",
+                success: function (response) {
 
+                    $("#pendingReqBadge").html(response.count);
+                },
+                error: function (xhr) {
+                    Swal.fire(
+                        "Error",
+                        xhr.responseText,
+                        "error"
+                    );
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateBadge();
             updateItemTypes();
             updateItemUnits();
             updateDataSet();
+
 
             //selectType
             $("#SelectType").on('change', function () {
@@ -170,7 +190,7 @@
                         }
                     },
                     { title: "แก้ไข", defaultContent: "<button class='btn' id='btnTableEdit'><i class='fas fa-edit'></i></button>" },
-                    {title:"ลบ", defaultContent:"<button class='btn' id='btnTableDel'><i class='fas fa-trash-alt'></i></button>"}
+                    { title: "ลบ", defaultContent: "<button class='btn' id='btnTableDel'><i class='fas fa-trash-alt'></i></button>" }
                 ]
 
             });
@@ -581,15 +601,16 @@
 
             <!-- Overview -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview" aria-expanded="true"
-                    aria-controls="collapseOverview">
+                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
+                    aria-expanded="true" aria-controls="collapseOverview">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>ระบบวัสดุ</span>
                 </a>
                 <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                        <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
+                                class="badge badge-danger" id="pendingReqBadge">0</span></a>
                         <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
                         <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
                         <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
@@ -603,8 +624,8 @@
 
             <!-- Report -->
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport" aria-expanded="true"
-                    aria-controls="collapseReport">
+                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
+                    aria-expanded="true" aria-controls="collapseReport">
                     <i class="fas fa-file-alt"></i>
                     <span>รายการวัสดุ</span>
                 </a>
@@ -754,7 +775,8 @@
                                     <label class="col-form-label">หมวดหมู่:</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select class="form-control" name="type" id="SelectTypeAddnew" style="border-radius: 20px;"></select>
+                                    <select class="form-control" name="type" id="SelectTypeAddnew"
+                                        style="border-radius: 20px;"></select>
                                 </div>
                             </div>
                         </div>
@@ -765,7 +787,8 @@
                                     <label class="col-form-label">หน่วยวัสดุ:</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select class="form-control" name="type" id="SelectUnitAddnew" style="border-radius: 20px;"></select>
+                                    <select class="form-control" name="type" id="SelectUnitAddnew"
+                                        style="border-radius: 20px;"></select>
                                 </div>
                             </div>
                         </div>
@@ -867,7 +890,8 @@
                                     <label class="col-form-label">หมวดหมู่:</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select class="form-control" name="type" id="SelectTypeEdit" style="border-radius: 20px;"></select>
+                                    <select class="form-control" name="type" id="SelectTypeEdit"
+                                        style="border-radius: 20px;"></select>
                                 </div>
                             </div>
                         </div>
@@ -878,7 +902,8 @@
                                     <label class="col-form-label">หน่วยวัสดุ:</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select class="form-control" name="type" id="SelectUnitEdit" style="border-radius: 20px;"></select>
+                                    <select class="form-control" name="type" id="SelectUnitEdit"
+                                        style="border-radius: 20px;"></select>
                                 </div>
                             </div>
                         </div>

@@ -79,7 +79,7 @@
                 email: "surapong@mfu.ac.th",
                 reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqReason: "ต้องการนำไปใช้เตรียมเอกสารงานวิจัย"
             }
-            
+
         ];
 
         var supData = [];
@@ -89,6 +89,25 @@
 
         //Note1
         // Success Status = 1 Reject Status = 2 In progress Status = 3 End Status = 4
+        function updateBadge() {
+            $.ajax({
+                type: "GET",
+                url: "/api/getPendingRequestCount",
+                
+                dataType: "",
+                success: function (response) {
+
+                    $("#pendingReqBadge").html(response.count);
+                },
+                error: function (xhr) {
+                    Swal.fire(
+                        "Error",
+                        xhr.responseText,
+                        "error"
+                    );
+                }
+            });
+        }
 
         function updateReqList() {
             $.ajax({
@@ -106,6 +125,7 @@
         }
         $(document).ready(function () {
             updateReqList();
+            updateBadge();
             var selectType = [
                 { status: "กำลังดำเนินการ" },
                 { status: "รอส่งมอบ" },
@@ -404,7 +424,8 @@
                     <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
+                                    class="badge badge-danger" id="pendingReqBadge">0</span></a>
                             <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
                             <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>

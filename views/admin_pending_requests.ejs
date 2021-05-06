@@ -109,9 +109,29 @@
         }
       });
     }
+
+    function updateBadge() {
+      $.ajax({
+        type: "GET",
+        url: "/api/getPendingRequestCount",
+        dataType: "",
+        success: function (response) {
+          
+          $("#pendingReqBadge").html(response.count);
+        },
+        error: function (xhr) {
+          Swal.fire(
+            "Error",
+            xhr.responseText,
+            "error"
+          );
+        }
+      });
+    }
     $(document).ready(function () {
       //function set array of table
       updateReqList();
+      updateBadge();
 
       //function Create Table
       table = $("#data_table").DataTable({
@@ -219,7 +239,7 @@
             "Error",
             xhr.responseText,
             "error"
-            );
+          );
         }
 
       });
@@ -361,9 +381,11 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>ระบบวัสดุ</span>
           </a>
-          <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
+            data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+              <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
+                  class="badge badge-danger" id="pendingReqBadge">0</span></a>
               <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
               <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
               <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>

@@ -80,11 +80,28 @@
             { id: "", serial: "112000148", name: "หมึก Laser jet HP6L", list: "", type: "แก้ไขข้อมูล", maker: "สยุมพร ไชยชมภู", date: "29/4/2021", time: "11:40", amount: Math.floor(Math.random() * 100), unit: "กล่อง", types: "วัสดุคอมพิวเตอร์" }
         ];
 
+        function updateBadge() {
+            $.ajax({
+                type: "GET",
+                url: "/api/getPendingRequestCount",
+                dataType: "",
+                success: function (response) {
+
+                    $("#pendingReqBadge").html(response.count);
+                },
+                error: function (xhr) {
+                    Swal.fire(
+                        "Error",
+                        xhr.responseText,
+                        "error"
+                    );
+                }
+            });
+        }
+
         $(document).ready(function () {
 
             //function set array of table
-
-
 
 
             function updateDataSet() {
@@ -101,7 +118,7 @@
                     }
                 });
             }
-
+            updateBadge();
             updateDataSet();
             //function Create Table
             var table = $("#data_table").DataTable({
@@ -126,22 +143,29 @@
             });
 
 
+            var selectType = [
+                { status: "เพิ่มจำนวน" },
+                { status: "ลดจำนวน" },
+                { status: "แก้ไขข้อมูล" },
+            ];
 
-
+            $("#SelectType").on('change', function () {
+                table.search(this.value).draw();
+            })
 
             //function selectStatus
             function selectCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
                 let option = ``;
                 for (i in selectArray) {
-                    option += `<option>${selectArray[i].Status}</option>`;
+                    option += `<option>${selectArray[i].status}</option>`;
                 }
-                tb.html(tb.html() + option);
+                tb.html(tb.html() + select + option);
             }
 
             //function Create SelectStatus
-            // let select_products = $("#SelectStatus");
-            // select_products.html(select_products);
-            //selectCategory(selectArray, select_products);
+            let select_Type = $("#SelectType");
+            selectCategory(selectType, select_Type);
 
 
             //function Create Table in modal
@@ -213,8 +237,6 @@
                     $('#firstCard').hide();
                     $('#secondCard').hide();
                 }
-
-
 
 
 
@@ -298,7 +320,8 @@
                     <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
+                                    class="badge badge-danger" id="pendingReqBadge">0</span></a>
                             <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
                             <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
@@ -334,7 +357,10 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <h2 class="mt-5">ประวัติการทำรายการข้อมูลวัสดุ</h2>
-                <br>
+                <div class="row">
+                    <h5 class="ml-3 mr-3 mt-2 text-gray-700">ประเภท</h5>
+                    <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
+                </div>
                 <!-- End Topic -->
 
                 <!-- table -->
