@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- Custom styles -->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        var reqData = [
+            {
+                dateReq: "11/05/2020",
+                dateApp: "12/05/2020",
+                timeApp: "15:48:25",
+                reqNo: "630000001",
+                name_title: "อาจารย์ ดร.",
+                firstName: "สุรพงษ์",
+                lastName: "อุตมา",
+                email: "surapong@mfu.ac.th",
+                reqList: "ดูเพิ่มเติม", reqStatus: "กำลังดำเนินการ", reqReason: "ต้องการนำไปใช้เตรียมเอกสารงานวิจัย"
+            }
+
+        ];
+
+        var supData = [];
+
+        var rowID;
+        var tableReqDetails;
+
+        //Note1
+        // Success Status = 1 Reject Status = 2 In progress Status = 3 End Status = 4
+        function updateReqList() {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "/api/admin/getUpdateRequest",
+                dataType: "",
+                success: function (response) {
+                    reqData = response;
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateReqList();
+            var selectType = [
+                { status: "กำลังดำเนินการ" },
+                { status: "รอส่งมอบ" },
+            ]
+
+            $("#SelectType").on('change', function () {
+                table.search(this.value).draw();
+            });
+
+            //function selectStatus
+            function selectCategory(selectArray, tb) {
+                const select = `<option value="" selected>ทั้งหมด</option>`;
+                let option = ``;
+                for (i in selectArray) {
+                    option += `<option>${selectArray[i].status}</option>`;
+                }
+                tb.html(tb.html() + select + option);
+            }
+
+            //function Create SelectStatus
+            let select_Type = $("#SelectType");
+            selectCategory(selectType, select_Type);
+
+
+            //Create
+            var table = $("#updateReqTable").DataTable({
+                data: reqData,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ",
+                    },
+                    { "className": "text-left", data: "dateApp", title: "วันที่อนุมัติคำขอ" },
+                    { "className": "text-left", data: "timeApp", title: "เวลาที่อนุมัติคำขอ" },
+                    { "className": "text-left", data: "reqNo", title: "เลขที่รายการขอเบิก" },
+                    {
+                        "className": "text-left", title: "ผู้ขอเบิก", render: function (data, type, full, meta) {
+                            return full.name_title + " " + full.firstName + "  " + full.lastName;
+                        }
+                    },
+                    { title: "รายการขอเบิก", defaultContent: "<a style='text-decoration: underline; cursor: pointer;' id = 'moreInfo'>ดูเพิ่มเติม</a>" },
+                    {
+                        data: "reqStatus", title: "สถานะ", render: function (data, type, row, meta) {
+                            if (data == 'กำลังดำเนินการ') {
+                                return '<span class="badge badge-pill badge-warning">' + data + '</span>';
+                            } else if (data == 'รอส่งมอบ') {
+                                return '<span class="badge badge-pill badge-info">' + data + '</span>';
+                            } else if (data == 'เสร็จสิ้น') {
+                                return '<span class="badge badge-pill badge-success">' + data + '</span>';
+                            }
+                        },
+                    },
+                ]
+
+            });
+
+
+            //more info button
+            $("#updateReqTable tbody").on("click", "#moreInfo", function () {
+                //show modal
+                $("#moreInfoModal").modal("show");
+                const currentRow = $(this).parents("tr");
+                const data = table.row(currentRow).data();
+                const reqNo = data.reqNo;
+                rowID = table.row(currentRow).index();
+
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "/api/admin/getRequestDetailsId/" + reqNo,
+                    dataType: "",
+                    success: function (response) {
+                        supData = response;
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+                tableReqDetails.clear();
+                tableReqDetails.rows.add(supData).draw();
+
+
+                //Show each user data from row selected
+                $("#reqNumber").html(reqData[rowID].reqNo);
+                $("#reqDate").html(reqData[rowID].dateReq);
+                $("#appDate").html(reqData[rowID].dateApp);
+                $("#requesterName").html(reqData[rowID].name_title + " " + reqData[rowID].firstName + "  " + reqData[rowID].lastName);
+                $("#requesterEmail").html(reqData[rowID].email);
+                $("#reqReason").html(reqData[rowID].reqReason);
+
+            });
+
+            //Total request 
+            $("#totalReq").html(reqData.length);
+
+            //Table in More Info Modal
+            tableReqDetails = $("#supListTable").DataTable({
+                data: supData,
+                columns: [
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
+                    { data: "supID", title: "รหัสวัสดุ" },
+                    { data: "supName", title: "รายการ" },
+                    { data: "supCate", title: "หมวดหมู่" },
+                    { data: "supAmount", title: "จำนวน" },
+                    { data: "supUnit", title: "หน่วยนับ" },
+                    { data: "supLeft", title: "ยอดคงเหลือในคลัง" },
+
+                ],
+                lengthMenu: [
+                    [5, 10, 15, -1],
+                    ['5', '10', '15', 'Show all']
+                ],
+            });
+        });
+
+        // function randomStatus(){
+        //     <span class='badge badge-pill badge-warning'>กำลังดำเนินการ</span>
+        // }
+
+    </script>
+
+</head>
+
+<body id="page-top">
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <%= user.firstname %>
+                                    <%= user.lastname %>
+                            </span>
+                            <img class="img-profile rounded-circle" src="/img/manIcon.png">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/logout">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                style="background-color: #064767;">
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+
+                <!-- Overview -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
+                        aria-expanded="true" aria-controls="collapseOverview">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>ระบบวัสดุ</span>
+                    </a>
+                    <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/advisor/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/requestHistory">ประวัติการอนุมัติคำขอ</a>
+                            <a class="collapse-item" href="/advisor/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
+                            <a class="collapse-item" href="/advisor/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Report -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
+                        aria-expanded="true" aria-controls="collapseReport">
+                        <i class="fas fa-file-alt"></i>
+                        <span>รายการวัสดุ</span>
+                    </a>
+                    <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/advisor/stat">รายงานสถิติการเบิก</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
+                    <h2 class="mb-0">ดำเนินรายการคำขอเบิกวัสดุ</h2>
+                </div>
+
+                <!-- dropdown (can use)-->
+                <div class="row">
+                    <h5 class="ml-3 mr-3 text-gray-800">สถานะ</h5>
+                    <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
+                </div>
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div class="row">
+                        <h5 class=" ml-3 mr-2 text-gray-800">จำนวน</h5>
+                        <p id="totalReq"></p>
+                        <h5 class="ml-2 text-gray-800">รายการ</h5>
+                    </div>
+
+                </div>
+
+                <!-- Promotion DataTales -->
+                <div class="card shadow mb-4 mt-2">
+                    <!-- <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">รายการคำขอเบิกวัสดุ</h6>
+                    </div> -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center" id="updateReqTable" width="100%"
+                                cellspacing="0">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+
+    </div>
+
+    <!-- More Info Modal -->
+    <div class="modal fade" style="width: 100%;" id="moreInfoModal" tabindex="-1" role="dialog"
+        aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">รายการคำขอเบิกวัสดุ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Request Detail Begin-->
+                    <div class="row">
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">
+                                <p class="ml-5"><b>เลขที่รายการขอเบิก</b></p>
+                                <p class="ml-3" id="reqNumber"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วันที่ขอเบิก</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="reqDate"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>ผู้ขอเบิก</b></p>
+                                <p class="ml-3" id="requesterName"></p>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <p class="ml-5"><b>อนุมัติเมื่อ</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="appDate"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>อีเมล</b></p>
+                                <p class="ml-3" id="requesterEmail"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วัตถุประสงค์</b></p>
+                                <p class="ml-3" id="reqReason"></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End of Request Detail -->
+
+                    <hr class="sidebar-divider my-0 mb-4 mt-4">
+
+                    <table class="table table-bordered text-center" id="supListTable" width="100%" cellspacing="0">
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End the More Info Modal -->
+
+    <!--Change Status Modal -->
+    <div class="modal fade" style="width: 100%;" id="changeModal" tabindex="-1" role="dialog"
+        aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">บันทึกการเปลี่ยนแปลงสถานะวัสดุ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Request Detail Begin-->
+                    <div class="row">
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">
+                                <p class="ml-5"><b>เลขที่รายการขอเบิก</b></p>
+                                <p class="ml-3" id="reqNumberChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วันที่ขอเบิก</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="reqDateChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>ผู้ขอเบิก</b></p>
+                                <p class="ml-3" id="requesterNameChange"></p>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <p class="ml-5"><b>อนุมัติเมื่อ</b></p>
+                                <p class="ml-3">วันที่</p>
+                                <p class="ml-2" id="appDateChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>อีเมล</b></p>
+                                <p class="ml-3" id="requesterEmailChange"></p>
+                            </div>
+                            <div class="row">
+                                <p class="ml-5"><b>วัตถุประสงค์</b></p>
+                                <p class="ml-3" id="reqReasonChange"></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End of Request Detail -->
+
+                    <hr class="sidebar-divider my-0 mb-4 mt-4">
+
+                    <div class="row">
+                        <div class="col-md-9 ml-auto">
+                            <div class="row mt-3">
+                                <div class="col-md-1">
+                                    <span class="badge badge-pill badge-warning">กำลังดำเนินการ</span>
+                                </div>
+                                <div class="row ml-5">
+                                    <p class="ml-5">รอส่งคำขอเบิกจากคลังส่วนกลาง
+                                        ผ่านระบบ MFU-ERP</p>
+                                </div>
+
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-1">
+                                    <span class="badge badge-pill badge-info">รอส่งมอบ</span>
+                                </div>
+                                <div class="row ml-5">
+                                    <p class="ml-5">ได้รับวัสดุจากคลังส่วนกลางแล้ว
+                                        รอส่งมอบให้กับผู้ขอเบิก</p>
+                                    <button class="btn btn-primary ml-5" id="btnConSent">ยืนยัน</button>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-1">
+                                    <span class="badge badge-pill badge-success">เสร็จสิ้น</span>
+                                </div>
+                                <div class="row ml-5">
+                                    <p class="ml-5">ส่งมอบวัสดุให้กับผู้ขอเบิกแล้ว</p>
+                                    <button class="btn btn-primary ml-5" id="btnConSuc">ยืนยัน</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- End the change status modal -->
+</body>
+
+
+
+</html>

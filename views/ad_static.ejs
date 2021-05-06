@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</title>
+    <link rel="icon" type="image/x-icon" href="/img/Logo_IT.png" />
+
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+    <!--Sweet alert-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
+
+    <!--JQ + Bootstrap CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!--Chart CDN-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+
+    <!--Sweet alert CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.js"></script>
+
+    <!--Pagination CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css"
+        integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous"></script>
+
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+    <!-- Custom styles for this template-->
+    <!-- <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet"> -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.3/css/sb-admin-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <!-- export to excel CDN-->
+
+
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+    <!-- CSS button-->
+    <script src="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css"></script>
+
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            //function set array of table
+            let Setdatatable = [
+                { id: "1", idmaterial: "101000001", list: "กรรไกรตัดกระดาษ 6", types: "วัสดุสำนักงาน", amount: "60", unit: "อัน", dates: "01/01/2021" },
+                { id: "2", idmaterial: "101000002", list: "กรรไกรตัดกระดาษ 9", types: "วัสดุสำนักงาน", amount: "30", unit: "อัน", dates: "02/04/2021" },
+                { id: "3", idmaterial: "101000003", list: "เครื่องคิดเลข 12 หลัก", types: "วัสดุสำนักงาน", amount: "15", unit: "เครื่อง", dates: "03/03/2021" },
+                { id: "4", idmaterial: "102000054", list: "ตลับสายไฟคอมพิวเตอร์", types: "วัสดุสำนักงาน", amount: "15", unit: "อัน", dates: "04/02/2021" },
+                { id: "5", idmaterial: "102000055", list: "ถ่าน AA ธรรมดา", types: "วัสดุไฟฟ้าวิทยุ", amount: "20", unit: "ก้อน", dates: "10/01/2021" },
+                { id: "6", idmaterial: "102000056", list: "ถ่านก้อนกลาง", types: "วัสดุไฟฟ้าวิทยุ", amount: "20", unit: "ก้อน", dates: "22/02/2021" },
+                { id: "7", idmaterial: "112000078", list: "ผ้าหมึก Epson LQ 2070/2180i", types: "วัสดุคอมพิวเตอร์", amount: "10", unit: "กล่อง", dates: "15/12/2020" },
+                { id: "8", idmaterial: "112000085", list: "หมึก HP laserjet P2015 (Q7553A)", types: "วัสดุคอมพิวเตอร์", amount: "60", unit: "กล่อง", dates: "16/11/2020" },
+                { id: "9", idmaterial: "112000455", list: "หมึก SAMSUNG CYAN TONER CLP620ND,670ND", types: "วัสดุคอมพิวเตอร์", amount: "10", unit: "กล่อง", dates: "26/12/2020" },
+                { id: "10", idmaterial: "103000456", list: "ถุงขยะสีดำขนาด 30*40", types: "วัสดุงานบ้านงานครัว", amount: "16", unit: "แพ็ก", dates: "15/12/2020" },
+                { id: "11", idmaterial: "110000001", list: "กระดุมแขนเสื้อสูท (สีทอง)", types: "วัสดุเครื่องแต่งกาย", amount: "40", unit: "เม็ด", dates: "01/04/2021" },
+                { id: "12", idmaterial: "103000456", list: "ถุงขยะสีดำขนาด 30*40", types: "วัสดุของที่ระลึก", amount: "5", unit: "แพ็ก", dates: "15/03/2020" }
+            ]
+
+            //function Create Table
+            var table = $("#data_table").DataTable({
+                data: Setdatatable,
+                dom: 'Bfrtip',
+                columns: [
+                    { data: "id", title: "ลำดับ" },
+                    { data: "idmaterial", title: "รหัสวัสดุ" },
+                    { data: "list", title: "รายการ" },
+                    { data: "types", title: "หมวดหมู่" },
+                    { data: "amount", title: "จำนวน" },
+                    { data: "unit", title: "หน่วยนับ" },
+                    { data: "dates", title: "เบิกล่าสุดเมื่อ" }
+                ],
+                buttons: [
+                    'excel'
+                ]
+            });
+
+            // ตั้งตัวแปรเก็บ types ทั้งหมด
+            let typesRawDataSet = [];
+            for (i in Setdatatable) {
+                typesRawDataSet.push(Setdatatable[i].types);
+            } // เลือกเอา types ทั้งหมดใน Setdatatable ไว้ใน Array ใหม่
+
+
+            let noDupTypes = Array.from(new Set(typesRawDataSet)); // กำจัดชื่อ types ที่ซ้ำกัน
+
+            // ตั้งตัวแปรเก็บข้อมูล chart
+            let charDataSet = [];
+
+            // Concept Loop แรกคือเอาทุก type ที่ไม่ซ้ำ (noDupTypes) ไปเทียบกับ dataset ที่มี type ซ้ำ (Setdatatable)
+            // เพื่อนับจำนวน type นั้นทั้งหมด
+            for (i in noDupTypes) {
+                let type_amount = 0;
+                for (j in Setdatatable) {
+                    if (Setdatatable[j].types == noDupTypes[i]) { // เช็คว่าชื่อ type นี้ตรงกับใน dataset หรือยัง
+                        type_amount += Number(Setdatatable[j].amount); // ถ้าตรงก็บวกนับจำนวน amount
+                    }
+                }
+                // เมื่อ loop เสร็จแต่ละ type ก็ดัน name กับค่า y เข้าไปเพื่อเอาไปแสดง chart ต่อ
+                charDataSet.push({ name: noDupTypes[i], y: type_amount });
+            }
+
+            console.log(charDataSet);
+
+
+            // Create the chart
+            $(function () {
+                $('#container1').highcharts({
+                    chart: { type: 'column' },
+                    title: { text: 'สถิติการเบิกของแต่ละหมวดหมู่' },
+                    accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                    },
+                    xAxis: { type: 'category', title: { text: 'หมวดหมู่' } },
+                    yAxis: { title: { text: 'จำนวนยอดเบิก' } },
+                    legend: {
+                        enabled: false
+                    },
+
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> <br/>'
+                    },
+
+                    series: [{
+                        name: "Category",
+                        colorByPoint: true,
+                        data: charDataSet
+                    }],
+
+                });
+            });
+
+            $('.buttons-excel').hide()
+
+        });
+
+        function ExportExcel() {
+            $('.buttons-excel').click()
+        }
+    </script>
+
+</head>
+
+
+<body id="page-top">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Logo -->
+                <div>
+                    <img class="" src="/img/Logo_IT.png" width="60" height="50" alt="">
+                </div>
+                <div class="d-flex d-sm-inline-block mr-auto ml-md-3 mw-100">
+                    <!-- //ใส่โลโก่ -->
+                    <span><strong>ระบบเบิกจ่ายวัสดุสำนักวิชาเทคโนโลยีสารสนเทศ</strong></span>
+                    <br>
+                    <span><strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong></span>
+
+                </div>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <%= user.firstname %>
+                                    <%= user.lastname %>
+                            </span>
+                            <img class="img-profile rounded-circle" src="/img/manIcon.png">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/logout">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                ออกจากระบบ
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                style="background-color: #064767;">
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+
+                <!-- Overview -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
+                        aria-expanded="true" aria-controls="collapseOverview">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>ระบบวัสดุ</span>
+                    </a>
+                    <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/advisor/pendingRequests">รายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/advisor/requestHistory">ประวัติการอนุมัติคำขอ</a>
+                            <a class="collapse-item" href="/advisor/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
+                            <a class="collapse-item" href="/advisor/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Report -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
+                        aria-expanded="true" aria-controls="collapseReport">
+                        <i class="fas fa-file-alt"></i>
+                        <span>รายการวัสดุ</span>
+                    </a>
+                    <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/advisor/stat">รายงานสถิติการเบิก</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Topic -->
+            <div class="container-fluid">
+                <h2 class="mt-3">สถิติการเบิกจ่ายวัสดุ </h2>
+
+                <!-- dropdown (can't use)-->
+                <from>
+                    <label>เดือน</label>
+                    <select id="SelectMonth" class="mb-3 " style="border-radius: 10px 10px;">
+                        <option id="January">มกราคม</option>
+                        <option id="February">กุมภาพันธ์</option>
+                        <option id="March">มีนาคม</option>
+                        <option id="April">เมษายน</option>
+                        <option id="May">พฤษภาคม</option>
+                        <option id="June">มิถุนายน</option>
+                        <option id="July">กรกฎาคม</option>
+                        <option id="August">สิงหาคม</option>
+                        <option id="September">กันยายน</option>
+                        <option id="October">ตุลาคม</option>
+                        <option id="November">พฤศจิกายน</option>
+                        <option id="MDecember">ธันวาคม</option>
+                    </select>
+
+
+                    <label>ปี</label>
+                    <select id="SelectYear" class="mb-3 " style="border-radius: 10px 10px;">
+                        <option id="2563">2563</option>
+                        <option id="2564">2564</option>
+                    </select>
+                </from>
+
+                <div class="container-fluid">
+                    <div id="container1"></div>
+                </div>
+
+                <br>
+                <div>
+                    <button onclick="ExportExcel()" class="btn btn-outline-dark float-right">นำออกไฟล์
+                        Excel</button>
+                </div>
+                <br>
+                <br>
+
+
+
+
+
+
+
+
+                <!-- End Topic -->
+
+                <div class="card">
+                    <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                        <table class="table" id="data_table" width="100%" cellspacing="0" style="text-align: center; ">
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
