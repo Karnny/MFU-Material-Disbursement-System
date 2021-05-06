@@ -610,7 +610,7 @@ function api(app) {
           res.status(500).send(err);
         } else {
 
-          const sql = `UPDATE Items SET used='N', item_code='' WHERE item_code = ?`;
+          const sql = `UPDATE Items SET used='N', item_code= CONCAT('DEL_', item_code) WHERE item_code = ?`;
           database.query(sql, [item_code], (err, db_result) => {
             if (err) {
               console.log(err.message);
@@ -887,7 +887,7 @@ function api(app) {
     switch (status) {
       case "approved":
         appr = "approved";
-        updateItemAmount();
+        updateItemAmount(req, res);
 
         break;
       case "disapprove":
@@ -900,8 +900,9 @@ function api(app) {
 
     function updateItemAmount() {
       // 1. get all item of that request 
-      const sql = `SELECT item_id, item_request_amount AS 'amount' 
-                  FROM Requests_has_Items
+      const sql = `SELECT rhi.item_id AS 'item_id', itm.item_code AS 'item_code', rhi.item_request_amount AS 'amount' 
+                  FROM Requests_has_Items rhi 
+                  JOIN Items itm ON rhi.item_id = itm.item_id
                   WHERE request_id = ?`;
 
       database.query(sql, [reqNo], (err, rhs_result) => {
@@ -915,37 +916,65 @@ function api(app) {
         }
 
         // 1.5 check if each item is available to subtract
-        const sql_check = `SELECT item_amount FROM Items WHERE item_id = ?`;
-        for (i in rhs_result) {
-          database.query(sql_check, [rhs_result[i].item_id], (err, db_itm) => {
-            if (err) {
-              console.log(err.message);
-              return res.status(500).send("Database Server Error while checking item amount");
-            } else {
-              if (db_itm[0].item_amount < rhs_result[i].amount) {
-                return res.status(400).send("Error, the amount of requested item exceeded the actual amount.");
+
+        function checkValidAmount(rhs_result, cb) {
+          var checking_result = {};
+          checking_result.isOK = null;
+          checking_result.message = '';
+          const sql_check = `SELECT item_amount, used FROM Items WHERE item_id = ?`;
+          for (i in rhs_result) {
+            database.query(sql_check, [rhs_result[i].item_id], (err, db_itm) => {
+              if (err) {
+                console.log(err.message);
+                cb(err, null);
               } else {
+                if (db_itm[0].used != 'Y') {
+                  checking_result.isOK = false;
+                  checking_result.message = 'Error, รายการที่ขอเบิกมีวัสดุที่ถูกลบไปแล้ว.';
+                  cb(null, checking_result);
 
-                // 2. Subtract items in Items table with each item in RHS
-                for (i in rhs_result) {
-                  const sql = `UPDATE Items SET item_amount = item_amount - ? WHERE item_id = ?`;
-                  database.query(sql, [Number(rhs_result[i].amount), rhs_result[i].item_id],
-                    (err, db_result) => {
-                      if (err) {
-                        console.log(err);
-                        let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
-                        return res.status(500).send(log);
-                      }
+                } else if (db_itm[0].item_amount < rhs_result[i].amount) {
+                  checking_result.isOK = false;
+                  checking_result.message = 'Error, จำนวนคงเหลือในคลังไม่พอต่อความต้องการ.';
+                  cb(null, checking_result);
 
-                    });
+                } else {
+                  checking_result.isOK = true;
+                  cb(null, checking_result);
                 }
-
-                makeApprove();
-
               }
-            }
-          });
+            });
+          }
         }
+
+        checkValidAmount(rhs_result, (err, check_result) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send("Database Error while checking item amount")
+          } else {
+            // 2. Subtract items in Items table with each item in RHS
+
+            if (check_result.isOK === true) {
+              for (i in rhs_result) {
+                const sql = `UPDATE Items SET item_amount = item_amount - ? WHERE item_id = ?`;
+                database.query(sql, [Number(rhs_result[i].amount), rhs_result[i].item_id],
+                  (err, db_result) => {
+                    if (err) {
+                      console.log(err);
+                      let log = `Database Error while updating item amount of ${rhs_result[i].amount} of request_id ${rhs_result[i].item_id}`;
+                      return res.status(500).send(log);
+                    }
+
+                  });
+              }
+
+              makeApprove();
+            } else {
+              return res.status(400).send(check_result.message);
+            }
+          }
+        });
+
 
 
 
