@@ -480,37 +480,60 @@ function api(app) {
       return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
     }
 
-    // 1. Insert to Requests table
-    // 2. Insert to RHS table
-    const sql = `INSERT INTO Requests (request_reason, request_datetime, approval_status, progress_state, user_id) 
+
+    function validateAmount(reqData, cb) {
+      let err = null
+      reqData.forEach(function (data, index, arr) {
+        if (isNaN(Number(data.choseAmount))) {
+          err = "The requested amount must be a number";
+        } else if (Number(data.choseAmount) < 1) {
+          err = "The requested amount per item must greater than 0";
+        } else {
+          
+        }
+      });
+
+      cb(err);
+    }
+
+
+    validateAmount(reqData, (err) => {
+      
+      if (err) {
+        return res.status(400).send(err);
+      }
+      // 1. Insert to Requests table
+      // 2. Insert to RHS table
+      const sql = `INSERT INTO Requests (request_reason, request_datetime, approval_status, progress_state, user_id) 
                 VALUES (?, NOW(), '', 0, ?)`;
 
-    database.query(sql, [reqReason, req.session.user.user_id], (err, insResult) => {
-      if (err) {
-        console.log(err.message);
-        return res.status(500).send("Database Error while adding newly request");
-      }
+      database.query(sql, [reqReason, req.session.user.user_id], (err, insResult) => {
+        if (err) {
+          console.log(err.message);
+          return res.status(500).send("Database Error while adding newly request");
+        }
 
-      if (insResult.affectedRows != 1) {
-        return res.status(400).send("Error, the item requesting cannot be done");
-      }
+        if (insResult.affectedRows != 1) {
+          return res.status(400).send("Error, the item requesting cannot be done");
+        }
 
-      const request_id = insResult.insertId;
-      const sql = `INSERT INTO Requests_has_Items (request_id, item_id, item_request_amount) 
+        const request_id = insResult.insertId;
+        const sql = `INSERT INTO Requests_has_Items (request_id, item_id, item_request_amount) 
                   VALUES (?,?,?)`;
-      for (i in reqData) {
-        database.query(sql, [request_id, reqData[i].item_id, reqData[i].choseAmount], (err, db_result) => {
-          if (err) {
-            console.log(err.message);
-            return res.status(500).send("Database Error while adding newly request item");
-          }
+        for (i in reqData) {
+          database.query(sql, [request_id, reqData[i].item_id, reqData[i].choseAmount], (err, db_result) => {
+            if (err) {
+              console.log(err.message);
+              return res.status(500).send("Database Error while adding newly request item");
+            }
 
-        });
-      }
+          });
+        }
 
-      res.send("Request success")
+        res.send("Request success")
 
 
+      });
     });
 
   });
