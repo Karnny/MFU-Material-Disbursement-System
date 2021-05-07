@@ -489,7 +489,7 @@ function api(app) {
         } else if (Number(data.choseAmount) < 1) {
           err = "The requested amount per item must greater than 0";
         } else {
-          
+
         }
       });
 
@@ -498,7 +498,7 @@ function api(app) {
 
 
     validateAmount(reqData, (err) => {
-      
+
       if (err) {
         return res.status(400).send(err);
       }
@@ -771,6 +771,23 @@ function api(app) {
       }
 
       res.json(db_result);
+    });
+  });
+
+  app.get('/api/user/getRequestCount', checkAuth, (req, res) => {
+    const sql = `SELECT COUNT(*) AS 'count'
+                FROM Requests rq
+                WHERE rq.approval_status = 'approved'
+                AND rq.progress_state < 3
+                AND rq.user_id = ?`;
+
+    database.query(sql, [req.session.user.user_id], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while counting user requests");
+      }
+
+      res.json(db_result[0]);
     });
   });
 

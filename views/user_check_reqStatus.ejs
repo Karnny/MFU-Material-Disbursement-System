@@ -100,8 +100,28 @@
                 }
             });
         }
-        $(document).ready(function () {
 
+        function updateBadge() {
+            $.ajax({
+                type: "GET",
+                url: "/api/user/getRequestCount",
+                dataType: "",
+                success: function (response) {
+
+                    $("#pendingReqBadge").html(response.count);
+                },
+                error: function (xhr) {
+                    Swal.fire(
+                        "Error",
+                        xhr.responseText,
+                        "error"
+                    );
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateBadge();
             updateDataSet();
 
             $("#SelectStatus").on('change', function () {
@@ -353,7 +373,8 @@
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <a class="collapse-item" href="/user/allSupplies">รายการวัสดุทั้งหมด</a>
-                                <a class="collapse-item" href="/user/checkRequests">ตรวจสถานะคำขอ</a>
+                                <a class="collapse-item" href="/user/checkRequests">ตรวจสถานะคำขอ <span
+                                        class="badge badge-danger" id="pendingReqBadge">0</span></a>
                                 <a class="collapse-item" href="/user/requestHistory">ประวัติการเบิกวัสดุ</a>
                             </div>
                         </div>
