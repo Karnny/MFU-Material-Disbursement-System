@@ -179,13 +179,23 @@
             let amount = $("#amount").val();
             let data = dataSet[mainRowID];
 
-            for (i in cartData) {
-                if (data.supID == cartData[i].supID) {
-                    cartData[i].choseAmount = Number(cartData[i].choseAmount) + Number(amount);
-                    tablemodal.clear();
-                    tablemodal.rows.add(cartData).draw();
-                    return;
-                    break;
+            if (amount > data.Amount) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'จำนวนของวัสดุดังกล่าวไม่เพียงพอ',
+                    html: `กรุณาตรวจสอบจำนวนที่ท่านต้องการอีกครั้ง`
+                });
+
+            } else {
+                for (i in cartData) {
+                    if (data.supID == cartData[i].supID) {
+                        cartData[i].choseAmount = Number(cartData[i].choseAmount) + Number(amount);
+                        tablemodal.clear();
+                        tablemodal.rows.add(cartData).draw();
+                        return;
+                        break;
+                    }
                 }
             }
 
@@ -213,7 +223,7 @@
         });
 
         $("#btnSave").click(function () {
-            
+
             $.ajax({
                 type: "POST",
                 url: "/api/user/requestItems",
