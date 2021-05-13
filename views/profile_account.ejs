@@ -299,12 +299,12 @@
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     ชื่อ:
-                                    <input type="text" class="form-control" id="Firstname" placeholder="Firstname" onkeyup="lettersOnly(this)" maxlength="50"
+                                    <input type="text" class="form-control" id="Firstname" placeholder="Firstname" onkeyup="lettersOnly(this)" title="Please enter A-Z,a-z" maxlength="50"
                                         disabled>
                                 </div>
                                 <div class="col-md-6">
                                     นามสกุล:
-                                    <input type="text" class="form-control" id="Lastname" placeholder="Lastname" onkeyup="lettersOnly(this)" maxlength="50"
+                                    <input type="text" class="form-control" id="Lastname" placeholder="Lastname" onkeyup="lettersOnly(this)" maxlength="50" title="Please enter A-Z,a-z"
                                         disabled>
                                 </div>
                             </div>
@@ -316,7 +316,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     เบอร์โทรศัพท์:
-                                    <input type="text" class="form-control" id="Phone" placeholder="Phone" onkeyup="numberOnly(this)" maxlength="10" disabled>
+                                    <input type="text" class="form-control" id="Phone" placeholder="Phone" onkeyup="numberOnly(this)" maxlength="10" pattern="\d{10}" title="Please enter 0-9 exactly 10 digits" disabled>
                                 </div>
                             </div>
                             <fieldset disabled>
