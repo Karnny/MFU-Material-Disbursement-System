@@ -538,6 +538,52 @@ function api(app) {
 
   });
 
+  app.post('/api/admin/importItem', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) { // check for Admin level
+      return res.status(400).send('Action not allowed');
+    }
+
+    const {
+      item_code,
+      item_name,
+      item_amount,
+      type_id,
+      unit_id
+    } = req.body;
+
+    if (item_code == null || item_name == null || item_amount == null || type_id == null || unit_id == null) {
+      return res.status(400).send("Invalid input, please check the inputs correctness");
+    } else if (item_code == "" || item_name == "" || item_amount == "" || type_id == "" || unit_id == "") {
+      return res.status(400).send("Invalid input, please check the inputs correctness");
+    }
+
+    isItemCodeExists(item_code, (isExisted) => {
+      if (isExisted) {
+        return res.status(400).send("Item code is already taken!");
+      }
+
+      // Begin adding new item to table
+      const sql = `INSERT INTO Item_import (item_code, item_name, item_amount, item_last_add_datetime, type_id, unit_id) 
+      VALUES (?,?,?, NOW(),?,?)`;
+      database.query(sql, [item_code, item_name, item_amount, type_id, unit_id], (err, db_result) => {
+        
+        if (err) {
+          console.log(err.message);
+          return res.status(500).send("Database Server Error");
+        }
+
+        if (db_result.affectedRows != 1) {
+          return res.status(400).send("Error creating new item record");
+        }
+
+
+      });
+
+    });
+
+
+  });
+
   app.post('/api/admin/addItem', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2) { // check for Admin level
       return res.status(400).send('Action not allowed');
