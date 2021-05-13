@@ -66,6 +66,11 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 
+    <!-- CDN for excel import function -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.6/xls.core.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+
     <script>
 
         var rowID;
@@ -86,6 +91,8 @@
         var selectType = [];
 
         var selectUnit = [];
+        var importItem = [];
+
 
         function updateDataSet() {
             $.ajax({
@@ -157,15 +164,95 @@
             updateItemUnits();
             updateDataSet();
 
-
             //selectType
             $("#SelectType").on('change', function () {
                 table.search(this.value).draw();
             })
 
-            //function set array of table
+            $("#btnAdd").click(function () {
+                $("#modalExcel").modal("show");
+                $("#importType").val("");
+                $("#excelfile").val("");
+            });
+
+            //covert excel file to json
+            let selectedFile;
+            //console.log(window.XLSX);
+            $("#excelfile").on('change', function () {
+                selectedFile = event.target.files[0];
+            });
+
+            // let data = [{
+            //     "name": "jayanth",
+            //     "data": "scd",
+            //     "abc": "sdef"
+            // }]
+
+            $("#btn_upload").click(function () {
+
+                XLSX.utils.json_to_sheet(importItem, 'out.xlsx');
+                if (selectedFile) {
+                    let fileReader = new FileReader();
+                    fileReader.readAsBinaryString(selectedFile);
+                    fileReader.onload = (event) => {
+                        let importItem = event.target.result;
+                        let workbook = XLSX.read(importItem, { type: "binary" });
+                        //console.log(workbook);
+                        workbook.SheetNames.forEach(sheet => {
+                            let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+                            console.log(rowObject);
+
+                            const type = $("#importType").val();
+                            const item_amount = 0;
+
+                            let type_id;
+                            for(k in select_Type){
+                                if(selectType[k].type_name == type){
+                                    type_id = selectType[k].type_id;
+                                }
+                            }
+
+                            let eng_obj = [];
+
+                            for (let i = 0; i < rowObject.length; i++) {
+
+                                let unit_id = 26;
+                                for(p in selectUnit){
+                                    if(selectUnit[p].unit_name == rowObject[p]["หน่วยนับ"]){
+                                        unit_id = selectUnit[p].unit_id;
+                                    }
+                                }
+
+                                let obj = {};
+                                obj.item_code = rowObject[i]["รหัสวัสดุ"];
+                                obj.item_name = rowObject[i]["รายการ"];
+                                obj.unit_name = rowObject[i]["หน่วยนับ"];
+
+                                eng_obj.push(obj);
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/api/admin/importItem",
+                                data: { eng_obj, type, item_amount },
+                                dataType: "",
+                                success: function (response) {
+                                    console.log("success jaa");
+                                },
+                                error: function (xhr) {
+                                    console.log(xhr.responseText);
+                                }
+                            });
 
 
+
+                            //show json
+                            //document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject, undefined, 4)
+                            console.log("test api" + importItem[0]);
+                        });
+                    }
+                }
+            });
 
             //function Create Table
             var table = $("#data_table").DataTable({
@@ -201,7 +288,6 @@
             }).draw();
 
 
-
             //function selectStatus
             function setTypes(selectArray, tb) {
 
@@ -235,6 +321,10 @@
             let select_Type = $("#SelectType");
             setCategory(selectType, select_Type);
 
+            //function Create Import Type
+            let import_type = $("#importType");
+            setTypes(selectType, import_type);
+
 
 
             //function Create SelectType
@@ -260,7 +350,6 @@
                 Swal.fire({
                     icon: 'success',
                     title: 'อัปโหลดรายการวัสดุสำเร็จ',
-                    html: "ชื่อรายการ<br />จำนวน<br />ผู้ดำเนินรานการ<br />เพิ่มลงคลังเมื่อ"
                 })
 
             })
@@ -649,8 +738,11 @@
 
             <!-- dropdown (can't use)-->
             <from>
-                <label>หมวดหมู่วัสดุ</label>
-                <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
+                <div class="row mt-3">
+                    <label class="ml-3">หมวดหมู่วัสดุ</label>
+                    <select id="SelectType" class="form-control col-1 mb-3 ml-3" style="border-radius: 20px;"></select>
+                </div>
+
             </from>
 
             <form>
@@ -664,8 +756,7 @@
 
             <!-- btn modal -->
             <div class="mb-3" style="text-align: right;">
-                <button type="button" id="btnAdd" class="btn btn-default border border-dark mr-3" data-toggle="modal"
-                    data-target="#modalExcel">
+                <button type="button" id="btnAdd" class="btn btn-default border border-dark mr-3">
                     นำเข้าข้อมูลวัสดุ
                 </button>
                 <button type="button" id="btnAddnew" class="btn btn-default border border-dark mr-3">
@@ -675,13 +766,14 @@
 
             <!-- End Topic -->
 
+            <!-- Table for test import excel file -->
+            <!-- <table class="table" id="excel_table" width="100%" cellspacing="0" style="text-align: center; "> </table> -->
+
             <div class="card">
                 <div class="card-body" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
                     <table class="table" id="data_table" width="100%" cellspacing="0" style="text-align: center; ">
-
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -699,13 +791,23 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mx-auto justify-content-center">
-                        <div class="mr-3">
-                            <form method="post" action="" enctype="multipart/form-data"> ชื่อไฟล์ :
-                        </div>
 
-                        <div>
-                            <input type="file" name="file" id="file" class="form-control">
-                        </div>
+                        <form method="post" action="" enctype="multipart/form-data">
+
+                            <div class="row mt-3 ml-3">
+                                <label>หมวดหมู่วัสดุ :</label>
+                                <div class="col-md-8">
+                                    <select id="importType" class="form-control" style="border-radius: 20px;"></select>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-8 ml-3">
+                                    <input type="file" id="excelfile" accept=".xls,.xlsx">
+                                </div>
+
+
+                            </div>
                         </form>
                     </div>
 
