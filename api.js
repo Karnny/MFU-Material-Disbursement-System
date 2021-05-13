@@ -68,7 +68,7 @@ function api(app) {
             main_url: url
           };
 
-
+          //console.log(req.session.user);
 
           res.send(url);
         });
@@ -1123,6 +1123,57 @@ function api(app) {
 
       res.json(db_result);
     })
+  });
+
+  app.get('/api/getUserProfile', checkAuth, (req, res) => {
+    // const { user_id } = req.body;
+    let user_id = req.session.user.user_id;
+
+    const sql = `SELECT user_id, email, name_title, division_name, firstname, lastname, role_id, phone_number
+                FROM Users WHERE user_id = ?`;
+
+    database.query(sql, [user_id], (err, db_result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Database Error while getting user by ID");
+      }
+
+      if (db_result.length != 1) {
+        return res.status(400).send("Error querying user info by ID");
+      }
+
+      res.json(db_result[0]);
+    });
+
+    app.put('/api/updateUserProfile', checkAuth, (req, res) => {
+      const { user_data } = req.body;
+
+      if (user_data == null) {
+        return res.status(400).send("No data provided");
+      } else if (user_data.firstname == null || user_data.firstname == "") {
+        return res.status(400).send("No firstname provided");
+      } else if (user_data.lastname == null || user_data.lastname == "") {
+        return res.status(400).send("No lastname provided");
+      } else if (user_data.phone_number == null || user_data.phone_number == "") {
+        return res.status(400).send("No phone number provided");
+      }
+
+      const sql = `UPDATE Users SET firstname = ?, lastname = ?, phone_number = ? WHERE user_id = ?`;
+      database.query(sql, [user_data.firstname, user_data.lastname, user_data.phone_number, req.session.user.user_id],
+        (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            return res.status(500).send("Database Error while updating user info");
+          }
+
+          if (db_result.affectedRows != 1) {
+            return res.status(400).send("Error, no update changed");
+          }
+
+          res.send("Change saved.");
+        });
+    });
+
   });
 
   app.put('/api/manageUsers', checkAuth, (req, res) => {

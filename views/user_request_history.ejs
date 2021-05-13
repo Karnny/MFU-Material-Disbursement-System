@@ -114,23 +114,23 @@
         }
 
         function updateBadge() {
-        $.ajax({
-            type: "GET",
-            url: "/api/user/getRequestCount",
-            dataType: "",
-            success: function (response) {
-                
-                $("#pendingReqBadge").html(response.count);
-            },
-            error: function (xhr) {
-                Swal.fire(
-                    "Error",
-                    xhr.responseText,
-                    "error"
-                );
-            }
-        });
-    }
+            $.ajax({
+                type: "GET",
+                url: "/api/user/getRequestCount",
+                dataType: "",
+                success: function (response) {
+
+                    $("#pendingReqBadge").html(response.count);
+                },
+                error: function (xhr) {
+                    Swal.fire(
+                        "Error",
+                        xhr.responseText,
+                        "error"
+                    );
+                }
+            });
+        }
 
         $(document).ready(function () {
             updateBadge();
@@ -312,12 +312,17 @@
                                 <%= user.firstname %>
                                     <%= user.lastname %>
                             </span>
-                            <img class="img-profile rounded-circle" src="/img/manIcon.png">
+                            <img class="img-profile rounded-circle" src="<%= user.picture %>">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/logout">
+                            <a class="dropdown-item" href="/profile">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                หน้าข้อมูลส่วนตัว
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 ออกจากระบบ
                             </a>
@@ -352,8 +357,8 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/user/allSupplies">รายการวัสดุทั้งหมด</a>
-                            <a class="collapse-item" href="/user/checkRequests">ตรวจสถานะคำขอ  <span
-                                class="badge badge-danger" id="pendingReqBadge">0</span></a>
+                            <a class="collapse-item" href="/user/checkRequests">ตรวจสถานะคำขอ <span
+                                    class="badge badge-danger" id="pendingReqBadge">0</span></a>
                             <a class="collapse-item" href="/user/requestHistory">ประวัติการเบิกวัสดุ</a>
                         </div>
                     </div>
