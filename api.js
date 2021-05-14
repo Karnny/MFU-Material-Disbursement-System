@@ -850,6 +850,40 @@ function api(app) {
     });
   });
 
+  app.get('/api/stat/getRequestHistory/:id', checkAuth, (req, res) => {
+
+    const id = req.params.id;
+    //console.log(id);
+
+    const sql = `SELECT rq.request_id AS 'reqNo', DATE(rq.request_datetime) AS 'dateReq', DATE(rq.approve_datetime) AS 'dateApp', TIME(rq.approve_datetime) AS 'timeApp',
+                CONCAT(us.division_name, ' ', us.name_title) AS 'name_title', us.firstname AS 'firstName', us.lastname AS 'lastName', us.email AS 'email',
+                rq.progress_state AS 'progress_state' , rq.request_reason AS 'reqReason', rq.approval_status AS 'approval_status',
+                rq.reject_reason AS 'reject_reason', DATE(rq.reject_dateTime) AS 'reject_date'
+                FROM Requests rq
+                JOIN Users us ON rq.user_id = us.user_id
+                WHERE rq.progress_state = 3
+                AND rq.user_id = ?`;
+    database.query(sql, [id], (err, db_result) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send("Database Error while fetching requests history");
+      }
+
+      for (i in db_result) {
+        if (db_result[i].progress_state == 3) {
+          if (db_result[i].approval_status == "approved") {
+            db_result[i].reqStatus = "เสร็จสิ้น";
+          } else if (db_result[i].approval_status != "approved") {
+            db_result[i].reqStatus = "ไม่อนุมัติ";
+          }
+
+        }
+      }
+
+      res.json(db_result);
+    });
+  });
+
   app.get('/api/admin/getRequestDetailsId/:id', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2 && req.session.user.role_id != 3) { // check for Admin and Super Adviosr level
       return res.status(400).send('Action not allowed');
@@ -906,6 +940,72 @@ function api(app) {
 
       res.json(db_result);
     });
+  });
+
+  app.post('/api/stat/getRequestDetailsId', checkAuth, (req, res) => {
+
+
+    const { collectReqNo } = req.body;
+    //console.log(req.body);
+    var data = [];
+
+    if (collectReqNo == null || collectReqNo == "") {
+      return res.status(400).send("Please provide a request id");
+    }
+
+    const sql = `SELECT itm.item_code AS 'supID', itm.item_name AS 'supName', 
+                itp.type_name AS 'supCate', iun.unit_name AS 'supUnit', itm.item_amount AS 'supLeft',
+                rhi.item_request_amount AS 'supAmount'
+                FROM Items itm 
+                JOIN Item_types itp ON itm.type_id = itp.type_id
+                JOIN Item_units iun ON itm.unit_id = iun.unit_id
+                JOIN Requests_has_Items rhi ON itm.item_id = rhi.item_id
+                WHERE rhi.request_id = ?`;
+
+    let reqData = [];
+
+
+    function getReq(collectReq, cb) {
+
+      let allData = [];
+      let pending = collectReq.length;
+
+      for (i in collectReq) {
+        let objSup = {reqNo: collectReq[i]}
+
+        database.query(sql, [collectReq[i]], (err, db_result) => {
+
+          if (err) {
+            console.log(err);
+            return cb(err);
+          }
+          
+          objSup.reqItem = db_result;
+          
+          allData.push(objSup);
+
+          //console.log(collectReq[i]);
+
+          if (0 === --pending) {
+            cb(null, allData);
+          }
+
+        });
+      }
+
+    }
+
+    getReq(collectReqNo, function (err, allData) {
+      if (err) {
+        return res.status(500).send("erroror");
+      } else {
+        //console.log(allData);
+        res.json(allData);
+      }
+    });
+
+
+
   });
 
   app.put('/api/admin/updateRequestApproval', checkAuth, (req, res) => {
@@ -1106,7 +1206,7 @@ function api(app) {
   });
 
   app.get('/api/getUsers', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 4) { // check for Super Admin level
+    if (req.session.user.role_id != 4 && req.session.user.role_id != 3) { // check for Super Admin level
       return res.status(400).send('Action not allowed');
     }
 
