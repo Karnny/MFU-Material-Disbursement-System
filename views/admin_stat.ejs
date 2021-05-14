@@ -190,11 +190,11 @@
 
             });
 
-            $("#SelectMonth").change(function(){
+            $("#SelectMonth").change(function () {
                 table.search(this.value).draw();
             });
 
-            $("#SelectYear").change(function(){
+            $("#SelectYear").change(function () {
                 table.search(this.value).draw();
             });
 
@@ -355,16 +355,20 @@
                 data: itemArray,
                 dom: 'Bfrtip',
                 columns: [
-                    { title: "ลำดับ", defaultContent: "" },
+                    {
+                        defaultContent: "", render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
                     { data: "supID", title: "รหัสวัสดุ" },
                     { data: "supName", title: "ชื่อ" },
                     { data: "supCate", title: "หมวดหมู่" },
                     { data: "supAmount", title: "จำนวน" },
                     { data: "supUnit", title: "หน่วยนับ" },
                     {
-                        data: "dates", title: "เบิกล่าสุดเมื่อ", render: function (data, type, row, meta) {
+                        title: "เบิกล่าสุดเมื่อ", render: function (data, type, row, meta) {
                            
-                            return ``;
+                            return "11/05/2021";
                         }
                     },
 
@@ -373,7 +377,7 @@
                     'excel'
                 ]
             });
-            
+
 
 
             //function selectStatus
@@ -552,7 +556,7 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
-                                class="badge badge-danger" id="pendingReqBadge">0</span></a>
+                                    class="badge badge-danger" id="pendingReqBadge">0</span></a>
                             <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
                             <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
                             <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>

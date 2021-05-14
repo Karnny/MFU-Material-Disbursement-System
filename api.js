@@ -1206,7 +1206,7 @@ function api(app) {
   });
 
   app.get('/api/getUsers', checkAuth, (req, res) => {
-    if (req.session.user.role_id != 4 && req.session.user.role_id != 3) { // check for Super Admin level
+    if (req.session.user.role_id != 4 && req.session.user.role_id != 3 && req.session.user.role_id != 2) { // check for Super Admin level
       return res.status(400).send('Action not allowed');
     }
 
