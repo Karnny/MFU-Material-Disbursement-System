@@ -68,7 +68,7 @@ function api(app) {
             main_url: url
           };
 
-
+          //console.log(req.session.user);
 
           res.send(url);
         });
@@ -148,7 +148,22 @@ function api(app) {
                 JOIN Item_units iun ON iuh.update_item_unit_id = iun.unit_id
                 WHERE itm.used = 'Y' 
                 ORDER BY iuh.update_datetime DESC`;
-    database.query(sql, (err, db_result) => {
+
+    const sqlV2 = `SELECT iuh.update_id AS 'update_id', iuh.old_item_name AS 'old_item_name', iuh.update_item_name AS 'update_item_name',
+    iuh.old_item_amount AS 'old_item_amount', iuh.update_item_amount AS 'update_item_amount',
+    (SELECT itp.type_name FROM Item_types itp WHERE iuh.old_item_type_id = itp.type_id) AS 'old_item_type_name',
+    (SELECT itp.type_name FROM Item_types itp WHERE iuh.update_item_type_id = itp.type_id) AS 'update_item_type_name',
+    (SELECT iun.unit_name FROM Item_units iun WHERE iuh.old_item_unit_id = iun.unit_id) AS 'old_item_unit_name', 
+    (SELECT iun.unit_name FROM Item_units iun WHERE iuh.update_item_unit_id = iun.unit_id) AS 'update_item_unit_name',
+    iuh.update_type AS 'update_type', DATE(iuh.update_datetime) AS 'date', TIME(iuh.update_datetime) AS 'time',
+    itm.item_code AS 'item_code', CONCAT(us.firstname, ' ', us.lastname) AS 'updater_name'
+    FROM Item_update_history iuh 
+    JOIN Items itm ON iuh.item_id = itm.item_id
+    JOIN Users us ON iuh.updater_id = us.user_id
+    
+    WHERE itm.used = 'Y' 
+    ORDER BY iuh.update_datetime DESC`;
+    database.query(sqlV2, (err, db_result) => {
       if (err) {
         console.log(err);
         return res.status(500).send("Database Error while fetching update history");
@@ -535,6 +550,110 @@ function api(app) {
 
       });
     });
+
+  });
+
+  app.post('/api/admin/importItems', checkAuth, async (req, res) => {
+    const { eng_obj, type } = req.body;
+
+    if (type == null || type == "") {
+      return res.status(400).send("No type provided");
+    }
+    if (!eng_obj) {
+      return res.status(400).send("No import data provided");
+    }
+
+    // var loop_err = null;
+
+    importData(eng_obj, (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      } else {
+        res.send("Import success");
+      }
+    });
+
+
+
+    function importData(arrObj, cb) {
+
+
+      var pendingItem = arrObj.length;
+      var hasErr;
+      for (const eng_obj of arrObj) {
+        if (hasErr) {
+          break;
+        }
+
+        isItemCodeExists(eng_obj['item_code'], (isExisted) => { // Check each item if already existed in DB
+          if (isExisted) { // Then UPDATE it
+
+            const sql = `UPDATE Items SET item_name = ?, item_amount = ?, type_id = ?, unit_id = ?, item_last_add_datetime = NOW()
+                          WHERE item_code = ?`;
+
+            let updateArr = [
+              eng_obj['item_name'],
+              eng_obj['item_amount'],
+              eng_obj['type_id'],
+              eng_obj['unit_id'],
+              eng_obj['item_code']
+            ];
+            database.query(sql, updateArr, (err, db_result) => {
+              if (err) {
+
+                console.log("ERR UPDATE: " + err.message);
+                hasErr = err;
+              } else {
+                if (db_result.affectedRows != 1) {
+                  hasErr = `Importing data error, 'UPDATE' item_code = ${updateArr[4]}`;
+
+                } else {
+                  //console.log(`UPDATE ${eng_obj['item_code']}, ${eng_obj['item_name']} --> Items`);
+                }
+              }
+
+            });
+
+          } else { // If not exist (New item) then INSERT it
+
+            const sql = `INSERT INTO Items (item_code, item_name, item_amount, type_id, unit_id, item_last_add_datetime) VALUES (?,?,?,?,?, NOW())`;
+
+            let insArr = [
+              eng_obj['item_code'],
+              eng_obj['item_name'],
+              eng_obj['item_amount'],
+              eng_obj['type_id'],
+              eng_obj['unit_id']
+            ];
+
+
+            database.query(sql, insArr, (err, db_result) => {
+              if (err) {
+                console.log("ERR INSERT: " + err.message);
+                hasErr = err;
+
+              } else {
+                if (db_result.affectedRows != 1) {
+                  hasErr = `Importing data error, 'INSERT' item_code = ${insArr[0]}`;
+                  console.log(`ERROR INSERT ${eng_obj['item_code']}`);
+
+                } else {
+                  //console.log(`INSERT ${eng_obj['item_code']}, ${eng_obj['item_name']} --> Items`);
+                }
+              }
+            });
+          }
+
+        });
+      }
+
+      cb(hasErr);
+
+    }
+
+    //console.log(eng_obj);
+
 
   });
 
@@ -1223,6 +1342,57 @@ function api(app) {
 
       res.json(db_result);
     })
+  });
+
+  app.get('/api/getUserProfile', checkAuth, (req, res) => {
+    // const { user_id } = req.body;
+    let user_id = req.session.user.user_id;
+
+    const sql = `SELECT user_id, email, name_title, division_name, firstname, lastname, role_id, phone_number
+                FROM Users WHERE user_id = ?`;
+
+    database.query(sql, [user_id], (err, db_result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Database Error while getting user by ID");
+      }
+
+      if (db_result.length != 1) {
+        return res.status(400).send("Error querying user info by ID");
+      }
+
+      res.json(db_result[0]);
+    });
+
+    app.put('/api/updateUserProfile', checkAuth, (req, res) => {
+      const { user_data } = req.body;
+
+      if (user_data == null) {
+        return res.status(400).send("No data provided");
+      } else if (user_data.firstname == null || user_data.firstname == "") {
+        return res.status(400).send("No firstname provided");
+      } else if (user_data.lastname == null || user_data.lastname == "") {
+        return res.status(400).send("No lastname provided");
+      } else if (user_data.phone_number == null || user_data.phone_number == "") {
+        return res.status(400).send("No phone number provided");
+      }
+
+      const sql = `UPDATE Users SET firstname = ?, lastname = ?, phone_number = ? WHERE user_id = ?`;
+      database.query(sql, [user_data.firstname, user_data.lastname, user_data.phone_number, req.session.user.user_id],
+        (err, db_result) => {
+          if (err) {
+            console.log(err.message);
+            return res.status(500).send("Database Error while updating user info");
+          }
+
+          if (db_result.affectedRows != 1) {
+            return res.status(400).send("Error, no update changed");
+          }
+
+          res.send("Change saved.");
+        });
+    });
+
   });
 
   app.put('/api/manageUsers', checkAuth, (req, res) => {

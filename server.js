@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 4777;
 
 // ---- Middleware -----
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 1000000 }));
+app.use(express.json({limit: '50mb'}));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ========= Session ==========
