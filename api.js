@@ -148,7 +148,22 @@ function api(app) {
                 JOIN Item_units iun ON iuh.update_item_unit_id = iun.unit_id
                 WHERE itm.used = 'Y' 
                 ORDER BY iuh.update_datetime DESC`;
-    database.query(sql, (err, db_result) => {
+
+    const sqlV2 = `SELECT iuh.update_id AS 'update_id', iuh.old_item_name AS 'old_item_name', iuh.update_item_name AS 'update_item_name',
+    iuh.old_item_amount AS 'old_item_amount', iuh.update_item_amount AS 'update_item_amount',
+    (SELECT itp.type_name FROM Item_types itp WHERE iuh.old_item_type_id = itp.type_id) AS 'old_item_type_name',
+    (SELECT itp.type_name FROM Item_types itp WHERE iuh.update_item_type_id = itp.type_id) AS 'update_item_type_name',
+    (SELECT iun.unit_name FROM Item_units iun WHERE iuh.old_item_unit_id = iun.unit_id) AS 'old_item_unit_name', 
+    (SELECT iun.unit_name FROM Item_units iun WHERE iuh.update_item_unit_id = iun.unit_id) AS 'update_item_unit_name',
+    iuh.update_type AS 'update_type', DATE(iuh.update_datetime) AS 'date', TIME(iuh.update_datetime) AS 'time',
+    itm.item_code AS 'item_code', CONCAT(us.firstname, ' ', us.lastname) AS 'updater_name'
+    FROM Item_update_history iuh 
+    JOIN Items itm ON iuh.item_id = itm.item_id
+    JOIN Users us ON iuh.updater_id = us.user_id
+    
+    WHERE itm.used = 'Y' 
+    ORDER BY iuh.update_datetime DESC`;
+    database.query(sqlV2, (err, db_result) => {
       if (err) {
         console.log(err);
         return res.status(500).send("Database Error while fetching update history");
@@ -559,11 +574,11 @@ function api(app) {
       }
     });
 
-    
+
 
     function importData(arrObj, cb) {
 
-     
+
       var pendingItem = arrObj.length;
       var hasErr;
       for (const eng_obj of arrObj) {
@@ -586,13 +601,13 @@ function api(app) {
             ];
             database.query(sql, updateArr, (err, db_result) => {
               if (err) {
-                
+
                 console.log("ERR UPDATE: " + err.message);
                 hasErr = err;
               } else {
-                if (db_result.affectedRows != 1) {    
+                if (db_result.affectedRows != 1) {
                   hasErr = `Importing data error, 'UPDATE' item_code = ${updateArr[4]}`;
-                  
+
                 } else {
                   //console.log(`UPDATE ${eng_obj['item_code']}, ${eng_obj['item_name']} --> Items`);
                 }
@@ -612,7 +627,7 @@ function api(app) {
               eng_obj['unit_id']
             ];
 
-            
+
             database.query(sql, insArr, (err, db_result) => {
               if (err) {
                 console.log("ERR INSERT: " + err.message);
@@ -622,7 +637,7 @@ function api(app) {
                 if (db_result.affectedRows != 1) {
                   hasErr = `Importing data error, 'INSERT' item_code = ${insArr[0]}`;
                   console.log(`ERROR INSERT ${eng_obj['item_code']}`);
-                  
+
                 } else {
                   //console.log(`INSERT ${eng_obj['item_code']}, ${eng_obj['item_name']} --> Items`);
                 }

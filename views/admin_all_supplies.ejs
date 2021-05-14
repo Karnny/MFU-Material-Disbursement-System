@@ -248,7 +248,7 @@
 
                                         let unit_id = 26; // Default unit_id 26 "อื่นๆ"
                                         for (p in selectUnit) {
-                                            if (selectUnit[p].unit_name == rowObject[p]["หน่วยนับ"]) {
+                                            if (selectUnit[p].unit_name == rowObject[i]["หน่วยนับ"]) {
                                                 unit_id = selectUnit[p].unit_id;
                                             }
                                         }
@@ -271,12 +271,20 @@
                                         data: { eng_obj, type },
                                         dataType: "",
                                         success: function (response) {
+                                            $("#modalExcel").modal("hide");
                                             Swal.fire(
                                                 "เสร็จสิ้น",
                                                 "นำเข้าข้อมูลสำเร็จ",
                                                 "success"
-                                            );
-                                            $("#modalExcel").modal("hide");
+                                            ).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.reload();
+                                                    // updateDataSet();
+                                                    // table.clear();
+                                                    // table.rows.add(Setdatatable).draw();
+                                                }
+                                            });;
+
                                         },
                                         error: function (xhr) {
                                             Swal.fire(xhr.responseText);
