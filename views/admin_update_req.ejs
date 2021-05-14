@@ -93,7 +93,7 @@
             $.ajax({
                 type: "GET",
                 url: "/api/getPendingRequestCount",
-                
+
                 dataType: "",
                 success: function (response) {
 
@@ -154,11 +154,15 @@
             //Create
             var table = $("#updateReqTable").DataTable({
                 data: reqData,
+                columnDef: [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0,
+                }], "order": [[1, 'asc']],
+
                 columns: [
                     {
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }, title: "ลำดับ",
+                     title: "ลำดับ",defaultContent: ""
                     },
                     { "className": "text-left", data: "dateApp", title: "วันที่อนุมัติคำขอ" },
                     { "className": "text-left", data: "timeApp", title: "เวลาที่อนุมัติคำขอ" },
@@ -184,6 +188,12 @@
                 ]
 
             });
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
 
 
             //more info button
@@ -447,7 +457,7 @@
                     <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/views/admin/static.html">รายงานสถิติการเบิก</a>
+                            <a class="collapse-item" href="/admin/stat">รายงานสถิติการเบิก</a>
                         </div>
                     </div>
                 </li>
@@ -460,22 +470,20 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
-                <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
-                    <h2 class="mb-0">ดำเนินรายการคำขอเบิกวัสดุ</h2>
-                </div>
-
+            <h2 class="mt-3">ดำเนินรายการคำขอเบิกวัสดุ</h2>
+               
+          <p></p>
                 <!-- dropdown (can use)-->
                 <div class="row">
-                    <h5 class="ml-3 mr-3 text-gray-800">สถานะ</h5>
+                    <p class="ml-3 mr-3 text-gray-800">สถานะ</p>
                     <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
                 </div>
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <div class="row">
-                        <h5 class=" ml-3 mr-2 text-gray-800">จำนวน</h5>
+                        <p class=" ml-3 mr-2 text-gray-800">จำนวน</p>
                         <p id="totalReq"></p>
-                        <h5 class="ml-2 text-gray-800">รายการ</h5>
+                        <p class="ml-2 text-gray-800">รายการ</p>
                     </div>
 
                 </div>

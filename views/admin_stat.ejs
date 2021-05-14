@@ -366,9 +366,9 @@
                     { data: "supAmount", title: "จำนวน" },
                     { data: "supUnit", title: "หน่วยนับ" },
                     {
-                        data: "dates", title: "เบิกล่าสุดเมื่อ", render: function (data, type, row, meta) {
-
-                            return ``;
+                        title: "เบิกล่าสุดเมื่อ", render: function (data, type, row, meta) {
+                           
+                            return "11/05/2021";
                         }
                     },
 
@@ -515,7 +515,7 @@
                                 <%= user.firstname %>
                                     <%= user.lastname %>
                             </span>
-                            <img class="img-profile rounded-circle" src="<%= user.picture %>">
+                            <img class="img-profile rounded-circle" src="/img/manIcon.png">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -555,11 +555,12 @@
                     <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/advisor/pendingRequests">รายการคำขอเบิกวัสดุ</a>
-                            <a class="collapse-item" href="/advisor/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
-                            <a class="collapse-item" href="/advisor/requestHistory">ประวัติการอนุมัติคำขอ</a>
-                            <a class="collapse-item" href="/advisor/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
-                            <a class="collapse-item" href="/advisor/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
+                            <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
+                                    class="badge badge-danger" id="pendingReqBadge">0</span></a>
+                            <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                            <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
+                            <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
+                            <a class="collapse-item" href="/admin/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
                         </div>
                     </div>
                 </li>
@@ -577,7 +578,7 @@
                     <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/advisor/stat">รายงานสถิติการเบิก</a>
+                            <a class="collapse-item" href="/admin/stat">รายงานสถิติการเบิก</a>
                         </div>
                     </div>
                 </li>

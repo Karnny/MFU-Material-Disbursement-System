@@ -334,7 +334,6 @@
                 });
             }).draw();
 
-
             //function selectStatus
             function setTypes(selectArray, tb) {
 
@@ -600,7 +599,7 @@
                 selectDelData = data;
 
                 rowID = table.row(currentRow).index();
-                const id = data.id;
+                const id = $("#EditTextID").val();
                 const dataID = selectDelData.id;
 
                 Swal.fire({
@@ -687,6 +686,50 @@
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
+
+
+                    <!-- Nav Item - Alerts -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span class="badge badge-danger badge-counter" id="couterAlert">3+</span>
+                        </a>
+                        <!-- Dropdown - Alerts -->
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="alertsDropdown">
+                            <h6 class="dropdown-header" style="background-color: #064767">
+                                Alerts Center
+                            </h6>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-primary">
+                                        <i class="fas fa-file-alt text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="font-weight-bold">รายการขอเบิกใหม่!</span>
+                                    <div class="row">
+                                        จาก <p id="userFN">อาจารย์งูๆ</p> <p id="userLN">ปลาๆ</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-warning">
+                                        <i class="fas fa-exclamation-triangle text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500">December 2, 2019</div>
+                                    Spending Alert: We've noticed unusually high spending for your account.
+                                </div>
+                            </a>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                        </div>
+                    </li>
+
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <!-- Nav Item - User Information -->
@@ -721,56 +764,57 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #064767;">
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+        style="background-color: #064767;">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+        <!-- Nav Item - Dashboard -->
 
-            <!-- Overview -->
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
-                    aria-expanded="true" aria-controls="collapseOverview">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>ระบบวัสดุ</span>
-                </a>
-                <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
-                                class="badge badge-danger" id="pendingReqBadge">0</span></a>
-                        <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
-                        <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
-                        <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
-                        <a class="collapse-item" href="/admin/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
-                    </div>
+        <!-- Overview -->
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseOverview"
+                aria-expanded="true" aria-controls="collapseOverview">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>ระบบวัสดุ</span>
+            </a>
+            <div id="collapseOverview" class="collapse show" aria-labelledby="headingPages"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="/admin/pendingRequests">รายการคำขอเบิกวัสดุ <span
+                        class="badge badge-danger" id="pendingReqBadge">0</span></a>
+                    <a class="collapse-item" href="/admin/updateRequest">ดำเนินรายการคำขอเบิกวัสดุ</a>
+                    <a class="collapse-item" href="/admin/requestHistory">ประวัติการอนุมัติคำขอ</a>
+                    <a class="collapse-item" href="/admin/allSupplies">ข้อมูลวัสดุทั้งหมด</a>
+                    <a class="collapse-item" href="/admin/editHistory">ประวัติการทำรายการ<br>ข้อมูลวัสดุ</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Report -->
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
-                    aria-expanded="true" aria-controls="collapseReport">
-                    <i class="fas fa-file-alt"></i>
-                    <span>รายการวัสดุ</span>
-                </a>
-                <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/views/super admin/static.html">รายงานสถิติการเบิก</a>
-                    </div>
+        <!-- Report -->
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="collapse show" data-target="#collapseReport"
+                aria-expanded="true" aria-controls="collapseReport">
+                <i class="fas fa-file-alt"></i>
+                <span>รายการวัสดุ</span>
+            </a>
+            <div id="collapseReport" class="collapse show" aria-labelledby="headingPages"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="/admin/stat">รายงานสถิติการเบิก</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
 
-        </ul>
-        <!-- End of Sidebar -->
+    </ul>
+    <!-- End of Sidebar -->
 
         <!-- Topic -->
         <div class="container-fluid">

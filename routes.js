@@ -74,6 +74,14 @@ function router(app) {
     res.render('admin_pending_requests', { user: req.session.user });
   });
 
+  app.get('/admin/stat', checkAuth, (req, res) => {
+    if (req.session.user.role_id != 2) {
+      return res.redirect(req.session.user.main_url);
+    }
+
+    res.render('admin_stat', { user: req.session.user });
+  });
+
   app.get('/user/allSupplies', checkAuth, (req, res) => {
     if (req.session.user.role_id != 2 && req.session.user.role_id != 1) {
       return res.redirect(req.session.user.main_url);

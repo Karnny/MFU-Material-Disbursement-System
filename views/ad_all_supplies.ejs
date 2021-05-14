@@ -124,6 +124,9 @@
 
         $(document).ready(function () {
 
+
+            
+
             updateItemTypes();
             updateItemUnits();
             updateDataSet();
@@ -131,6 +134,11 @@
             $("#SelectType").on('change', function () {
                 table.search(this.value).draw();
             })
+            
+
+             // Tatal request
+             $("#totalReq").html(Setdatatable.length);
+
 
             //function Create Table
             var table = $("#data_table").DataTable({
@@ -158,6 +166,13 @@
                 ]
 
             });
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+
+
             table.on('order.dt search.dt', function () {
                 table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
                     cell.innerHTML = i + 1;
@@ -319,7 +334,7 @@
 
                     <!-- dropdown (can use)-->
                     <div class="row">
-                        <h5 class="ml-3 mr-3 text-gray-800">หมวดหมู่วัสดุ</h5>
+                        <p class="ml-3 mr-3 text-gray-800">หมวดหมู่วัสดุ</p>
                         <select id="SelectType" class="form-control col-1 mb-3 " style="border-radius: 20px;"></select>
                     </div>
 
