@@ -21,7 +21,8 @@ function api(app) {
         const email = payload.email;
 
         // check email in our Database
-        const sql = `SELECT us.user_id AS 'user_id', us.email AS 'email', us.role_id AS 'role_id', ur.role_name AS 'role_name', us.user_status AS 'user_status'
+        const sql = `SELECT us.user_id AS 'user_id', us.email AS 'email', us.role_id AS 'role_id', ur.role_name AS 'role_name', us.user_status AS 'user_status',
+                    us.firstname AS 'firstname', us.lastname AS 'lastname'
                     FROM Users us JOIN User_roles ur ON us.role_id = ur.role_id
                     WHERE email = ?`;
         database.query(sql, [email], (err, db_result) => {
@@ -59,8 +60,8 @@ function api(app) {
           req.session.user = {
             email: payload.email,
             picture: payload.picture,
-            firstname: payload.given_name,
-            lastname: payload.family_name,
+            firstname: db_result[0].firstname,
+            lastname: db_result[0].lastname,
             username: payload.username,
             user_id: db_result[0].user_id,
             role_id: db_result[0].role_id,
