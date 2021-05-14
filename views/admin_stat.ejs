@@ -190,12 +190,26 @@
 
             });
 
+            var searchCombin = ``;
             $("#SelectMonth").change(function () {
-                table.search(this.value).draw();
+                searchCombin = `${$("#SelectMonth").val()}/${$("#SelectYear").val()}`;
+                if ($("#SelectDataType").val() == "all") {
+                    
+                    table.search(searchCombin).draw();
+                } else if ($("#SelectDataType").val() == "person")  {
+                    per_table.search(searchCombin).draw();
+                }
+
             });
 
             $("#SelectYear").change(function () {
-                table.search(this.value).draw();
+                searchCombin = `${$("#SelectMonth").val()}/${$("#SelectYear").val()}`;
+                if ($("#SelectDataType").val() == "all") {
+                    
+                    table.search(searchCombin).draw();
+                }else if ($("#SelectDataType").val() == "person")  {
+                    per_table.search(searchCombin).draw();
+                }
             });
 
             //function Create Table of Overview Stat
@@ -367,7 +381,7 @@
                     { data: "supUnit", title: "หน่วยนับ" },
                     {
                         title: "เบิกล่าสุดเมื่อ", render: function (data, type, row, meta) {
-                           
+
                             return "11/05/2021";
                         }
                     },
@@ -606,6 +620,7 @@
                 <div class="row">
                     <h5 class="ml-3 mr-3 text-gray-800">เดือน</h5>
                     <select id="SelectMonth" class="form-control mb-3" style="border-radius: 20px; width: 10%;">
+                        <option value="" selected>ทั้งหมด</option>
                         <option value="01">มกราคม</option>
                         <option value="02">กุมภาพันธ์</option>
                         <option value="03">มีนาคม</option>
@@ -621,8 +636,9 @@
                     </select>
                     <h5 class="ml-3 mr-3 text-gray-800">ปี</h5>
                     <select id="SelectYear" class="form-control mb-3" style="border-radius: 20px; width: 10%;">
+                        <option value="" selected>ทั้งหมด</option>
                         <option value="2020">2563</option>
-                        <option value="2021">2564</option>
+                        <option value="2021" >2564</option>
                     </select>
                 </div>
 
