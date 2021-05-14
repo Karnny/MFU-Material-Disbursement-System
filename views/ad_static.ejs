@@ -190,11 +190,11 @@
 
             });
 
-            $("#SelectMonth").change(function(){
+            $("#SelectMonth").change(function () {
                 table.search(this.value).draw();
             });
 
-            $("#SelectYear").change(function(){
+            $("#SelectYear").change(function () {
                 table.search(this.value).draw();
             });
 
@@ -355,7 +355,11 @@
                 data: itemArray,
                 dom: 'Bfrtip',
                 columns: [
-                    { title: "ลำดับ", defaultContent: "" },
+                    {
+                        defaultContent: "", render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }, title: "ลำดับ"
+                    },
                     { data: "supID", title: "รหัสวัสดุ" },
                     { data: "supName", title: "ชื่อ" },
                     { data: "supCate", title: "หมวดหมู่" },
@@ -363,7 +367,7 @@
                     { data: "supUnit", title: "หน่วยนับ" },
                     {
                         data: "dates", title: "เบิกล่าสุดเมื่อ", render: function (data, type, row, meta) {
-                           
+
                             return ``;
                         }
                     },
@@ -373,7 +377,7 @@
                     'excel'
                 ]
             });
-            
+
 
 
             //function selectStatus
