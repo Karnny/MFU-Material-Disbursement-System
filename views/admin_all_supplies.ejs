@@ -190,68 +190,107 @@
 
             $("#btn_upload").click(function () {
 
-                XLSX.utils.json_to_sheet(importItem, 'out.xlsx');
-                if (selectedFile) {
-                    let fileReader = new FileReader();
-                    fileReader.readAsBinaryString(selectedFile);
-                    fileReader.onload = (event) => {
-                        let importItem = event.target.result;
-                        let workbook = XLSX.read(importItem, { type: "binary" });
-                        //console.log(workbook);
-                        workbook.SheetNames.forEach(sheet => {
-                            let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
-                            console.log(rowObject);
-
-                            const type = $("#importType").val();
-                            const item_amount = 0;
-
-                            let type_id;
-                            for(k in select_Type){
-                                if(selectType[k].type_name == type){
-                                    type_id = selectType[k].type_id;
-                                }
-                            }
-
-                            let eng_obj = [];
-
-                            for (let i = 0; i < rowObject.length; i++) {
-
-                                let unit_id = 26;
-                                for(p in selectUnit){
-                                    if(selectUnit[p].unit_name == rowObject[p]["หน่วยนับ"]){
-                                        unit_id = selectUnit[p].unit_id;
-                                    }
-                                }
-
-                                let obj = {};
-                                obj.item_code = rowObject[i]["รหัสวัสดุ"];
-                                obj.item_name = rowObject[i]["รายการ"];
-                                obj.unit_name = rowObject[i]["หน่วยนับ"];
-
-                                eng_obj.push(obj);
-                            }
-
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/admin/importItem",
-                                data: { eng_obj, type, item_amount },
-                                dataType: "",
-                                success: function (response) {
-                                    console.log("success jaa");
-                                },
-                                error: function (xhr) {
-                                    console.log(xhr.responseText);
-                                }
-                            });
-
-
-
-                            //show json
-                            //document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject, undefined, 4)
-                            console.log("test api" + importItem[0]);
-                        });
-                    }
+                if (!selectedFile) {
+                    return Swal.fire(
+                        "Error",
+                        "กรุณาเลือกไฟล์",
+                        "error"
+                    );
                 }
+
+                const type = $("#importType").val();
+                if (!type || type == "") {
+                    return Swal.fire(
+                        "Error",
+                        "กรุณาเลือกประเภทวัสดุที่จะนำเข้า",
+                        "error"
+                    );
+                }
+
+                Swal.fire({
+                    title: "คำเตือน",
+                    text: "การนำเข้าข้อมูลที่มีอยู่แล้วจะเป็นการรีเซ็ทเป็นข้อมูลใหม่ทั้งหมด ต้องการทำต่อหรือไม่",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    reverseButtons: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        // XLSX.utils.json_to_sheet(importItem, 'out.xlsx');
+                        if (selectedFile) {
+                            let fileReader = new FileReader();
+                            fileReader.readAsBinaryString(selectedFile);
+                            fileReader.onload = (event) => {
+                                let importItem = event.target.result;
+                                let workbook = XLSX.read(importItem, { type: "binary" });
+                                //console.log(workbook);
+                                workbook.SheetNames.forEach(sheet => {
+                                    let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+                                    //console.log(rowObject);
+
+
+                                    const item_amount = 0;
+
+
+
+                                    let eng_obj = [];
+
+                                    for (let i = 0; i < rowObject.length; i++) {
+
+                                        let type_id = 8; // Default type_id 8 "อื่นๆ"
+                                        for (k in selectType) {
+                                            if (selectType[k].type_name == type) {
+                                                type_id = selectType[k].type_id;
+                                            }
+                                        }
+
+                                        let unit_id = 26; // Default unit_id 26 "อื่นๆ"
+                                        for (p in selectUnit) {
+                                            if (selectUnit[p].unit_name == rowObject[p]["หน่วยนับ"]) {
+                                                unit_id = selectUnit[p].unit_id;
+                                            }
+                                        }
+
+                                        let obj = {};
+                                        obj.item_code = (rowObject[i]["รหัสวัสดุ"]).toString();
+                                        obj.item_name = rowObject[i]["ชื่อรายการวัสดุ"];
+                                        obj.item_amount = item_amount;
+                                        obj.type_id = type_id;
+                                        obj.unit_id = unit_id;
+
+                                        eng_obj.push(obj);
+                                    }
+
+                                    console.log(eng_obj);
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/api/admin/importItems",
+                                        data: { eng_obj, type },
+                                        dataType: "",
+                                        success: function (response) {
+                                            Swal.fire(
+                                                "เสร็จสิ้น",
+                                                "นำเข้าข้อมูลสำเร็จ",
+                                                "success"
+                                            );
+                                            $("#modalExcel").modal("hide");
+                                        },
+                                        error: function (xhr) {
+                                            Swal.fire(xhr.responseText);
+                                        }
+                                    });
+
+
+                                });
+                            }
+                        }
+                    }
+                });
+
+
             });
 
             //function Create Table
@@ -345,14 +384,7 @@
             let select_unitedit = $("#SelectUnitEdit");
             setUnits(selectUnit, select_unitedit);
 
-            //btn Swal
-            $("#btn_upload").click(function () {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'อัปโหลดรายการวัสดุสำเร็จ',
-                })
 
-            })
             $("#btnAddnew").click(function () {
 
                 $("#modalAddNew").modal("show");
@@ -813,8 +845,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn_upload"
-                        data-dismiss="modal">บันทึกข้อมูล</button>
+                    <button type="button" class="btn btn-primary" id="btn_upload">บันทึกข้อมูล</button>
                 </div>
             </div>
         </div>
