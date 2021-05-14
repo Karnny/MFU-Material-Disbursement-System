@@ -156,6 +156,10 @@ function router(app) {
     res.render('ad_static', { user: req.session.user });
   });
 
+  app.get('/profile', checkAuth, (req, res) => {
+    res.render('profile_account', { user: req.session.user });
+  });
+
 
 
 }
